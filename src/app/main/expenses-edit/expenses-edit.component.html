@@ -1,0 +1,96 @@
+<div class="h-screen flex justify-center items-center bg-gray-100">
+  <div class="max-w-lg w-full p-8 bg-white rounded-lg shadow-md">
+    <h2 class="text-lg font-bold mb-4 text-cyan-500">Despesa</h2>
+    <form (ngSubmit)="onsubmit()">
+      <div class="mb-4">
+        <label for="description" class="block input-bordered">Descrição</label>
+        <input
+          id="description"
+          type="text"
+          class="block w-full input input-bordered"
+          placeholder="description"
+          [formControl]="description"
+        />
+      </div>
+      @if(description.invalid && (description.dirty || description.touched)){
+      <div role="alert" class="alert alert-error mt-4 mb-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>Preencha a descrição</span>
+      </div>
+      }
+
+      <div class="mb-4">
+        <label for="amount" class="block input-bordered">Valor</label>
+        <input
+          id="amount"
+          type="text"
+          class="block w-full input input-bordered"
+          placeholder="valor"
+          [formControl]="amount"
+        />
+      </div>
+      @if(amount.invalid && (amount.dirty || amount.touched)){
+      <div role="alert" class="alert alert-error mt-4 mb-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>Preencha o valor</span>
+      </div>
+      }
+
+      <div class="mb-4">
+        <label for="date" class="block input-bordered">Data</label>
+        <input
+          id="date"
+          type="text"
+          class="block w-full input input-bordered"
+          placeholder="dd/mm/yyyy"
+          [formControl]="date"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="category" class="block input-bordered">Categoria</label>
+
+        <select
+          id="category"
+          class="select select-bordered w-full max-w-xs"
+          [formControl]="category"
+        >
+          @for (cat of categories; track $index) {
+          <option value="{{ cat._id }}">{{ cat.description }}</option>
+          }
+        </select>
+      </div>
+      <button type="submit" class="w-5/12 p-2 btn btn-primary">Salvar</button>
+      <button
+        type="button"
+        class="w-5/12 p-2 btn btn-accent ml-3"
+        (click)="gotoList()"
+      >
+        Cancelar
+      </button>
+    </form>
+  </div>
+</div>

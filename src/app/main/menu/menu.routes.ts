@@ -1,0 +1,67 @@
+import { Routes } from "@angular/router";
+import { MenuComponent } from "./menu.component";
+
+export const FinanceiroRoutes: Routes = [
+  {
+    path: "",
+    component: MenuComponent,
+    children: [
+      {
+        path: "", //login
+        loadComponent: () =>
+          import("../categorylist/categorylist.component").then(
+            (m) => m.CategorylistComponent
+          ),
+      },
+      {
+        path: "listCategories", //login
+        loadComponent: () =>
+          import("../categorylist/categorylist.component").then(
+            (m) => m.CategorylistComponent
+          ),
+      },
+      {
+        path: "createCategory",
+        loadComponent: () =>
+          import("../category-edit/category-edit.component").then(
+            (m) => m.CategoryEditComponent
+          ),
+      },
+      {
+        path: "editCategory/:id",
+        loadComponent: () =>
+          import("../category-edit/category-edit.component").then(
+            (m) => m.CategoryEditComponent
+          ),
+      },
+      {
+        path: "listExpenses", //login
+        loadComponent: () =>
+          import("../expenses-list/expenses-list.component").then(
+            (m) => m.ExpensesListComponent
+          ),
+      },
+      {
+        path: "createExpense",
+        loadComponent: () =>
+          import("../expenses-edit/expenses-edit.component").then(
+            (m) => m.ExpensesEditComponent
+          ),
+      },
+      {
+        path: "editExpense/:id",
+        loadComponent: () =>
+          import("../expenses-edit/expenses-edit.component").then(
+            (m) => m.ExpensesEditComponent
+          ),
+      },
+      {
+        path: "chartByYear",
+        loadComponent: () =>
+          import("../chart-by-category/chart-by-category.component").then(
+            (m) => m.ChartByCategoryComponent
+          ),
+      },
+    ],
+  },
+];
