@@ -19,11 +19,6 @@
       "path": {
         "all": true
       },
-      "http": {
-        "all": true,
-        "request": true,
-        "scope": ["https://financeiro-34ba.restdb.io/rest/*"]
-      },
       "dialog": {
         "all": true,
         "ask": true,
