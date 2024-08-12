@@ -58,6 +58,13 @@ export const FinanceiroRoutes: Routes = [
       {
         path: "chartByYear",
         loadComponent: () =>
+          import("../chart-by-year/chart-by-year.component").then(
+            (m) => m.ChartByYearComponent
+          ),
+      },
+      {
+        path: "chartByCategory",
+        loadComponent: () =>
           import("../chart-by-category/chart-by-category.component").then(
             (m) => m.ChartByCategoryComponent
           ),

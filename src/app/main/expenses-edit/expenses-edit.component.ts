@@ -56,7 +56,6 @@ export class ExpensesEditComponent {
 
     if (this.id && this.id.length > 0) {
       await this.autoCategory(expense.categoryId);
-      await this.expenseService.update(this.id, expense);
       this.router.navigate(["/menu/listExpenses"]);
     } else {
       expense._id = crypto.randomUUID();

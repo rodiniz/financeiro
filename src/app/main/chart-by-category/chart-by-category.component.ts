@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { ChartService } from "../../../services/chart.service";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { ChartOptions } from "../../../models/ChartOptions";
 
@@ -13,29 +13,32 @@ import { ChartOptions } from "../../../models/ChartOptions";
 })
 export class ChartByCategoryComponent implements OnInit {
   chartService = inject(ChartService);
-  public chartOptions!: ChartOptions;
-  constructor() {
-    this.chartService.getByYear().then((resp) => {
-      this.chartOptions = {
-        series: [
-          {
-            name: "",
-            data: resp.series.data,
-          },
-        ],
-        chart: {
-          height: 350,
-          type: "bar",
-        },
-        title: {
-          text: "Gráfico de despesas por ano",
-        },
-        xaxis: {
-          //labels do gráfico
-          categories: resp.xaxis.categories,
-        },
-      };
-    });
+  public chartOptions!: any;
+  monthYear = new FormControl("");
+  monthYears: Array<any> = [];
+  constructor() {}
+  async ngOnInit(): Promise<void> {
+    this.monthYears = await this.chartService.getChartMonthYears();
   }
-  async ngOnInit(): Promise<void> {}
+  async getChart() {
+    this.chartService
+      .getByMonthYear(this.monthYear.value ?? "")
+      .then((resp) => {
+        this.chartOptions = {
+          series: resp.series.data,
+          chart: {
+            height: 350,
+            type: "pie",
+          },
+          title: {
+            text: "Gráfico de despesas por categoria",
+          },
+          xaxis: {
+            //labels do gráfico
+            categories: resp.xaxis.categories,
+          },
+          labels: resp.xaxis.categories,
+        };
+      });
+  }
 }

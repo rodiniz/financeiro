@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Router, RouterModule, RouterOutlet } from "@angular/router";
 import { UsersService } from "../../services/users.service";
@@ -26,7 +26,6 @@ export class LoginComponent {
 
   async onSubmit() {
     const user = await this.userService.get({ email: this.email.value });
-    debugger;
     if (user && user.length > 0) {
       if (user[0].password != this.password.value) {
         await message("Usuário ou senha inválidos", { type: "error" });
