@@ -1,6 +1,6 @@
 <div class="h-screen flex justify-center items-center bg-gray-100">
   <div class="max-w-md w-full p-8 bg-white rounded-lg shadow-md">
-    <h2 class="text-lg font-bold mb-4 text-cyan-500">Category</h2>
+    <h2 class="text-lg font-bold mb-4 text-cyan-500">Categoria de despesa</h2>
     <form (ngSubmit)="onsubmit()">
       <div class="mb-4">
         <label for="description" class="block input-bordered"
@@ -15,22 +15,7 @@
         />
       </div>
       @if(description.invalid && (description.dirty || description.touched)){
-      <div role="alert" class="alert alert-error mt-4 mb-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 shrink-0 stroke-current"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <span>Preencha a descrição</span>
-      </div>
+      <app-error-message>Preencha a descrição</app-error-message>
       }
       <button type="submit" class="w-5/12 p-2 btn btn-primary">Salvar</button>
       <button

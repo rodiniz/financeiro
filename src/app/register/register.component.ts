@@ -1,9 +1,15 @@
 import { Component, inject } from "@angular/core";
-import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { UsersService } from "../../services/users.service";
 import { CommonModule } from "@angular/common";
 import { RouterOutlet, RouterModule, Router } from "@angular/router";
 import { message } from "@tauri-apps/api/dialog";
+import { ErrorMessageComponent } from "../main/error-message/error-message.component";
 
 @Component({
   selector: "app-register",
@@ -14,13 +20,14 @@ import { message } from "@tauri-apps/api/dialog";
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    ErrorMessageComponent,
   ],
   templateUrl: "./register.component.html",
   styleUrl: "./register.component.css",
 })
 export class RegisterComponent {
-  email = new FormControl("");
-  password = new FormControl("");
+  email = new FormControl("", Validators.required);
+  password = new FormControl("", Validators.required);
   private router = inject(Router);
   userService = inject(UsersService);
 
@@ -31,6 +38,9 @@ export class RegisterComponent {
       password: this.password.value,
     });
     await message("Usuário criado com sucesso", "Financeiro");
+    this.router.navigate([""]);
+  }
+  gotoLogin() {
     this.router.navigate([""]);
   }
 }

@@ -13,7 +13,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 })
 export class ChartByYearComponent implements OnInit {
   chartService = inject(ChartService);
-  public chartOptions!: Partial<ChartOptions>;
+  public chartOptions!: any;
   year = new FormControl<number>(0);
   years: Array<any> = [];
   constructor() {

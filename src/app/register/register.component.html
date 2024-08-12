@@ -1,5 +1,7 @@
 <div class="h-screen flex justify-center items-center bg-gray-100">
-  <div class="max-w-md w-full p-8 bg-white rounded-lg shadow-md">
+  <div
+    class="max-w-md w-full p-8 bg-white rounded-lg shadow-lg shadow-blue-100"
+  >
     <h2 class="text-lg font-bold mb-4 text-cyan-500">Criar Usuário</h2>
     <form (ngSubmit)="onSubmit()">
       <div class="mb-4">
@@ -14,6 +16,9 @@
           [formControl]="email"
         />
       </div>
+      @if(email.invalid && (email.dirty || email.touched)){
+      <app-error-message>Preencha o e-mail</app-error-message>
+      }
       <div class="mb-4">
         <label for="password" class="block text-gray-700 text-sm font-bold mb-2"
           >Password</label
@@ -26,8 +31,18 @@
           [formControl]="password"
         />
       </div>
-      <button type="submit" class="w-full p-2 btn btn-primary">
+      @if(password.invalid && (password.dirty || password.touched)){
+      <app-error-message>Preencha a senha</app-error-message>
+      }
+      <button type="submit" class="w-5/12 p-2 btn btn-primary">
         Criar usuário
+      </button>
+      <button
+        type="button"
+        class="w-5/12 p-2 btn btn-accent ml-3"
+        (click)="gotoLogin()"
+      >
+        Cancelar
       </button>
     </form>
   </div>

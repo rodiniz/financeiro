@@ -10,11 +10,18 @@ import { Router, RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { ExpenseService } from "../../../services/expense.service";
 import { Category } from "../../../models/category";
+import { ErrorMessageComponent } from "../error-message/error-message.component";
 
 @Component({
   selector: "app-expenses-edit",
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ErrorMessageComponent,
+  ],
   templateUrl: "./expenses-edit.component.html",
   styleUrl: "./expenses-edit.component.css",
 })

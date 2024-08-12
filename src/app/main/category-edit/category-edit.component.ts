@@ -8,11 +8,18 @@ import {
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { CategoryService } from "../../../services/category.service";
+import { ErrorMessageComponent } from "../error-message/error-message.component";
 
 @Component({
   selector: "app-category-edit",
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ErrorMessageComponent,
+  ],
   templateUrl: "./category-edit.component.html",
   styleUrl: "./category-edit.component.css",
 })

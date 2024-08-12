@@ -13,7 +13,7 @@ import { ChartOptions } from "../../../models/ChartOptions";
 })
 export class ChartByCategoryComponent implements OnInit {
   chartService = inject(ChartService);
-  public chartOptions!: Partial<ChartOptions>;
+  public chartOptions!: any;
   monthYear = new FormControl("");
   monthYears: Array<any> = [];
   constructor() {}
