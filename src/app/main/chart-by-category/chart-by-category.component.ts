@@ -13,7 +13,7 @@ import { ChartOptions } from "../../../models/ChartOptions";
 })
 export class ChartByCategoryComponent implements OnInit {
   chartService = inject(ChartService);
-  public chartOptions!: any;
+  public chartOptions!: Partial<ChartOptions>;
   monthYear = new FormControl("");
   monthYears: Array<any> = [];
   constructor() {}
@@ -32,10 +32,6 @@ export class ChartByCategoryComponent implements OnInit {
           },
           title: {
             text: "Gráfico de despesas por categoria",
-          },
-          xaxis: {
-            //labels do gráfico
-            categories: resp.xaxis.categories,
           },
           labels: resp.xaxis.categories,
         };
