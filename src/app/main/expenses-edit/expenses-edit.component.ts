@@ -11,6 +11,7 @@ import { CommonModule } from "@angular/common";
 import { ExpenseService } from "../../../services/expense.service";
 import { Category } from "../../../models/category";
 import { ErrorMessageComponent } from "../error-message/error-message.component";
+import { UsersService } from "../../../services/users.service";
 
 @Component({
   selector: "app-expenses-edit",
@@ -35,6 +36,7 @@ export class ExpensesEditComponent {
   router = inject(Router);
   expenseService = inject(ExpenseService);
   categories: Category[] = [];
+  userService = inject(UsersService);
 
   async ngOnInit(): Promise<void> {
     this.categories = await this.categoryService.getAll();
@@ -57,7 +59,7 @@ export class ExpensesEditComponent {
       date: this.date.value,
       amount: this.amount.value,
       description: this.description.value,
-      userId: localStorage.getItem("userId"),
+      userId: this.userService.getCurrentUser(),
       categoryId: this.category.value,
     };
 
@@ -91,7 +93,7 @@ export class ExpensesEditComponent {
         date: element.date,
         amount: element.amount,
         description: element.description,
-        userId: localStorage.getItem("userId"),
+        userId: this.userService.getCurrentUser(),
         categoryId: cat,
       };
       await this.expenseService.update(element._id, expenseEdit);

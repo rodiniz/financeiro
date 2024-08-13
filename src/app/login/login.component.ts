@@ -31,7 +31,7 @@ export class LoginComponent {
         await message("Usuário ou senha inválidos", { type: "error" });
         return;
       }
-      localStorage.setItem("userId", user[0]._id);
+      this.userService.setCurrentUser(user[0]._id);
       this.router.navigate(["menu"]);
     } else {
       await message("Usuário ou senha inválidos", { type: "error" });

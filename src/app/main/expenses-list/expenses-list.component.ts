@@ -8,6 +8,7 @@ import * as XLSX from "xlsx";
 import { readBinaryFile } from "@tauri-apps/api/fs";
 import { Category } from "../../../models/category";
 import { ExpenseListModel } from "../../../models/expenseListModel";
+import { UsersService } from "../../../services/users.service";
 
 @Component({
   selector: "app-expenses-list",
@@ -19,20 +20,36 @@ import { ExpenseListModel } from "../../../models/expenseListModel";
 export class ExpensesListComponent {
   expenses: ExpenseListModel[] = [];
   expenseService = inject(ExpenseService);
+  userService = inject(UsersService);
   router = inject(Router);
   categories: any;
-  userId = localStorage.getItem("userId");
+  userId = this.userService.getCurrentUser();
   importing = false;
+  numberOfPages: Array<number> = [];
+  activePage = 1;
   async ngOnInit(): Promise<void> {
     this.importing = true;
-    this.expenses = await this.expenseService.getAllModel(
-      this.userId as string
-    );
+    this.loadData();
     this.importing = false;
   }
 
   formatData(data: Date | string) {
     return data;
+  }
+
+  async loadData(pageIndex: number = 1) {
+    this.activePage = pageIndex;
+    let paged = await this.expenseService.getAllModel(
+      this.userId as string,
+      pageIndex
+    );
+
+    this.expenses = paged.data;
+    if (this.numberOfPages.length === 0) {
+      for (let i = 0; i < paged.numberOfpages; i++) {
+        this.numberOfPages.push(i);
+      }
+    }
   }
   redirectToCreate() {
     this.router.navigate(["/menu/createExpense"]);
@@ -44,9 +61,7 @@ export class ExpensesListComponent {
     const yes = await ask("Deseja mesmo excluir esse registro?", "Financeiro");
     if (yes) {
       await this.expenseService.delete(id);
-      this.expenses = await this.expenseService.getAllModel(
-        this.userId as string
-      );
+      this.loadData();
     }
   }
   excelSerialToDate(serial: number): string {
@@ -66,7 +81,6 @@ export class ExpensesListComponent {
 
     return date.toLocaleDateString("pt-br");
   }
-
   async importExpenses() {
     const selected = await open({
       filters: [
@@ -107,9 +121,7 @@ export class ExpensesListComponent {
       }
       await message("Despesas importadas com sucesso");
       this.importing = false;
-      this.expenses = await this.expenseService.getAllModel(
-        this.userId as string
-      );
+      this.loadData();
     }
   }
 }

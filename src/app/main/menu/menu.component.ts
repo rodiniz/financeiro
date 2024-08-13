@@ -6,6 +6,7 @@ import {
   RouterModule,
   RouterOutlet,
 } from "@angular/router";
+import { UsersService } from "../../../services/users.service";
 
 @Component({
   selector: "app-men",
@@ -15,10 +16,11 @@ import {
   styleUrl: "./menu.component.css",
 })
 export class MenuComponent {
+  userService = inject(UsersService);
   constructor() {}
   router = inject(Router);
   goToLogin() {
-    localStorage.removeItem("userId");
+    this.userService.cleanUpUser();
     this.router.navigate([""]);
   }
 }

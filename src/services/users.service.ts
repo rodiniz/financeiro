@@ -10,4 +10,13 @@ export class UsersService extends CrudSqlService<User> {
     super();
     this.documentName = "user";
   }
+  setCurrentUser(id: string) {
+    localStorage.setItem("userId", id);
+  }
+  getCurrentUser() {
+    return localStorage.getItem("userId");
+  }
+  cleanUpUser() {
+    localStorage.removeItem("userId");
+  }
 }

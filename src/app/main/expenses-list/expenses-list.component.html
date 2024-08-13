@@ -48,4 +48,16 @@
     </tbody>
   </table>
   }
+
+  <div class="join ml-4 mt-4">
+    @for (item of numberOfPages; track $index) {
+    <button
+      class="join-item btn"
+      [class.btn-active]="$index === activePage - 1"
+      (click)="loadData($index + 1)"
+    >
+      {{ item + 1 }}
+    </button>
+    }
+  </div>
 </div>
