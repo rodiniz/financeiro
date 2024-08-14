@@ -10,14 +10,6 @@
     "version": "1.0.1"
   },
   "tauri": {
-    "updater": {
-      "active": true,
-      "endpoints": [
-        "https://www.dropbox.com/scl/fi/q5j4v83bf4wkhhrjawfzb/updater.json?rlkey=bu9hw129y8hvj7pplbrg2j4nt&st=16nj9new&dl=0"
-      ],
-      "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk2MTgzMUUwMjYwRTkzMzQKUldRMGt3NG00REVZbGwvL1FaVmF2bnRBc0ppdWdvTlpYZmdxUzJJc1VuWVhFK2J6RVh4ZE5VTkYK"
-    },
     "allowlist": {
       "all": false,
       "shell": {
