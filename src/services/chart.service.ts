@@ -59,7 +59,7 @@ export class ChartService {
 
   async getChartYears(): Promise<Array<any>> {
     await this.loadDb();
-    let sql = ` select distinct  strftime('%Y', date) as year from expense`;
+    let sql = ` select distinct  strftime('%Y', date) as year from expense order by date`;
     const response = await this.db.select<any>(sql);
 
     return response;
@@ -67,7 +67,7 @@ export class ChartService {
 
   async getChartMonthYears(): Promise<Array<any>> {
     await this.loadDb();
-    let sql = `select distinct strftime( '%m', date )|| '/'|| strftime('%Y', date) as monthYear from expense`;
+    let sql = `select distinct strftime( '%m', date )|| '/'|| strftime('%Y', date) as monthYear from expense order by date`;
     const response = await this.db.select<any>(sql);
 
     return response;

@@ -34,11 +34,34 @@
   <div class="drawer-side">
     <ul class="bg-gray-900 min-h-full w-80 p-4 pt-40 text-white font-bold">
       <!-- Sidebar content here -->
-      <li><a routerLink="/menu/listCategories">Categorias</a></li>
-      <li><a routerLink="/menu/listExpenses">Despesas</a></li>
+      <li>
+        <a
+          class="mb-10"
+          routerLink="/menu/listCategories"
+          routerLinkActive="active-link"
+          >Categorias</a
+        >
+      </li>
+      <li>
+        <a routerLink="/menu/listExpenses" routerLinkActive="active-link"
+          >Despesas</a
+        >
+      </li>
       <div class="my-2 bg-gray-600 h-[1px]"></div>
-      <li><a routerLink="/menu/chartByYear">Gráfico por ano</a></li>
-      <li><a routerLink="/menu/chartByCategory">Gráfico por categoria</a></li>
+      <li>
+        <a
+          routerLink="/menu/chartByYear"
+          routerLinkActive="active-link"
+          class="mb-10"
+          >Gráfico por ano</a
+        >
+      </li>
+      <li>
+        <a routerLink="/menu/chartByCategory" routerLinkActive="active-link"
+          >Gráfico por categoria</a
+        >
+      </li>
     </ul>
   </div>
 </div>
+>

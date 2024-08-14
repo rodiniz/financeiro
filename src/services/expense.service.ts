@@ -41,12 +41,12 @@ export class ExpenseService extends CrudSqlService<Expense> {
   ): Promise<PagedList<ExpenseListModel>> {
     await this.loadDb();
 
-    const recordsPerPage = 7;
+    const recordsPerPage = 14;
     let offset = recordsPerPage * (pageIndex - 1);
     let countsql = "SELECT count(*) as cont from expense";
     const responseCount = await this.db.select<any>(countsql);
 
-    const totalPage = Math.round(
+    const totalPage = Math.floor(
       (responseCount[0].cont + recordsPerPage - 1) / recordsPerPage
     );
     let sql = ` SELECT  expense._id, expense.description, amount, date, category.description as category

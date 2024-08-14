@@ -35,8 +35,8 @@
       {
         "title": "financeiro",
         "width": 1400,
-        "height": 1000,
-        "fullscreen": true
+        "height": 2000,
+        "fullscreen": false
       }
     ],
     "security": {
