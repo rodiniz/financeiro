@@ -1,22 +1,20 @@
 <div class="overflow-x-auto">
   <h1 class="font-extrabold pl-10 text-2xl">Despesas</h1>
-  <button class="btn btn-primary ml-4 mt-3" (click)="redirectToCreate()">
+  <button class="btn btn-primary me-2" (click)="redirectToCreate()">
     Incluir
   </button>
 
-  <button class="btn btn-accent ml-4 mt-3" (click)="importExpenses()">
+  <button class="btn btn-secondary me-2" (click)="importExpenses()">
     Importar
   </button>
 
-  <button class="btn btn-error ml-4 mt-3" (click)="removeAll()">
-    Excluir Todas
-  </button>
+  <button class="btn btn-danger" (click)="removeAll()">Excluir Todas</button>
 
   @if(importing){
 
   <span class="loading loading-spinner loading-lg pt-5"></span>
   } @if(!importing){
-  <table class="table table-zebra">
+  <table class="table table-striped table-bordered mt-3">
     <!-- head -->
     <thead>
       <tr>
@@ -35,14 +33,17 @@
         <th>{{ formatData(item.date) }}</th>
         <th>{{ item.category }}</th>
         <td>
-          <button class="btn btn-accent" (click)="redirectToEdit(item._id)">
+          <button
+            class="btn btn-primary me-1"
+            (click)="redirectToEdit(item._id)"
+          >
             <lucide-angular
               name="FilePenLineIcon"
               class="my-icon"
             ></lucide-angular>
             Editar
           </button>
-          <button class="btn btn-error ml-4" (click)="delete(item._id)">
+          <button class="btn btn-danger me-1" (click)="delete(item._id)">
             <lucide-angular name="Trash2Icon" class="my-icon"></lucide-angular>
             Excluir
           </button>
@@ -51,6 +52,13 @@
       }
     </tbody>
   </table>
+
+  <ngb-pagination
+    [(page)]="activePage"
+    [pageSize]="14"
+    [collectionSize]="totalRecords"
+    (pageChange)="loadData($event)"
+  />
   @if(numberOfPages.length >1){
   <div class="join ml-4 mt-4">
     @for (item of numberOfPages; track $index) {

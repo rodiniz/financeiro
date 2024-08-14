@@ -6,14 +6,14 @@ import { LucideAngularModule } from "lucide-angular";
 import { ask, message, open } from "@tauri-apps/api/dialog";
 import * as XLSX from "xlsx";
 import { readBinaryFile } from "@tauri-apps/api/fs";
-import { Category } from "../../../models/category";
+
 import { ExpenseListModel } from "../../../models/expenseListModel";
 import { UsersService } from "../../../services/users.service";
-
+import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
 @Component({
   selector: "app-expenses-list",
   standalone: true,
-  imports: [LucideAngularModule],
+  imports: [LucideAngularModule, NgbPaginationModule],
   templateUrl: "./expenses-list.component.html",
   styleUrl: "./expenses-list.component.css",
 })
@@ -27,6 +27,7 @@ export class ExpensesListComponent {
   importing = false;
   numberOfPages: Array<number> = [];
   activePage = 1;
+  totalRecords = 0;
   async ngOnInit(): Promise<void> {
     this.importing = true;
     this.loadData();
@@ -53,11 +54,8 @@ export class ExpensesListComponent {
     );
 
     this.expenses = paged.data;
-    if (this.numberOfPages.length === 0) {
-      for (let i = 0; i < paged.numberOfpages; i++) {
-        this.numberOfPages.push(i);
-      }
-    }
+
+    this.totalRecords = paged.totalRecords;
   }
   redirectToCreate() {
     this.router.navigate(["/menu/createExpense"]);

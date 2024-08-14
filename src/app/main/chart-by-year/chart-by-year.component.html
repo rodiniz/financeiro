@@ -1,11 +1,11 @@
 <div class="flex justify-center items-center bg-gray-100 pb-10 pt-5">
   <div class="max-w-md w-full p-8 bg-white rounded-lg shadow-md">
-    <div class="mb-4">
-      <label for="category" class="block input-bordered">Ano</label>
+    <div class="mb-4 col-4">
+      <label for="category" class="form-label">Ano</label>
 
       <select
         id="category"
-        class="select select-bordered w-full max-w-xs"
+        class="form-select"
         [formControl]="year"
         (change)="getChart()"
       >

@@ -1,67 +1,64 @@
-<div class="drawer drawer-open">
-  <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
-  <div class="drawer-content flex flex-col">
-    <!-- Navbar -->
-    <div class="navbar bg-gray-900 w-full">
-      <div class="flex-none lg:hidden">
-        <label
-          for="my-drawer-3"
-          aria-label="open sidebar"
-          class="btn btn-square btn-ghost"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="inline-block h-6 w-6 stroke-current"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
-        </label>
-      </div>
-      <div class="mx-2 flex-1 px-2 text-white font-bold">Financeiro</div>
-      <div class="flex-none mr-10">
-        <button class="btn btn-primary" (click)="goToLogin()">Sair</button>
+<div class="page">
+  <div class="sidebar">
+    <div class="top-row ps-3 navbar navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="">Financeiro</a>
       </div>
     </div>
-    <router-outlet></router-outlet>
+
+    <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+    <div
+      class="nav-scrollable"
+      onclick="document.querySelector('.navbar-toggler').click()"
+    >
+      <nav class="flex-column">
+        <div class="nav-item px-3">
+          <a
+            class="nav-link"
+            routerLink="/menu/listExpenses"
+            routerLinkActive="active"
+          >
+            Despesas
+          </a>
+        </div>
+
+        <div class="nav-item px-3">
+          <a
+            class="nav-link"
+            routerLink="/menu/listCategories"
+            routerLinkActive="active"
+          >
+            Categorias
+          </a>
+        </div>
+
+        <div class="nav-item px-3">
+          <a
+            class="nav-link"
+            routerLink="/menu/chartByYear"
+            routerLinkActive="active"
+          >
+            Gráfico por ano
+          </a>
+        </div>
+
+        <div class="nav-item px-3">
+          <a
+            class="nav-link"
+            routerLink="/menu/chartByCategory"
+            routerLinkActive="active"
+          >
+            Gráfico por categoria
+          </a>
+        </div>
+      </nav>
+    </div>
   </div>
-  <div class="drawer-side">
-    <ul class="bg-gray-900 min-h-full w-80 p-4 pt-40 text-white font-bold">
-      <!-- Sidebar content here -->
-      <li>
-        <a
-          class="mb-10"
-          routerLink="/menu/listCategories"
-          routerLinkActive="active-link"
-          >Categorias</a
-        >
-      </li>
-      <li>
-        <a routerLink="/menu/listExpenses" routerLinkActive="active-link"
-          >Despesas</a
-        >
-      </li>
-      <div class="my-2 bg-gray-600 h-[1px]"></div>
-      <li>
-        <a
-          routerLink="/menu/chartByYear"
-          routerLinkActive="active-link"
-          class="mb-10"
-          >Gráfico por ano</a
-        >
-      </li>
-      <li>
-        <a routerLink="/menu/chartByCategory" routerLinkActive="active-link"
-          >Gráfico por categoria</a
-        >
-      </li>
-    </ul>
-  </div>
+
+  <main>
+    <article class="content px-4">
+      <router-outlet></router-outlet>
+    </article>
+  </main>
 </div>
->

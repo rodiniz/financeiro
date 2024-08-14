@@ -1,69 +1,67 @@
-<div class="h-screen flex justify-center items-center bg-gray-100">
-  <div class="max-w-lg w-full p-8 bg-white rounded-lg shadow-md">
-    <h2 class="text-lg font-bold mb-4 text-cyan-500">Despesa</h2>
-    <form (ngSubmit)="onsubmit()">
-      <div class="mb-4">
-        <label for="description" class="block input-bordered">Descrição</label>
-        <input
-          id="description"
-          type="text"
-          class="block w-full input input-bordered"
-          placeholder="description"
-          [formControl]="description"
-        />
-      </div>
-      @if(description.invalid && (description.dirty || description.touched)){
+<div class="d-flex align-items-center justify-content-center mt-5">
+  <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 30rem">
+    <div class="card-body">
+      <h2 class="text-lg font-bold mb-4 text-cyan-500">Despesa</h2>
+      <form (ngSubmit)="onsubmit()">
+        <div>
+          <label for="description" class="form-label">Descrição</label>
+          <input
+            id="description"
+            type="text"
+            class="form-control"
+            placeholder="description"
+            [formControl]="description"
+          />
+        </div>
+        @if(description.invalid && (description.dirty || description.touched)){
 
-      <app-error-message>Preencha a descrição</app-error-message>
+        <app-error-message>Preencha a descrição</app-error-message>
 
-      }
+        }
 
-      <div class="mb-4">
-        <label for="amount" class="block input-bordered">Valor</label>
-        <input
-          id="amount"
-          type="text"
-          class="block w-full input input-bordered"
-          placeholder="valor"
-          [formControl]="amount"
-        />
-      </div>
-      @if(amount.invalid && (amount.dirty || amount.touched)){
+        <div class="mb-4">
+          <label for="amount" class="form-label">Valor</label>
+          <input
+            id="amount"
+            type="text"
+            class="form-control"
+            placeholder="valor"
+            [formControl]="amount"
+          />
+        </div>
+        @if(amount.invalid && (amount.dirty || amount.touched)){
 
-      <app-error-message>Preencha o valor</app-error-message>
-      }
+        <app-error-message>Preencha o valor</app-error-message>
+        }
 
-      <div class="mb-4">
-        <label for="date" class="block input-bordered">Data</label>
-        <input
-          id="date"
-          type="text"
-          class="block w-full input input-bordered"
-          placeholder="dd/mm/yyyy"
-          [formControl]="date"
-        />
-      </div>
-      <div class="mb-4">
-        <label for="category" class="block input-bordered">Categoria</label>
+        <div class="mb-4">
+          <label for="date" class="form-label">Data</label>
+          <input
+            id="date"
+            type="text"
+            class="form-control"
+            placeholder="dd/mm/yyyy"
+            [formControl]="date"
+          />
+        </div>
+        <div class="mb-4">
+          <label for="category" class="form-label">Categoria</label>
 
-        <select
-          id="category"
-          class="select select-bordered w-full max-w-xs"
-          [formControl]="category"
+          <select id="category" class="form-select" [formControl]="category">
+            @for (cat of categories; track $index) {
+            <option value="{{ cat._id }}">{{ cat.description }}</option>
+            }
+          </select>
+        </div>
+        <button type="submit" class="w-5/12 p-2 btn btn-primary">Salvar</button>
+        <button
+          type="button"
+          class="w-5/12 p-2 btn btn-accent ml-3"
+          (click)="gotoList()"
         >
-          @for (cat of categories; track $index) {
-          <option value="{{ cat._id }}">{{ cat.description }}</option>
-          }
-        </select>
-      </div>
-      <button type="submit" class="w-5/12 p-2 btn btn-primary">Salvar</button>
-      <button
-        type="button"
-        class="w-5/12 p-2 btn btn-accent ml-3"
-        (click)="gotoList()"
-      >
-        Cancelar
-      </button>
-    </form>
+          Cancelar
+        </button>
+      </form>
+    </div>
   </div>
 </div>

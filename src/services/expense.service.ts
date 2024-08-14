@@ -70,6 +70,7 @@ export class ExpenseService extends CrudSqlService<Expense> {
     let pagedResponse = {
       data: response,
       numberOfpages: totalPage,
+      totalRecords: responseCount[0].cont,
     } as PagedList<ExpenseListModel>;
 
     return pagedResponse;
