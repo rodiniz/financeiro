@@ -33,15 +33,23 @@ export class ExpensesListComponent {
     this.importing = false;
   }
 
-  formatData(data: Date | string) {
-    return data;
+  formatData(data: Date) {
+    //2024-08-08
+    return (
+      data.toString().substring(8, 10) +
+      "/" +
+      data.toString().substring(5, 7) +
+      "/" +
+      data.toString().substring(0, 4)
+    );
   }
 
   async loadData(pageIndex: number = 1) {
     this.activePage = pageIndex;
     let paged = await this.expenseService.getAllModel(
       this.userId as string,
-      pageIndex
+      pageIndex,
+      " date desc"
     );
 
     this.expenses = paged.data;
@@ -64,7 +72,14 @@ export class ExpensesListComponent {
       this.loadData();
     }
   }
-  excelSerialToDate(serial: number): string {
+  async removeAll() {
+    const yes = await ask("Deseja mesmo excluir todas despesas?", "Financeiro");
+    if (yes) {
+      await this.expenseService.DeleteAll();
+      this.loadData();
+    }
+  }
+  excelSerialToDate(serial: number): Date {
     // Excel's epoch starts on January 1, 1900, which is 25569 in serial form
     const excelEpoch = new Date(Date.UTC(1899, 11, 30)); // December 30, 1899
 
@@ -79,7 +94,7 @@ export class ExpensesListComponent {
     // Calculate the adjusted date
     const date = new Date(excelEpoch.getTime() + milliseconds);
 
-    return date.toLocaleDateString("pt-br");
+    return date;
   }
   async importExpenses() {
     const selected = await open({
@@ -105,13 +120,17 @@ export class ExpensesListComponent {
         let row: any = jsonData[i];
         if (row["Valor"] < 0) {
           try {
-            await this.expenseService.create({
+            let expense = {
               _id: crypto.randomUUID(),
               date: this.excelSerialToDate(row["Data Valor"]),
               amount: row["Valor"] * -1,
               description: row["Descrição"],
               userId: this.userId,
-            });
+            };
+            var exists = await this.expenseService.Exists(expense);
+            if (!exists) {
+              await this.expenseService.create(expense);
+            }
           } catch (e) {
             await message(`Erro ao importar ${e}`);
             this.importing = false;

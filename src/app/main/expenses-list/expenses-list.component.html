@@ -8,6 +8,10 @@
     Importar
   </button>
 
+  <button class="btn btn-error ml-4 mt-3" (click)="removeAll()">
+    Excluir Todas
+  </button>
+
   @if(importing){
 
   <span class="loading loading-spinner loading-lg pt-5"></span>
@@ -47,8 +51,7 @@
       }
     </tbody>
   </table>
-  }
-
+  @if(numberOfPages.length >1){
   <div class="join ml-4 mt-4">
     @for (item of numberOfPages; track $index) {
     <button
@@ -60,4 +63,5 @@
     </button>
     }
   </div>
+  } }
 </div>
