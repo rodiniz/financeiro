@@ -1,5 +1,4 @@
 import { Component, inject } from "@angular/core";
-import { Expense } from "../../../models/expense";
 import { Router } from "@angular/router";
 import { ExpenseService } from "../../../services/expense.service";
 import { LucideAngularModule } from "lucide-angular";
@@ -9,7 +8,10 @@ import { readBinaryFile } from "@tauri-apps/api/fs";
 
 import { ExpenseListModel } from "../../../models/expenseListModel";
 import { UsersService } from "../../../services/users.service";
-import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbPaginationModule,
+  NgbProgressbarModule,
+} from "@ng-bootstrap/ng-bootstrap";
 @Component({
   selector: "app-expenses-list",
   standalone: true,
@@ -28,6 +30,8 @@ export class ExpensesListComponent {
   numberOfPages: Array<number> = [];
   activePage = 1;
   totalRecords = 0;
+  percentageCompleted = 0;
+
   async ngOnInit(): Promise<void> {
     this.importing = true;
     this.loadData();
@@ -112,17 +116,23 @@ export class ExpensesListComponent {
       const worksheet = workbook.Sheets[sheetName];
 
       // Convert the sheet data to JSON
-      const jsonData: unknown[] = XLSX.utils.sheet_to_json(worksheet);
+      const jsonData: unknown[] = XLSX.utils.sheet_to_json(worksheet, {
+        header: 1,
+      });
+      let totalImport = jsonData.length; // percentage -- x-100
 
-      for (let i = 0; i < jsonData.length; i++) {
+      //ignpre header row
+      for (let i = 1; i < jsonData.length; i++) {
+        this.percentageCompleted = Math.round((i * 100) / totalImport);
+        debugger;
         let row: any = jsonData[i];
-        if (row["Valor"] < 0) {
+        if (row[3] < 0) {
           try {
             let expense = {
               _id: crypto.randomUUID(),
-              date: this.excelSerialToDate(row["Data Valor"]),
-              amount: row["Valor"] * -1,
-              description: row["Descrição"],
+              date: this.excelSerialToDate(row[0]),
+              amount: row[3] * -1,
+              description: row[2],
               userId: this.userId,
             };
             var exists = await this.expenseService.Exists(expense);
@@ -136,6 +146,7 @@ export class ExpensesListComponent {
           }
         }
       }
+      this.percentageCompleted = 0;
       await message("Despesas importadas com sucesso");
       this.importing = false;
       this.loadData();

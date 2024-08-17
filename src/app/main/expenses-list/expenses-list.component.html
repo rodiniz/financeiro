@@ -1,18 +1,30 @@
 <div class="overflow-x-auto">
   <h1 class="font-extrabold pl-10 text-2xl">Despesas</h1>
-  <button class="btn btn-primary me-2" (click)="redirectToCreate()">
+  <button
+    class="btn btn-primary me-2"
+    (click)="redirectToCreate()"
+    [disabled]="importing"
+  >
     Incluir
   </button>
 
-  <button class="btn btn-secondary me-2" (click)="importExpenses()">
+  <button
+    class="btn btn-secondary me-2"
+    (click)="importExpenses()"
+    [disabled]="importing"
+  >
     Importar
   </button>
 
-  <button class="btn btn-danger" (click)="removeAll()">Excluir Todas</button>
+  <button class="btn btn-danger" (click)="removeAll()" [disabled]="importing">
+    Excluir Todas
+  </button>
 
   @if(importing){
-
-  <span class="loading loading-spinner loading-lg pt-5"></span>
+  <br /><br />
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
   } @if(!importing){
   <table class="table table-striped table-bordered mt-3">
     <!-- head -->
