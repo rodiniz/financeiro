@@ -12,10 +12,19 @@ import {
   NgbPaginationModule,
   NgbProgressbarModule,
 } from "@ng-bootstrap/ng-bootstrap";
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ChartService } from "../../../services/chart.service";
+import { CurrencyPipe } from "@angular/common";
 @Component({
   selector: "app-expenses-list",
   standalone: true,
-  imports: [LucideAngularModule, NgbPaginationModule],
+  imports: [
+    LucideAngularModule,
+    NgbPaginationModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CurrencyPipe,
+  ],
   templateUrl: "./expenses-list.component.html",
   styleUrl: "./expenses-list.component.css",
 })
@@ -23,6 +32,7 @@ export class ExpensesListComponent {
   expenses: ExpenseListModel[] = [];
   expenseService = inject(ExpenseService);
   userService = inject(UsersService);
+  chartService = inject(ChartService);
   router = inject(Router);
   categories: any;
   userId = this.userService.getCurrentUser();
@@ -31,10 +41,13 @@ export class ExpensesListComponent {
   activePage = 1;
   totalRecords = 0;
   percentageCompleted = 0;
-
+  onlyWithoutCategory = new FormControl<boolean>(false);
+  monthYear = new FormControl("");
+  monthYears: Array<any> = [];
   async ngOnInit(): Promise<void> {
+    this.monthYears = await this.chartService.getChartMonthYears();
     this.importing = true;
-    this.loadData();
+    this.loadData(1);
     this.importing = false;
   }
 
@@ -54,6 +67,8 @@ export class ExpensesListComponent {
     let paged = await this.expenseService.getAllModel(
       this.userId as string,
       pageIndex,
+      this.onlyWithoutCategory.value as boolean,
+      this.monthYear.value,
       " date desc"
     );
 
@@ -71,14 +86,14 @@ export class ExpensesListComponent {
     const yes = await ask("Deseja mesmo excluir esse registro?", "Financeiro");
     if (yes) {
       await this.expenseService.delete(id);
-      this.loadData();
+      this.loadData(1);
     }
   }
   async removeAll() {
     const yes = await ask("Deseja mesmo excluir todas despesas?", "Financeiro");
     if (yes) {
       await this.expenseService.DeleteAll();
-      this.loadData();
+      this.loadData(1);
     }
   }
   excelSerialToDate(serial: number): Date {

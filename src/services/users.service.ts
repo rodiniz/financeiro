@@ -1,22 +1,24 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { User } from "../models/User";
 import { CrudSqlService } from "./crud-sql.service";
+import { LocalStorageToken } from "../app/tokens/localStorageToken";
 
 @Injectable({
   providedIn: "root",
 })
 export class UsersService extends CrudSqlService<User> {
+  storage = inject(LocalStorageToken);
   constructor() {
     super();
     this.documentName = "user";
   }
   setCurrentUser(id: string) {
-    localStorage.setItem("userId", id);
+    this.storage.setItem("userId", id);
   }
   getCurrentUser() {
-    return localStorage.getItem("userId");
+    return this.storage.getItem("userId");
   }
   cleanUpUser() {
-    localStorage.removeItem("userId");
+    this.storage.removeItem("userId");
   }
 }

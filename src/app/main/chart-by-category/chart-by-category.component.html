@@ -29,3 +29,8 @@
 
   }
 </div>
+@if(totalExpenses >0){
+<div style="text-align: center" class="mt-10">
+  Total de despesas: {{ totalExpenses | currency : "EUR" : "symbol" }}
+</div>
+}

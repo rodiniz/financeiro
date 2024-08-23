@@ -57,6 +57,15 @@ export class ChartService {
     } as BarChartModel;
   }
 
+  async getTotalByMonthYear(monthYear: string): Promise<number> {
+    await this.loadDb();
+    let sql = ` select sum(amount) as amount from expense
+                where strftime( '%m', date )|| '/'||  strftime('%Y', date)=$1`;
+
+    const response = await this.db.select<any>(sql, [monthYear]);
+    return Math.round(response[0].amount);
+  }
+
   async getChartYears(): Promise<Array<any>> {
     await this.loadDb();
     let sql = ` select distinct  strftime('%Y', date) as year from expense order by date`;
