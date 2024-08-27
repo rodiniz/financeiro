@@ -88,27 +88,19 @@
           </button>
         </td>
       </tr>
+      } @empty {
+      <tr>
+        <th colspan="5">Sem registros</th>
+      </tr>
       }
     </tbody>
   </table>
-
+  @if(totalRecords >0){
   <ngb-pagination
     [(page)]="activePage"
     [pageSize]="14"
     [collectionSize]="totalRecords"
     (pageChange)="loadData($event)"
   />
-  @if(numberOfPages.length >1){
-  <div class="join ml-4 mt-4">
-    @for (item of numberOfPages; track $index) {
-    <button
-      class="join-item btn"
-      [class.btn-active]="$index === activePage - 1"
-      (click)="loadData($index + 1)"
-    >
-      {{ item + 1 }}
-    </button>
-    }
-  </div>
   } }
 </div>

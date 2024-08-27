@@ -56,15 +56,12 @@ export class ExpenseService extends CrudSqlService<Expense> {
     if (monthYear) {
       countsql += ` and strftime( '%m', date )|| '/'||  strftime('%Y', date)=$2`;
     }
-    console.log("countsql", countsql);
+
     const responseCount = await this.db.select<any>(countsql, [
       userId,
       monthYear,
     ]);
 
-    const totalPage = Math.floor(
-      (responseCount[0].cont + recordsPerPage - 1) / recordsPerPage
-    );
     let sql = ` SELECT  expense._id, expense.description, amount, date, category.description as category
     FROM
       ${this.documentName}    
@@ -91,7 +88,6 @@ export class ExpenseService extends CrudSqlService<Expense> {
 
     let pagedResponse = {
       data: response,
-      numberOfpages: totalPage,
       totalRecords: responseCount[0].cont,
     } as PagedList<ExpenseListModel>;
 

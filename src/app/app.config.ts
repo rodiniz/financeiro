@@ -6,13 +6,24 @@ import {
   LucideAngularModule,
   FilePenLineIcon,
   Trash2Icon,
+  ChartBarIcon,
+  ChartPieIcon,
+  BadgeEuroIcon,
+  CaseUpperIcon,
 } from "lucide-angular";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     importProvidersFrom(
-      LucideAngularModule.pick({ FilePenLineIcon, Trash2Icon })
+      LucideAngularModule.pick({
+        FilePenLineIcon,
+        Trash2Icon,
+        ChartBarIcon,
+        ChartPieIcon,
+        BadgeEuroIcon,
+        CaseUpperIcon,
+      })
     ),
   ],
 };

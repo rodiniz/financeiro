@@ -37,7 +37,6 @@ export class ExpensesListComponent {
   categories: any;
   userId = this.userService.getCurrentUser();
   importing = false;
-  numberOfPages: Array<number> = [];
   activePage = 1;
   totalRecords = 0;
   percentageCompleted = 0;
@@ -46,6 +45,9 @@ export class ExpensesListComponent {
   monthYears: Array<any> = [];
   async ngOnInit(): Promise<void> {
     this.monthYears = await this.chartService.getChartMonthYears();
+    if (this.monthYears.length > 0) {
+      this.monthYear.setValue(this.monthYears[this.monthYears.length]);
+    }
     this.importing = true;
     this.loadData(1);
     this.importing = false;

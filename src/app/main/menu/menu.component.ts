@@ -7,11 +7,18 @@ import {
   RouterOutlet,
 } from "@angular/router";
 import { UsersService } from "../../../services/users.service";
+import { LucideAngularModule } from "lucide-angular";
 
 @Component({
   selector: "app-men",
   standalone: true,
-  imports: [RouterModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [
+    RouterModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    LucideAngularModule,
+  ],
   templateUrl: "./menu.component.html",
   styleUrl: "./menu.component.css",
 })
