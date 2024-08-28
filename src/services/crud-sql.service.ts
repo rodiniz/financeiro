@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
 import Database from "tauri-plugin-sql-api";
-import keys from "lodash/keys";
-import { map, values } from "lodash";
 import { message } from "@tauri-apps/api/dialog";
 @Injectable({
   providedIn: "root",
@@ -27,13 +25,14 @@ export abstract class CrudSqlService<T> {
   }
   async create(model: Record<any, any>): Promise<void> {
     await this.loadDb();
+    const valuesArray = Object.values(model);
     const response = await this.db.execute(
-      `INSERT INTO ${this.documentName} (${keys(model).join(
+      `INSERT INTO ${this.documentName} (${Object.keys(model).join(
         ", "
-      )}) VALUES (${map(values(model), (_key, index) => `$${index + 1}`).join(
-        ", "
-      )})`,
-      values(model)
+      )}) VALUES (${valuesArray
+        .map((_key, index) => `$${index + 1}`)
+        .join(", ")})`,
+      Object.values(model)
     );
     if (response["rowsAffected"] != 1) {
       await message(JSON.stringify(response), { type: "error" });
@@ -42,14 +41,15 @@ export abstract class CrudSqlService<T> {
 
   async update(id: string, model: Record<any, any>): Promise<void> {
     await this.loadDb();
-    const setValues = map(
-      keys(model),
-      (key, index) => `${key} = $${index + 1}`
-    ).join(", ");
+    let keysArray = Object.keys(model);
+
+    const setValues = keysArray
+      .map((key, index) => `${key} = $${index + 1}`)
+      .join(", ");
     const sql = `UPDATE ${this.documentName} SET ${setValues} WHERE _id = $${
-      keys(model).length + 1
+      Object.keys(model).length + 1
     }`;
-    let arrUpdate = [...values(model), id];
+    let arrUpdate = [...Object.values(model), id];
 
     const response = await this.db.execute(sql, arrUpdate);
     if (response["rowsAffected"] != 1) {
@@ -58,8 +58,8 @@ export abstract class CrudSqlService<T> {
   }
   async get(model: Record<any, any>): Promise<T[]> {
     await this.loadDb();
-    let where = map(
-      keys(model),
+    let keysArray = Object.keys(model);
+    let where = keysArray.map(
       (_key, index) =>
         `
       ${_key}=$${index + 1}
@@ -74,7 +74,7 @@ export abstract class CrudSqlService<T> {
       ${where}
     `;
     const response: any = await this.db.select<T[]>(sql, [
-      values(model).join(", "),
+      Object.values(model).join(", "),
     ]);
     return response;
   }

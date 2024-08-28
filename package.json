@@ -39,7 +39,6 @@
     "@tauri-apps/cli": "^1",
     "@types/jasmine": "~5.1.0",
     "@types/jest": "^29.5.12",
-    "@types/lodash": "^4.17.7",
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.10",
     "jasmine-core": "~5.1.0",
