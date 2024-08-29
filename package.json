@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "tauri": "tauri",
-    "test": "jest"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -39,19 +39,15 @@
     "@angular/localize": "^17.0.0",
     "@tauri-apps/cli": "^1",
     "@types/jasmine": "~5.1.0",
-    "@types/jest": "^29.5.12",
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.10",
     "jasmine-core": "~5.1.0",
-    "jest": "^29.7.0",
-    "jest-preset-angular": "^14.2.2",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "postcss": "^8.4.41",
-    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "~5.2.2"
   },
