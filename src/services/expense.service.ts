@@ -39,6 +39,7 @@ export class ExpenseService extends CrudSqlService<Expense> {
     pageIndex: number,
     onlyWithoutCategory: boolean,
     monthYear: string | undefined | null,
+    category:number|undefined| null,
     orderby?: string
   ): Promise<PagedList<ExpenseListModel>> {
     await this.loadDb();
@@ -49,12 +50,18 @@ export class ExpenseService extends CrudSqlService<Expense> {
       "SELECT count(*) as cont from expense Left JOIN  category" +
       " ON expense.categoryId = category._id where expense.userId=$1  ";
 
+
+
     if (onlyWithoutCategory) {
       countsql += ` and category._id is null`;
     }
-    console.log("montyear", monthYear);
+   
     if (monthYear) {
       countsql += ` and strftime( '%m', date )|| '/'||  strftime('%Y', date)=$2`;
+    }
+
+    if (category) {
+      countsql += ` and category._id =$3`;
     }
 
     const responseCount = await this.db.select<any>(countsql, [
@@ -76,6 +83,11 @@ export class ExpenseService extends CrudSqlService<Expense> {
     if (monthYear) {
       sql += ` and strftime( '%m', date )|| '/'||  strftime('%Y', date)=$2`;
     }
+    
+    if (category) {
+      sql += ` and category._id =$3`;
+    }
+
     if (orderby) {
       sql += ` order by ${orderby}`;
     }
@@ -84,7 +96,7 @@ export class ExpenseService extends CrudSqlService<Expense> {
 
     const response: ExpenseListModel[] = await this.db.select<
       ExpenseListModel[]
-    >(sql, [userId, monthYear]);
+    >(sql, [userId, monthYear,category]);
 
     let pagedResponse = {
       data: response,

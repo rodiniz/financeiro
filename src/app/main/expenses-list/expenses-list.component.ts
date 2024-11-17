@@ -15,6 +15,7 @@ import {
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChartService } from "../../../services/chart.service";
 import { CurrencyPipe } from "@angular/common";
+import { CategoryService } from "../../../services/category.service";
 @Component({
   selector: "app-expenses-list",
   standalone: true,
@@ -33,8 +34,8 @@ export class ExpensesListComponent {
   expenseService = inject(ExpenseService);
   userService = inject(UsersService);
   chartService = inject(ChartService);
-  router = inject(Router);
-  categories: any;
+  categorieService= inject(CategoryService);
+  router = inject(Router); 
   userId = this.userService.getCurrentUser();
   importing = false;
   activePage = 1;
@@ -43,8 +44,11 @@ export class ExpensesListComponent {
   onlyWithoutCategory = new FormControl<boolean>(false);
   monthYear = new FormControl("");
   monthYears: Array<any> = [];
+  category= new FormControl(null);
+  categories: any = [];
   async ngOnInit(): Promise<void> {
     this.monthYears = await this.chartService.getChartMonthYears();
+    this.categories = await this.categorieService.getAll("description  COLLATE NOCASE ASC");
     if (this.monthYears.length > 0) {
       this.monthYear.setValue(this.monthYears[this.monthYears.length]);
     }
@@ -71,6 +75,7 @@ export class ExpensesListComponent {
       pageIndex,
       this.onlyWithoutCategory.value as boolean,
       this.monthYear.value,
+      this.category.value,
       " date desc"
     );
 
