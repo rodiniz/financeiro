@@ -50,7 +50,7 @@ export class ExpensesListComponent {
     this.monthYears = await this.chartService.getChartMonthYears();
     this.categories = await this.categorieService.getAll("description  COLLATE NOCASE ASC");
     if (this.monthYears.length > 0) {
-      this.monthYear.setValue(this.monthYears[this.monthYears.length]);
+      this.monthYear.setValue(this.monthYears[this.monthYears.length - 1].monthYear);
     }
     this.importing = true;
     this.loadData(1);

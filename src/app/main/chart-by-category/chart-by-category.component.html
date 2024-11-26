@@ -16,8 +16,14 @@
     </div>
   </div>
 </div>
-
-<div style="text-align: center" class="mt-10">
+@if(totalExpenses > 0) {
+  <div class="card mt-3 col-4 mx-auto shadow">
+    <div class="card-body text-center">
+      <p class="card-text">Total de despesas: {{ totalExpenses | currency : "EUR" : "symbol" }}</p>
+    </div>
+  </div>
+}
+<div style="text-align: center" class="row mt-10">
   @if(chartOptions && chartOptions.series){
   <apx-chart
     [labels]="chartOptions.labels"
@@ -29,8 +35,3 @@
 
   }
 </div>
-@if(totalExpenses >0){
-<div style="text-align: center" class="mt-10">
-  Total de despesas: {{ totalExpenses | currency : "EUR" : "symbol" }}
-</div>
-}

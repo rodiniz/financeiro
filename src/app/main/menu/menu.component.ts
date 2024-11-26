@@ -30,4 +30,18 @@ export class MenuComponent {
     this.userService.cleanUpUser();
     this.router.navigate([""]);
   }
+  async backupDatabase() {
+    try {
+      await this.userService.backup();
+    } catch (error) {
+      console.error('Failed to backup database:', error);
+    }
+  }
+  async restoreDatabase() {
+    try {
+      await this.userService.restore();
+    } catch (error) {
+      console.error('Failed to backup database:', error);
+    }
+  }
 }

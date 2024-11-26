@@ -2,6 +2,9 @@ import { inject, Injectable } from "@angular/core";
 import { User } from "../models/User";
 import { CrudSqlService } from "./crud-sql.service";
 import { LocalStorageToken } from "../app/tokens/localStorageToken";
+import { open,save } from '@tauri-apps/api/dialog';
+import { copyFile } from '@tauri-apps/api/fs';
+import { appDataDir, join } from '@tauri-apps/api/path';
 
 @Injectable({
   providedIn: "root",
@@ -20,5 +23,52 @@ export class UsersService extends CrudSqlService<User> {
   }
   cleanUpUser() {
     this.storage.removeItem("userId");
+  }
+  async backup() {
+    try {
+      // Ask user where to save the backup
+      const savePath = await save({
+        filters: [{
+          name: 'SQLite Database',
+          extensions: ['db']
+        }],
+        defaultPath: 'financeiro_backup.db'
+      });
+   
+      if (savePath) {
+        // Get the path to the current database file
+        const appDataDirPath = await appDataDir();
+        const dbPath = await join(appDataDirPath, 'financeiro.db');
+        
+        // Copy the database file to the selected location
+        await copyFile(dbPath, savePath);
+      }
+    } catch (error) {
+      console.error('Failed to backup database:', error);
+      throw error;
+    }
+  }
+  async restore() {
+    try {
+        // Ask user for the path to the backup
+        const filePath = await open({
+          filters: [{
+            name: 'SQLite Database',
+            extensions: ['db']
+          }],
+          defaultPath: 'financeiro_backup.db',
+          multiple: false
+        });
+        if (filePath) {
+          // Copy the backup file to the current database location
+          const appDataDirPath = await appDataDir();
+          const dbPath = await join(appDataDirPath, 'financeiro.db');
+          await copyFile(filePath as string, dbPath);
+        }
+      }
+    catch (error) {
+      console.error('Failed to backup database:', error);
+      throw error;
+    }
   }
 }

@@ -28,7 +28,8 @@
         "save": true
       },
       "fs": {
-        "readFile": true
+        "readFile": true,
+        "copyFile": true
       }
     },
     "windows": [
