@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from "@angular/core";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Router, RouterModule, RouterOutlet } from "@angular/router";
 import { UsersService } from "../../services/users.service";
-import { message } from "@tauri-apps/api/dialog";
+import { message } from "@tauri-apps/plugin-dialog";
 
 @Component({
   selector: "app-login",
@@ -28,13 +28,13 @@ export class LoginComponent {
     const user = await this.userService.get({ email: this.email.value });
     if (user && user.length > 0) {
       if (user[0].password != this.password.value) {
-        await message("Usuário ou senha inválidos", { type: "error" });
+        await message("Usuário ou senha inválidos", { kind: "error" });
         return;
       }
       this.userService.setCurrentUser(user[0]._id);
       this.router.navigate(["menu"]);
     } else {
-      await message("Usuário ou senha inválidos", { type: "error" });
+      await message("Usuário ou senha inválidos", { kind: "error" });
     }
   }
 }

@@ -2,9 +2,9 @@ import { Component, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { ExpenseService } from "../../../services/expense.service";
 import { LucideAngularModule } from "lucide-angular";
-import { ask, message, open } from "@tauri-apps/api/dialog";
+import { ask, message, open } from "@tauri-apps/plugin-dialog";
 import * as XLSX from "xlsx";
-import { readBinaryFile } from "@tauri-apps/api/fs";
+
 
 import { ExpenseListModel } from "../../../models/expenseListModel";
 import { UsersService } from "../../../services/users.service";
@@ -16,6 +16,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChartService } from "../../../services/chart.service";
 import { CurrencyPipe } from "@angular/common";
 import { CategoryService } from "../../../services/category.service";
+import {readFile} from "@tauri-apps/plugin-fs";
 @Component({
   selector: "app-expenses-list",
   standalone: true,
@@ -131,7 +132,7 @@ export class ExpensesListComponent {
     });
     if (selected != null) {
       this.importing = true;
-      const data = await readBinaryFile(selected as string);
+      const data = await readFile(selected as string);
       const workbook = XLSX.read(data, { type: "buffer" });
 
       const sheetName = workbook.SheetNames[0];

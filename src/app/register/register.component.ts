@@ -8,7 +8,7 @@ import {
 import { UsersService } from "../../services/users.service";
 import { CommonModule } from "@angular/common";
 import { RouterOutlet, RouterModule, Router } from "@angular/router";
-import { message } from "@tauri-apps/api/dialog";
+import { message } from "@tauri-apps/plugin-dialog";
 import { ErrorMessageComponent } from "../main/error-message/error-message.component";
 
 @Component({

@@ -2,58 +2,39 @@
   "build": {
     "beforeDevCommand": "npm run start",
     "beforeBuildCommand": "npm run build",
-    "devPath": "http://localhost:1420",
-    "distDir": "../dist/financeiro-angular/browser"
+    "frontendDist": "../dist/financeiro-angular/browser",
+    "devUrl": "http://localhost:1420"
   },
-  "package": {
-    "productName": "financeiro-angular",
-    "version": "1.0.1"
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
   },
-  "tauri": {
-    "allowlist": {
-      "all": false,
-      "shell": {
-        "all": false,
-        "open": true
-      },
-      "path": {
-        "all": true
-      },
-      "dialog": {
-        "all": true,
-        "ask": true,
-        "confirm": true,
-        "message": true,
-        "open": true,
-        "save": true
-      },
-      "fs": {
-        "readFile": true,
-        "copyFile": true
-      }
+  "productName": "financeiro-angular",
+  "mainBinaryName": "financeiro-angular",
+  "version": "1.0.1",
+  "identifier": "com.financeiro",
+  "plugins": {
+   
+  },
+  "app": {
+    "security": {
+      "csp": null
     },
     "windows": [
       {
         "title": "financeiro",
         "width": 1400,
         "height": 2000,
-        "fullscreen": false
+        "fullscreen": false,
+        "useHttpsScheme": true
       }
-    ],
-    "security": {
-      "csp": null
-    },
-    "bundle": {
-      "active": true,
-      "targets": "all",
-      "identifier": "com.financeiro",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ]
-    }
+    ]
   }
 }

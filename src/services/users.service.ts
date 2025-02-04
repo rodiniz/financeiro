@@ -2,8 +2,8 @@ import { inject, Injectable } from "@angular/core";
 import { User } from "../models/User";
 import { CrudSqlService } from "./crud-sql.service";
 import { LocalStorageToken } from "../app/tokens/localStorageToken";
-import { open,save } from '@tauri-apps/api/dialog';
-import { copyFile } from '@tauri-apps/api/fs';
+import { open,save } from '@tauri-apps/plugin-dialog';
+import { copyFile } from '@tauri-apps/plugin-fs';
 import { appDataDir, join } from '@tauri-apps/api/path';
 
 @Injectable({

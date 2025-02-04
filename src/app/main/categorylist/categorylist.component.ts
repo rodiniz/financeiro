@@ -3,7 +3,7 @@ import { CategoryService } from "../../../services/category.service";
 import { Category } from "../../../models/category";
 import { LucideAngularModule } from "lucide-angular";
 import { Router } from "@angular/router";
-import { ask } from "@tauri-apps/api/dialog";
+import { ask } from "@tauri-apps/plugin-dialog";
 
 @Component({
   selector: "app-categorylist",

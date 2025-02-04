@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import { BarChartModel } from "../models/barchartModel";
 
 @Injectable({

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import Database from "tauri-plugin-sql-api";
-import { message } from "@tauri-apps/api/dialog";
+import Database from "@tauri-apps/plugin-sql";
+import { message } from "@tauri-apps/plugin-dialog";
 @Injectable({
   providedIn: "root",
 })
@@ -20,7 +20,7 @@ export abstract class CrudSqlService<T> {
       [id]
     );
     if (response["rowsAffected"] != 1) {
-      await message(JSON.stringify(response), { type: "error" });
+      await message(JSON.stringify(response), { kind: "error" });
     }
   }
   async create(model: Record<any, any>): Promise<void> {
@@ -35,7 +35,7 @@ export abstract class CrudSqlService<T> {
       Object.values(model)
     );
     if (response["rowsAffected"] != 1) {
-      await message(JSON.stringify(response), { type: "error" });
+      await message(JSON.stringify(response), { kind: "error" });
     }
   }
 
@@ -53,7 +53,7 @@ export abstract class CrudSqlService<T> {
 
     const response = await this.db.execute(sql, arrUpdate);
     if (response["rowsAffected"] != 1) {
-      await message(JSON.stringify(response), { type: "error" });
+      await message(JSON.stringify(response), { kind: "error" });
     }
   }
   async get(model: Record<any, any>): Promise<T[]> {
