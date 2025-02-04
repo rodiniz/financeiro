@@ -39,7 +39,7 @@ export class ExpensesEditComponent {
   userService = inject(UsersService);
 
   async ngOnInit(): Promise<void> {
-    this.categories = await this.categoryService.getAll();
+    this.categories = await this.categoryService.getAll('description  COLLATE NOCASE ASC');
     if (this.id && this.id.length > 0) {
       let expense = await this.expenseService.getById(this.id);
       this.description.setValue(expense.description);

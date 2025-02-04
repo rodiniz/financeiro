@@ -142,11 +142,11 @@ export class ExpensesListComponent {
         header: 1,
       });
       let totalImport = jsonData.length; // percentage -- x-100
-
+      let repeated=0;
+      let imported = 0;
       //ignpre header row
       for (let i = 1; i < jsonData.length; i++) {
-        this.percentageCompleted = Math.round((i * 100) / totalImport);
-        debugger;
+        this.percentageCompleted = Math.round((i * 100) / totalImport);        
         let row: any = jsonData[i];
         if (row[3] < 0) {
           try {
@@ -159,7 +159,11 @@ export class ExpensesListComponent {
             };
             var exists = await this.expenseService.Exists(expense);
             if (!exists) {
+              imported++;
               await this.expenseService.create(expense);
+            }
+            else {
+              repeated++;
             }
           } catch (e) {
             await message(`Erro ao importar ${e}`);
@@ -169,7 +173,7 @@ export class ExpensesListComponent {
         }
       }
       this.percentageCompleted = 0;
-      await message("Despesas importadas com sucesso");
+      await message(` ${imported} Despesas importadas. ${repeated} despesas repetidas`);
       this.importing = false;
       this.loadData();
     }
