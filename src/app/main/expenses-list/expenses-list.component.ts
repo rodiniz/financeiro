@@ -17,6 +17,9 @@ import { ChartService } from "../../../services/chart.service";
 import { CurrencyPipe } from "@angular/common";
 import { CategoryService } from "../../../services/category.service";
 import {readFile} from "@tauri-apps/plugin-fs";
+import { IncomeService } from "../../../services/income.service";
+import {Income} from "../../../models/income";
+import {Expense} from "../../../models/expense";
 @Component({
   selector: "app-expenses-list",
   standalone: true,
@@ -32,6 +35,7 @@ import {readFile} from "@tauri-apps/plugin-fs";
 })
 export class ExpensesListComponent {
   expenses: ExpenseListModel[] = [];
+  incomeService=inject(IncomeService);
   expenseService = inject(ExpenseService);
   userService = inject(UsersService);
   chartService = inject(ChartService);
@@ -149,6 +153,9 @@ export class ExpensesListComponent {
       for (let i = 1; i < jsonData.length; i++) {
         this.percentageCompleted = Math.round((i * 100) / totalImport);        
         let row: any = jsonData[i];
+        if(row.length ==0){
+          break;
+        }
         if (row[3] < 0) {
           try {
             let expense = {
@@ -157,7 +164,7 @@ export class ExpensesListComponent {
               amount: row[3] * -1,
               description: row[2],
               userId: this.userId,
-            };
+            } as Expense;
             var exists = await this.expenseService.Exists(expense);
             if (!exists) {
               imported++;
@@ -170,6 +177,18 @@ export class ExpensesListComponent {
             await message(`Erro ao importar ${e}`);
             this.importing = false;
             return;
+          }
+        }
+        else{
+          let income = {
+            _id: crypto.randomUUID(),
+            date: this.excelSerialToDate(row[0]),
+            amount: row[3] * -1,         
+            userId: this.userId,
+          } as Income;
+          var exists = await this.incomeService.Exists(income);
+          if (!exists) {
+            await this.incomeService.create(income);
           }
         }
       }

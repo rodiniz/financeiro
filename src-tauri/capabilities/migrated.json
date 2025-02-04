@@ -19,6 +19,9 @@
     "fs:default",
     "sql:default",
     "shell:default",
-    "sql:allow-execute"    
+    "sql:allow-execute",
+    "dialog:default",
+    "fs:default",
+    "fs:default"
   ]
 }

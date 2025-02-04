@@ -16,7 +16,7 @@ export class ExpenseService extends CrudSqlService<Expense> {
     await this.loadDb();
     await this.db.execute(`DELETE FROM ${this.documentName}`);
   }
-  async Exists(expense: any) {
+  async Exists(expense: Expense) {
     await this.loadDb();
 
     let sql = ` SELECT  *
@@ -25,12 +25,13 @@ export class ExpenseService extends CrudSqlService<Expense> {
         where description= $1 
         and amount=$2
         and date=$3
-
+        and userId=$4
    `;
     const response = await this.db.select<Expense[]>(sql, [
       expense.description,
       expense.amount,
-      expense.date,
+      expense.date, 
+      expense.userId
     ]);
     return response.length > 0;
   }
