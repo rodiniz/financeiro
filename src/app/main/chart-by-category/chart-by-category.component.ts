@@ -17,6 +17,7 @@ export class ChartByCategoryComponent implements OnInit {
   monthYear = new FormControl("");
   monthYears: Array<any> = [];
   totalExpenses: number = 0;
+  totalIncome: number = 0;
   constructor() {}
   async ngOnInit(): Promise<void> {
     this.monthYears = await this.chartService.getChartMonthYears();
@@ -39,6 +40,9 @@ export class ChartByCategoryComponent implements OnInit {
       });
 
     this.totalExpenses = await this.chartService.getTotalByMonthYear(
+      this.monthYear.value ?? ""
+    );
+    this.totalIncome = await this.chartService.getTotalIncomeByMonthYear(
       this.monthYear.value ?? ""
     );
   }

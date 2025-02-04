@@ -6,6 +6,10 @@
     "main"
   ],
   "permissions": [
+    {
+      "identifier": "fs:scope",
+      "allow": [{ "path": "$APPDATA" }, { "path": "$APPDATA/**" }]
+    },
     "core:default",
     "fs:allow-read-file",
     "fs:allow-copy-file",
@@ -19,9 +23,7 @@
     "fs:default",
     "sql:default",
     "shell:default",
-    "sql:allow-execute",
-    "dialog:default",
-    "fs:default",
-    "fs:default"
+    "sql:allow-execute"
+        
   ]
 }

@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { User } from "../models/User";
 import { CrudSqlService } from "./crud-sql.service";
 import { LocalStorageToken } from "../app/tokens/localStorageToken";
-import { open,save } from '@tauri-apps/plugin-dialog';
+import { message, open,save } from '@tauri-apps/plugin-dialog';
 import { copyFile } from '@tauri-apps/plugin-fs';
 import { appDataDir, join } from '@tauri-apps/api/path';
 
@@ -25,7 +25,7 @@ export class UsersService extends CrudSqlService<User> {
     this.storage.removeItem("userId");
   }
   async backup() {
-    try {
+    
       // Ask user where to save the backup
       const savePath = await save({
         filters: [{
@@ -42,11 +42,9 @@ export class UsersService extends CrudSqlService<User> {
         
         // Copy the database file to the selected location
         await copyFile(dbPath, savePath);
-      }
-    } catch (error) {
-      console.error('Failed to backup database:', error);
-      throw error;
-    }
+        await message('Backup realizado com sucesso', { kind: "info" });
+      }   
+    
   }
   async restore() {
     try {

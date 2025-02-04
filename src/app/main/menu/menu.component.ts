@@ -8,6 +8,7 @@ import {
 } from "@angular/router";
 import { UsersService } from "../../../services/users.service";
 import { LucideAngularModule } from "lucide-angular";
+import { message } from "@tauri-apps/plugin-dialog";
 
 @Component({
   selector: "app-men",
@@ -33,15 +34,17 @@ export class MenuComponent {
   async backupDatabase() {
     try {
       await this.userService.backup();
-    } catch (error) {
-      console.error('Failed to backup database:', error);
+      await message('Backup realizado com sucesso', { kind: "info" });
+    } catch (error) {        
+      await message(`Erro ao fazer backup do banco de dados ${error}`, { kind: "error" });
     }
   }
   async restoreDatabase() {
     try {
       await this.userService.restore();
+      await message('Banco restaurado com sucesso', { kind: "info" });
     } catch (error) {
-      console.error('Failed to backup database:', error);
+      await message(`Erro ao restaurar banco de dados ${error}`, { kind: "error" });
     }
   }
 }

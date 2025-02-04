@@ -17,6 +17,11 @@
   </div>
 </div>
 @if(totalExpenses > 0) {
+ <div class="card mt-3 col-4 mx-auto shadow">
+    <div class="card-body text-center">
+      <p class="card-text">Total de receitas: {{ totalIncome | currency : "EUR" : "symbol" }}</p>
+    </div>
+  </div>
   <div class="card mt-3 col-4 mx-auto shadow">
     <div class="card-body text-center">
       <p class="card-text">Total de despesas: {{ totalExpenses | currency : "EUR" : "symbol" }}</p>

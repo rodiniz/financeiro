@@ -183,7 +183,7 @@ export class ExpensesListComponent {
           let income = {
             _id: crypto.randomUUID(),
             date: this.excelSerialToDate(row[0]),
-            amount: row[3] * -1,         
+            amount: row[3],         
             userId: this.userId,
           } as Income;
           var exists = await this.incomeService.Exists(income);
