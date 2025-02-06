@@ -51,6 +51,7 @@ export class ExpensesListComponent {
   monthYears: Array<any> = [];
   category= new FormControl(null);
   categories: any = [];
+
   async ngOnInit(): Promise<void> {
     this.monthYears = await this.chartService.getChartMonthYears();
     this.categories = await this.categorieService.getAll("description  COLLATE NOCASE ASC");
@@ -102,9 +103,10 @@ export class ExpensesListComponent {
     }
   }
   async removeAll() {
-    const yes = await ask("Deseja mesmo excluir todas despesas?", "Financeiro");
+    const yes = await ask("Deseja mesmo excluir todas despesas e receitas?", "Financeiro");
     if (yes) {
       await this.expenseService.DeleteAll();
+      await this.incomeService.DeleteAll();
       this.loadData(1);
     }
   }
@@ -145,6 +147,7 @@ export class ExpensesListComponent {
       // Convert the sheet data to JSON
       const jsonData: unknown[] = XLSX.utils.sheet_to_json(worksheet, {
         header: 1,
+        blankrows: false,
       });
       let totalImport = jsonData.length; // percentage -- x-100
       let repeated=0;

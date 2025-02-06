@@ -1,7 +1,6 @@
 ﻿import {Injectable} from "@angular/core";
 import {CrudSqlService} from "./crud-sql.service";
 import {Income} from "../models/income";
-import {Expense} from "../models/expense";
 
 @Injectable({
     providedIn: "root",
@@ -11,7 +10,10 @@ export class IncomeService extends CrudSqlService<Income> {
         super();
         this.documentName = "income";
     }
-
+    async DeleteAll() {
+        await this.loadDb();
+        await this.db.execute(`DELETE FROM ${this.documentName}`);
+    }
     async Exists(income: Income) {
         await this.loadDb();    
 

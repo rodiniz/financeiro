@@ -34,9 +34,20 @@
         
       
         <div class="col-md-12">
-            <div class="card p-3">
+            <div class="card p-3 ">
                 <h5>Top 5 Despesas por Categoria</h5>
-                <div class="placeholder-chart"></div>
+                <div class="placeholder-chart">
+                     @if(chartOptions && chartOptions.series){
+                        <apx-chart
+                            [labels]="chartOptions.labels"
+                            [series]="chartOptions.series"
+                            [chart]="chartOptions.chart"
+                            [title]="chartOptions.title"
+                        >
+                        </apx-chart>
+
+                        }
+                </div>
             </div>
         </div>
     </div>
@@ -46,7 +57,16 @@
         <div class="col-md-12">
             <div class="card p-3">
                 <h5>Evolução Mensal: Despesas vs Entradas</h5>
-                <div class="placeholder-chart" style="height: 200px;"></div>
+                <div class="placeholder-chart" >
+                 <apx-chart
+                            [series]="evolutionChartOptions.series"
+                            [chart]="evolutionChartOptions.chart"
+                            [title]="evolutionChartOptions.title"
+                            [xaxis]="evolutionChartOptions.xaxis"
+                            [yaxis]="evolutionChartOptions.yaxis"
+                        >
+                        </apx-chart>
+                </div>
             </div>
         </div>
    
