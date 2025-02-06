@@ -34,7 +34,7 @@ export class MenuComponent {
   async backupDatabase() {
     try {
       await this.userService.backup();
-      await message('Backup realizado com sucesso', { kind: "info" });
+      
     } catch (error) {        
       await message(`Erro ao fazer backup do banco de dados ${error}`, { kind: "error" });
     }
