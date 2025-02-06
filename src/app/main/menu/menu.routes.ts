@@ -69,6 +69,13 @@ export const FinanceiroRoutes: Routes = [
             (m) => m.ChartByCategoryComponent
           ),
       },
+      {
+        path: "dashboard",
+        loadComponent: () =>
+            import("../dashboard/dashboard.component").then(
+                (m) => m.DashboardComponent
+            ),
+      },
     ],
   },
 ];

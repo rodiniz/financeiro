@@ -1,6 +1,7 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import Database from "@tauri-apps/plugin-sql";
 import { BarChartModel } from "../models/barchartModel";
+import { UsersService } from "./users.service";
 
 @Injectable({
   providedIn: "root",
@@ -8,17 +9,18 @@ import { BarChartModel } from "../models/barchartModel";
 export class ChartService {
   protected db!: Database;
   protected documentName: string | undefined;
+  userService= inject(UsersService);
   constructor() {}
   async loadDb() {
     this.db = await Database.load("sqlite:financeiro.db");
   }
-  async getByYear(year: number): Promise<BarChartModel> {
+  async getByYear( year: number): Promise<BarChartModel> {
     await this.loadDb();
     let sql = ` select sum(amount) as amount,  strftime('%Y', date) as ano, strftime( '%m', date ) as mes from expense          
-          where  strftime('%Y', date) =$1 group by strftime( '%m', date )
+          where  userId=$1 strftime('%Y', date) =$2 group by strftime( '%m', date )
    `;
-
-    const response = await this.db.select<any>(sql, [year]);
+    const userId = this.userService.getCurrentUser();
+    const response = await this.db.select<any>(sql, [userId, year]);
     let series: Array<number> = [];
     let xaxis: Array<number | string> = [];
     response.forEach((c: any) => {
@@ -38,9 +40,9 @@ export class ChartService {
   async getByMonthYear(monthYear: string): Promise<BarChartModel> {
     await this.loadDb();
     let sql = ` select sum(amount) as amount, cat.description from expense
-                join category cat on cat._id = expense.categoryId where strftime( '%m', date )|| '/'||  strftime('%Y', date)=$1 group by expense.categoryId`;
-
-    const response = await this.db.select<any>(sql, [monthYear]);
+                join category cat on cat._id = expense.categoryId where  userId=$1 and strftime( '%m', date )|| '/'||  strftime('%Y', date)=$2 group by expense.categoryId`;
+    const userId = this.userService.getCurrentUser();
+    const response = await this.db.select<any>(sql, [userId,monthYear]);
     let series: Array<number> = [];
     let xaxis: Array<number | string> = [];
     response.forEach((c: any) => {
@@ -60,33 +62,35 @@ export class ChartService {
   async getTotalByMonthYear(monthYear: string): Promise<number> {
     await this.loadDb();
     let sql = ` select sum(amount) as amount from expense
-                where strftime( '%m', date )|| '/'||  strftime('%Y', date)=$1`;
-
-    const response = await this.db.select<any>(sql, [monthYear]);
+                where userId=$1 and strftime( '%m', date )|| '/'||  strftime('%Y', date)=$2`;
+    const userId = this.userService.getCurrentUser();
+    const response = await this.db.select<any>(sql, [userId, monthYear]);
     return Math.round(response[0].amount);
   }
 
   async getTotalIncomeByMonthYear(monthYear: string): Promise<number> {
     await this.loadDb();
     let sql = ` select sum(amount) as amount from income
-                where strftime( '%m', date )|| '/'||  strftime('%Y', date)=$1`;
-
-    const response = await this.db.select<any>(sql, [monthYear]);
+                where  userId=$1 and strftime( '%m', date )|| '/'||  strftime('%Y', date)=$1`;
+    const userId = this.userService.getCurrentUser();
+    const response = await this.db.select<any>(sql, [userId,monthYear]);
     return Math.round(response[0].amount);
   }
 
   async getChartYears(): Promise<Array<any>> {
     await this.loadDb();
-    let sql = ` select distinct  strftime('%Y', date) as year from expense order by date`;
-    const response = await this.db.select<any>(sql);
+    const userId = this.userService.getCurrentUser();
+    let sql = ` select distinct  strftime('%Y', date) as year from expense where  userId=$1  order by date`;
+    const response = await this.db.select<any>(sql,[userId]);
 
     return response;
   }
 
   async getChartMonthYears(): Promise<Array<any>> {
     await this.loadDb();
-    let sql = `select distinct strftime( '%m', date )|| '/'|| strftime('%Y', date) as monthYear from expense order by date`;
-    const response = await this.db.select<any>(sql);
+    const userId = this.userService.getCurrentUser();
+    let sql = `select distinct strftime( '%m', date )|| '/'|| strftime('%Y', date) as monthYear from expense  where  userId=$1 order by date`;
+    const response = await this.db.select<any>(sql,[userId]);
 
     return response;
   }
