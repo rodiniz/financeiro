@@ -42,7 +42,7 @@ export class MenuComponent {
   async restoreDatabase() {
     try {
       await this.userService.restore();
-      await message('Banco restaurado com sucesso', { kind: "info" });
+     
     } catch (error) {
       await message(`Erro ao restaurar banco de dados ${error}`, { kind: "error" });
     }

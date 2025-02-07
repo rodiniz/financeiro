@@ -3,7 +3,7 @@
     <div class="row mb-3">
         <div class="col-md-12 d-flex justify-content-end">
           Filtrar por Mês/Ano:&nbsp;&nbsp;&nbsp;
-            <select  [formControl]="monthYear" class="form-select w-auto bg-dark text-white border-light" (change)="loadData()">
+            <select style="width: 150px!important;" [formControl]="monthYear" class="form-select w-auto bg-dark text-white border-light" (change)="loadData()">
              
               @for (reg of monthYears; track $index) {
                 <option value="{{ reg.monthYear }}">{{ reg.monthYear }}</option>

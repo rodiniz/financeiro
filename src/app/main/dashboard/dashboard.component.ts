@@ -19,38 +19,57 @@ export class DashboardComponent implements OnInit {
   monthYears: Array<any> = [];
   chartService = inject(ChartService);
   monthYear = new FormControl("");
+  evolutionIncomes:Array<number>=[];
+  evolutionExpenses:Array<number>=[];
+  evolutionYearMonths:Array<string>=[];
   public chartOptions!: any;
   public evolutionChartOptions!: any;
   async ngOnInit(): Promise<void> {  
     
-    this.loadData();
+    await  this.loadData();
+    await this.loadEvolutionChart();
   }
+  async loadEvolutionChart(): Promise<void> {
+      const evolutionExpenses= await this.dashboardService.getEvolutionExpense();
+      const evolutionIncomes= await this.dashboardService.getEvolutionIncome();
 
+      for(let i=0; i < evolutionExpenses.length ; i++){
+          let evol= evolutionExpenses[i];
+          this.evolutionExpenses.push(evol.amount);
+          this.evolutionYearMonths.push(evol.monthYear);
+      }
+      console.log(this.evolutionYearMonths);
+      for(let i=0; i < evolutionIncomes.length ; i++){
+          let evol= evolutionIncomes[i];
+          if(evol.amount !==null){
+              this.evolutionIncomes.push(evol.amount);
+          }
+      }
+      this.createEvolutionChart();
+
+  }
    async loadData(){
     let sqlReturn= await this.dashboardService.getTotalExpenses(this.monthYear.value ?? null);
     this.totalExpenses = sqlReturn;
     this.monthYears = await this.chartService.getChartMonthYears();
     this.totalIncome= await this.dashboardService.getTotalIncome(this.monthYear.value ?? null);
     let resp=await this.dashboardService.getTopExpenses(this.monthYear.value ?? null);
+   this.chartOptions = {
+       series: resp.series.data,
+       chart: {
+           background: '#fff',
+           height: 350,
+           type: "pie",
+           toolbar: {
+               show: true
+           }
+       },
+       title: {
+           text: "Gráfico de despesas por categoria",
+       },
+       labels: resp.xaxis.categories,
+   };
    
-    this.chartOptions = {
-      series: resp.series.data,
-      chart: {
-        background: '#fff',
-        height: 350,
-        type: "pie",
-        toolbar: {
-          show: true
-        }
-      },
-      title: {
-        text: "Gráfico de despesas por categoria",
-      },
-      labels: resp.xaxis.categories,
-    };
-
-    this.createEvolutionChart();
-
    }
 
    createEvolutionChart(){
@@ -70,16 +89,16 @@ export class DashboardComponent implements OnInit {
         {
             name: 'Income',
             type: 'column',
-            data: [4500, 5200, 6100, 6700, 7200]
+            data: this.evolutionIncomes
         },
         {
             name: 'Expense',
             type: 'column',
-            data: [2300, 2800, 3400, 3700, 4100]
+            data: this.evolutionExpenses
         }
     ],
     xaxis: {
-        categories: ['2020-01', '2020-02', '2020-03', '2020-04', '2020-05'],
+        categories: this.evolutionYearMonths,
         title: { text: 'Year/Month' }
     },
     yaxis: {

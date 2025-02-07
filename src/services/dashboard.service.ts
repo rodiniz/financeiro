@@ -1,7 +1,9 @@
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import Database from "@tauri-apps/plugin-sql";
-import { UsersService } from './users.service';
-import { BarChartModel } from '../models/barchartModel';
+import {UsersService} from './users.service';
+import {BarChartModel} from '../models/barchartModel';
+import {ExpenseListModel} from "../models/expenseListModel";
+import {EvolutionModel} from "../models/EvolutionModel";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,7 @@ export class DashboardService {
   constructor() { }
 
   async getTotalExpenses(yearMonth: string|null): Promise<number> {
+    
     await this.loadDb();
     const userId = this.userService.getCurrentUser();
     let sql = ` select sum(amount) as amount from expense where userId=$1`;
@@ -69,4 +72,24 @@ export class DashboardService {
         },
       } as BarChartModel;
     }
+    
+    async getEvolutionIncome():Promise<Array<EvolutionModel>> {
+      await this.loadDb();
+      let sql = ` select sum(amount) as amount, strftime( '%Y', date )|| '-'|| strftime('%m', date)
+        as monthYear from income where  userId=$1
+        group by monthYear order by monthYear`;
+
+      const userId = this.userService.getCurrentUser();
+      return await this.db.select<EvolutionModel[]>(sql, [userId]);
+    }
+    
+  async getEvolutionExpense():Promise<Array<EvolutionModel>> {
+    await this.loadDb();
+    let sql = ` select sum(amount) as amount, strftime( '%Y', date )|| '-'|| strftime('%m', date)
+        as monthYear from expense where  userId=$1
+        group by monthYear order by monthYear`;
+
+    const userId = this.userService.getCurrentUser();
+    return await this.db.select<EvolutionModel[]>(sql, [userId]);
+  }
 }

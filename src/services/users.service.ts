@@ -62,6 +62,7 @@ export class UsersService extends CrudSqlService<User> {
           const appDataDirPath = await appDataDir();
           const dbPath = await join(appDataDirPath, 'financeiro.db');
           await copyFile(filePath as string, dbPath);
+          await message('Banco restaurado com sucesso', { kind: "info" });
         }
       }
     catch (error) {
