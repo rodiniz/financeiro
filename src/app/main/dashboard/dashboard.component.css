@@ -2,3 +2,8 @@
   background-color: #1a1a2e;
   color: #fff;
  }
+
+.apexcharts-tooltip {
+    background: #ca4848;
+    color: orange;
+}

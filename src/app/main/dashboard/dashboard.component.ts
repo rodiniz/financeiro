@@ -85,6 +85,15 @@ export class DashboardComponent implements OnInit {
             show: true
         }
     },
+  tooltip: {
+      followCursor: false,
+      theme: "dark",
+      x: {
+          show: false
+      },
+      marker: {
+          show: false
+      }},
     series: [
         {
             name: 'Income',
