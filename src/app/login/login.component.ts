@@ -26,6 +26,7 @@ export class LoginComponent {
 
   async onSubmit() {
     const user = await this.userService.get({ email: this.email.value });
+   
     if (user && user.length > 0) {
       if (user[0].password != this.password.value) {
         await message("Usuário ou senha inválidos", { kind: "error" });

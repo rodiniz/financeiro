@@ -1,25 +1,23 @@
-import { Component, inject } from "@angular/core";
-import { Router } from "@angular/router";
-import { ExpenseService } from "../../../services/expense.service";
-import { LucideAngularModule } from "lucide-angular";
-import { ask, message, open } from "@tauri-apps/plugin-dialog";
+import {Component, effect, inject, signal} from "@angular/core";
+import {Router} from "@angular/router";
+import {ExpenseService} from "../../../services/expense.service";
+import {LucideAngularModule} from "lucide-angular";
+import {ask, message, open} from "@tauri-apps/plugin-dialog";
 import * as XLSX from "xlsx";
 
 
-import { ExpenseListModel } from "../../../models/expenseListModel";
-import { UsersService } from "../../../services/users.service";
-import {
-  NgbPaginationModule,
-  NgbProgressbarModule,
-} from "@ng-bootstrap/ng-bootstrap";
-import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ChartService } from "../../../services/chart.service";
-import { CurrencyPipe } from "@angular/common";
-import { CategoryService } from "../../../services/category.service";
+import {ExpenseListModel} from "../../../models/expenseListModel";
+import {UsersService} from "../../../services/users.service";
+import {NgbPaginationModule,} from "@ng-bootstrap/ng-bootstrap";
+import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ChartService} from "../../../services/chart.service";
+import {CurrencyPipe} from "@angular/common";
+import {CategoryService} from "../../../services/category.service";
 import {readFile} from "@tauri-apps/plugin-fs";
-import { IncomeService } from "../../../services/income.service";
+import {IncomeService} from "../../../services/income.service";
 import {Income} from "../../../models/income";
 import {Expense} from "../../../models/expense";
+
 @Component({
   selector: "app-expenses-list",
   standalone: true,
@@ -47,11 +45,18 @@ export class ExpensesListComponent {
   totalRecords = 0;
   percentageCompleted = 0;
   onlyWithoutCategory = new FormControl<boolean>(false);
+  onlyWithoutCategorySignal = signal(this.onlyWithoutCategory.value ?? false);
   monthYear = new FormControl("");
   monthYears: Array<any> = [];
   category= new FormControl(null);
   categories: any = [];
 
+  constructor() {
+    this.onlyWithoutCategory.valueChanges.subscribe(value => this.onlyWithoutCategorySignal.set(value??false));
+    effect(() => {
+      this.onlyWithoutCategory.setValue(this.onlyWithoutCategorySignal(), { emitEvent: false });
+    });
+  }
   async ngOnInit(): Promise<void> {
     this.monthYears = await this.chartService.getChartMonthYears();
     this.categories = await this.categorieService.getAll("description  COLLATE NOCASE ASC");
@@ -59,7 +64,7 @@ export class ExpensesListComponent {
       this.monthYear.setValue(this.monthYears[this.monthYears.length - 1].monthYear);
     }
     this.importing = true;
-    this.loadData(1);
+    await this.loadData(1);
     this.importing = false;
   }
 
@@ -79,7 +84,7 @@ export class ExpensesListComponent {
     let paged = await this.expenseService.getAllModel(
       this.userId as string,
       pageIndex,
-      this.onlyWithoutCategory.value as boolean,
+      this.onlyWithoutCategorySignal(),
       this.monthYear.value,
       this.category.value,
       " date desc"
@@ -99,7 +104,7 @@ export class ExpensesListComponent {
     const yes = await ask("Deseja mesmo excluir esse registro?", "Financeiro");
     if (yes) {
       await this.expenseService.delete(id);
-      this.loadData(1);
+      await this.loadData(1);
     }
   }
   async removeAll() {
@@ -107,7 +112,7 @@ export class ExpensesListComponent {
     if (yes) {
       await this.expenseService.DeleteAll();
       await this.incomeService.DeleteAll();
-      this.loadData(1);
+      await this.loadData(1);
     }
   }
   excelSerialToDate(serial: number): Date {
@@ -123,9 +128,7 @@ export class ExpensesListComponent {
     const milliseconds = serial * 86400000;
 
     // Calculate the adjusted date
-    const date = new Date(excelEpoch.getTime() + milliseconds);
-
-    return date;
+    return new Date(excelEpoch.getTime() + milliseconds);
   }
   async importExpenses() {
     const selected = await open({
@@ -168,8 +171,8 @@ export class ExpensesListComponent {
               description: row[2],
               userId: this.userId,
             } as Expense;
-            var exists = await this.expenseService.Exists(expense);
-            if (!exists) {
+            const existsExpense = await this.expenseService.Exists(expense);
+            if (!existsExpense) {
               imported++;
               await this.expenseService.create(expense);
             }
@@ -189,7 +192,7 @@ export class ExpensesListComponent {
             amount: row[3],         
             userId: this.userId,
           } as Income;
-          var exists = await this.incomeService.Exists(income);
+          const exists = await this.incomeService.Exists(income);
           if (!exists) {
             await this.incomeService.create(income);
           }
@@ -198,7 +201,7 @@ export class ExpensesListComponent {
       this.percentageCompleted = 0;
       await message(` ${imported} Despesas importadas. ${repeated} despesas repetidas`);
       this.importing = false;
-      this.loadData();
+      await this.loadData();
     }
   }
 }
