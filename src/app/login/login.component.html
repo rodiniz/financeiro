@@ -1,37 +1,41 @@
-<div class="d-flex align-items-center justify-content-center min-vh-100">
-  <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 30rem">
-    <div class="card-body">
-      <h2 class="card-title">Entrar</h2>
-      <form (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            class="form-control"
-            placeholder="example@example.com"
-            [formControl]="email"
-          />
-        </div>
+<div class="flex min-h-screen flex-col lg:flex-ro">
+  <div class="flex flex-1 items-center justify-center bg-slate-600 p-4 sm:p-8">
+    <div class="w-full max-w-md space-y-6 sm:space-y-8">
+      <div class="text-center">
+        <h1 class="text-2xl font-bold sm:text-3xl">Financeiro</h1>
+       
+      </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            class="form-control"
-            placeholder="********"
-            [formControl]="password"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary col-12 mx-auto mt-2">
-          Login
-        </button>
-      </form>
-      <p class="text-sm text-gray-700 mt-4">
-        Não tem conta?
-        <a href="/register" class="text-decoration-none">Criar conta</a>
+      <z-card class="p-4 sm:p-6 lg:p-8 shadow-xl shadow-black">
+        <form [formGroup]="loginForm" class="space-y-4 sm:space-y-6" (ngSubmit)="onSubmit()">
+          <z-form-field>
+            <z-form-label [zRequired]="true">Email</z-form-label>
+            <z-form-control>
+              <input z-input type="email" formControlName="email" placeholder="name@zard.com" class="w-full" />
+            </z-form-control>
+          </z-form-field>
+
+          <z-form-field>
+            <div class="flex items-center justify-between">
+              <z-form-label [zRequired]="true">Senha</z-form-label>
+           
+            </div>
+            <z-form-control>
+              <input z-input type="password" formControlName="password" placeholder="••••••••" class="w-full" />
+            </z-form-control>
+          </z-form-field>
+
+       
+
+          <button type="submit" z-button zFull [zLoading]="isLoading()" [disabled]="isLoading()">Entrar</button>
+        </form>
+      </z-card>
+
+      <p class="text-center text-sm font-bold text-green-300 ">
+        Não tem cadastro?
+        <a z-button zType="link" href="/register" class="px-0 text-white">Crie sua conta</a>
       </p>
     </div>
   </div>
+  
 </div>

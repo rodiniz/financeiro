@@ -4,11 +4,8 @@ import {ExpenseService} from "../../../services/expense.service";
 import {LucideAngularModule} from "lucide-angular";
 import {ask, message, open} from "@tauri-apps/plugin-dialog";
 import * as XLSX from "xlsx";
-
-
 import {ExpenseListModel} from "../../../models/expenseListModel";
 import {UsersService} from "../../../services/users.service";
-import {NgbPaginationModule,} from "@ng-bootstrap/ng-bootstrap";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ChartService} from "../../../services/chart.service";
 import {CurrencyPipe} from "@angular/common";
@@ -21,8 +18,7 @@ import {Expense} from "../../../models/expense";
 @Component({
     selector: "app-expenses-list",
     imports: [
-        LucideAngularModule,
-        NgbPaginationModule,
+        LucideAngularModule,        
         FormsModule,
         ReactiveFormsModule,
         CurrencyPipe,

@@ -25,6 +25,7 @@ export abstract class CrudSqlService<T> {
   }
   async create(model: Record<any, any>): Promise<void> {
     await this.loadDb();
+   
     const valuesArray = Object.values(model);
     const response = await this.db.execute(
       `INSERT INTO ${this.documentName} (${Object.keys(model).join(

@@ -1,87 +1,20 @@
-<div class="page">
-  <div class="sidebar">
-    <div class="top-row ps-3 navbar navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="">Financeiro</a>
-      </div>
-    </div>
-
-    <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-    <div
-      class="nav-scrollable"
-      onclick="document.querySelector('.navbar-toggler').click()"
-    >
-      <nav class="flex-column">
-        <div class="nav-item px-3">
-          <a
-            class="nav-link"
-            routerLink="/menu/listExpenses"
-            routerLinkActive="active"
-          >
-            <lucide-angular name="BadgeEuroIcon" color="white"></lucide-angular>
-            &nbsp; Despesas
-          </a>
+<div class="dashboard-grid" style="display: grid; grid-template-areas: 'sidebar topmenu' 'sidebar content'; grid-template-columns: 240px 1fr; grid-template-rows: 64px 1fr; height: 100vh;">
+    <aside style="grid-area: sidebar; color: #fff; padding: 1rem;">
+        <!-- Sidebar content -->
+       <app-sidebar></app-sidebar>
+    </aside>
+    <header style="grid-area: topmenu; background: #fff; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; padding: 0 1rem;">
+        <!-- Top menu content -->
+        <h1 style="margin: 0; font-size: 1.5rem;" class="pl-8">Expenses Tracker</h1>
+        <div style="margin-left: auto;">
+          
+            <button style="background: none; border: none; cursor: pointer;">Profile</button>
         </div>
-
-        <div class="nav-item px-3">
-          <a
-            class="nav-link"
-            routerLink="/menu/listCategories"
-            routerLinkActive="active"
-          >
-            <lucide-angular name="CaseUpperIcon" color="white"></lucide-angular>
-            &nbsp; Categorias
-          </a>
-        </div>
-          <div class="nav-item px-3">
-              <a
-                      class="nav-link"
-                      routerLink="/menu/dashboard"
-                      routerLinkActive="active"
-              >
-                  <lucide-angular name="ChartBarIcon" color="white"></lucide-angular>
-                  &nbsp;DashBoard
-              </a>
-          </div>   
-
-        <div class="nav-item px-3">
-          <a
-            class="nav-link"
-            routerLink="/menu/chartByCategory"
-            routerLinkActive="active"
-          >
-            <lucide-angular name="ChartPieIcon" color="white"></lucide-angular>
-            &nbsp; Gráfico por categoria
-          </a>
-        </div>
-
-        <div class="nav-item px-3">
-          <button
-            class="nav-link"
-            (click)="backupDatabase()"
-          >       
-            &nbsp; Backup do banco de dados
-          </button>
-        </div>
-       
-        <div class="nav-item px-3">
-          <button
-            class="nav-link"
-            (click)="restoreDatabase()"
-          >       
-            &nbsp; Restaurar banco de dados
-          </button>
-        </div>
-       
-
-      </nav>
-    </div>
-  </div>
-
-  <main>
-    <article class="content px-4">
-      <router-outlet></router-outlet>
-    </article>
-  </main>
+    </header>
+    <main style="grid-area: content; padding: 2rem; background: #f5f6fa;">
+        <!-- Main content goes here -->
+        <section>
+          <router-outlet></router-outlet>
+        </section>
+    </main>
 </div>

@@ -1,23 +1,22 @@
 import { Component, inject } from "@angular/core";
 import {
   Router,
-  RouterLink,
-  RouterLinkActive,
+  
   RouterModule,
   RouterOutlet,
 } from "@angular/router";
 import { UsersService } from "../../../services/users.service";
 import { LucideAngularModule } from "lucide-angular";
 import { message } from "@tauri-apps/plugin-dialog";
+import { Sidebar } from "../sidebar/sidebar";
 
 @Component({
     selector: "app-men",
     imports: [
         RouterModule,
-        RouterOutlet,
-        RouterLink,
-        RouterLinkActive,
+        RouterOutlet,       
         LucideAngularModule,
+        Sidebar
     ],
     templateUrl: "./menu.component.html",
     styleUrl: "./menu.component.css"

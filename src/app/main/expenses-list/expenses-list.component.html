@@ -107,12 +107,7 @@
     </tbody>
   </table>
   @if(totalRecords >0){
-  <ngb-pagination
-    [(page)]="activePage"
-    [pageSize]="14"
-    [collectionSize]="totalRecords"
-    (pageChange)="loadData($event)"
-  />
+ 
   } 
 </div>
 }    

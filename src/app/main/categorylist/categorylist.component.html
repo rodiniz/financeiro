@@ -1,39 +1,43 @@
-<div class="overflow-x-auto">
-  <h1 class="font-extrabold pl-10 text-2xl">Categorias</h1>
-  <button class="btn btn-primary ml-4 mt-3" (click)="redirectToCreate()">
-    Incluir
-  </button>
-
-  <table class="table table-striped table-bordered mt-2">
-    <!-- head -->
-    <thead>
-      <tr>
-        <th>Descrição</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (item of categories; track $index) {
-      <tr>
-        <th>{{ item.description }}</th>
-        <td>
-          <button
-            class="btn btn-primary me-1"
-            (click)="redirectToEdit(item._id)"
-          >
-            <lucide-angular
-              name="FilePenLineIcon"
-              class="my-icon"
-            ></lucide-angular>
-            Editar
-          </button>
-          <button class="btn btn-danger ml-4" (click)="delete(item._id)">
-            <lucide-angular name="Trash2Icon" class="my-icon"></lucide-angular>
-            Exluir
-          </button>
-        </td>
-      </tr>
-      }
-    </tbody>
-  </table>
-</div>
+ <div class="w-full ">
+    <div class="flex justify-end mb-4">
+        <z-button  zType="default" title="Create" (click)="redirectToCreate()">
+            Create
+        </z-button>
+    </div>
+      <div class="overflow-hidden rounded-md border">
+        <table z-table>
+          <thead z-table-header>
+            <tr z-table-row>
+              <th z-table-head>Name</th>                           
+              <th z-table-head class="w-16">Actions</th>
+            </tr>
+          </thead>
+          <tbody z-table-body>
+            @for (category of categorys(); track category._id) {
+              <tr z-table-row>
+                <td z-table-cell>
+                    {{category.description}}
+                </td>              
+                <td z-table-cell>
+                  <div class="flex items-center gap-2">
+                    <z-button zType="default" zSize="default"  title="ID" (click)="redirectToEdit(category._id)">
+                      <lucide-angular
+                        name="FilePenLineIcon"
+                        class="my-icon"
+                      ></lucide-angular>Edit
+                    </z-button>
+                    <z-button zType="destructive" zSize="default" (click)="deleteCategory(category._id)" >
+                      <lucide-angular name="Trash2Icon" class="my-icon"></lucide-angular> Delete
+                    </z-button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr z-table-row>
+                <td z-table-cell [attr.colspan]="4" class="h-24 text-center">No results.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
