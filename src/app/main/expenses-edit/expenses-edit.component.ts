@@ -14,17 +14,16 @@ import { ErrorMessageComponent } from "../error-message/error-message.component"
 import { UsersService } from "../../../services/users.service";
 
 @Component({
-  selector: "app-expenses-edit",
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    ErrorMessageComponent,
-  ],
-  templateUrl: "./expenses-edit.component.html",
-  styleUrl: "./expenses-edit.component.css",
+    selector: "app-expenses-edit",
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        ErrorMessageComponent,
+    ],
+    templateUrl: "./expenses-edit.component.html",
+    styleUrl: "./expenses-edit.component.css"
 })
 export class ExpensesEditComponent {
   @Input() id = "";

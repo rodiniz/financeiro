@@ -6,11 +6,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [ReactiveFormsModule, NgApexchartsModule,CurrencyPipe],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+    selector: 'app-dashboard',
+    imports: [ReactiveFormsModule, NgApexchartsModule, CurrencyPipe],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
   dashboardService = inject(DashboardService);

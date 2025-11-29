@@ -19,17 +19,16 @@ import {Income} from "../../../models/income";
 import {Expense} from "../../../models/expense";
 
 @Component({
-  selector: "app-expenses-list",
-  standalone: true,
-  imports: [
-    LucideAngularModule,
-    NgbPaginationModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CurrencyPipe,
-  ],
-  templateUrl: "./expenses-list.component.html",
-  styleUrl: "./expenses-list.component.css",
+    selector: "app-expenses-list",
+    imports: [
+        LucideAngularModule,
+        NgbPaginationModule,
+        FormsModule,
+        ReactiveFormsModule,
+        CurrencyPipe,
+    ],
+    templateUrl: "./expenses-list.component.html",
+    styleUrl: "./expenses-list.component.css"
 })
 export class ExpensesListComponent {
   expenses: ExpenseListModel[] = [];

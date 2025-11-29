@@ -11,17 +11,16 @@ import { LucideAngularModule } from "lucide-angular";
 import { message } from "@tauri-apps/plugin-dialog";
 
 @Component({
-  selector: "app-men",
-  standalone: true,
-  imports: [
-    RouterModule,
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    LucideAngularModule,
-  ],
-  templateUrl: "./menu.component.html",
-  styleUrl: "./menu.component.css",
+    selector: "app-men",
+    imports: [
+        RouterModule,
+        RouterOutlet,
+        RouterLink,
+        RouterLinkActive,
+        LucideAngularModule,
+    ],
+    templateUrl: "./menu.component.html",
+    styleUrl: "./menu.component.css"
 })
 export class MenuComponent {
   userService = inject(UsersService);

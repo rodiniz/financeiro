@@ -6,11 +6,10 @@ import { Router } from "@angular/router";
 import { ask } from "@tauri-apps/plugin-dialog";
 
 @Component({
-  selector: "app-categorylist",
-  standalone: true,
-  imports: [LucideAngularModule],
-  templateUrl: "./categorylist.component.html",
-  styleUrl: "./categorylist.component.css",
+    selector: "app-categorylist",
+    imports: [LucideAngularModule],
+    templateUrl: "./categorylist.component.html",
+    styleUrl: "./categorylist.component.css"
 })
 export class CategorylistComponent implements OnInit {
   categories: Category[] = [];

@@ -5,11 +5,10 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { CurrencyPipe } from "@angular/common";
 
 @Component({
-  selector: "app-chart-by-category",
-  standalone: true,
-  imports: [ReactiveFormsModule, NgApexchartsModule, CurrencyPipe],
-  templateUrl: "./chart-by-category.component.html",
-  styleUrl: "./chart-by-category.component.css",
+    selector: "app-chart-by-category",
+    imports: [ReactiveFormsModule, NgApexchartsModule, CurrencyPipe],
+    templateUrl: "./chart-by-category.component.html",
+    styleUrl: "./chart-by-category.component.css"
 })
 export class ChartByCategoryComponent implements OnInit {
   chartService = inject(ChartService);

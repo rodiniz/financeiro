@@ -6,17 +6,16 @@ import { UsersService } from "../../services/users.service";
 import { message } from "@tauri-apps/plugin-dialog";
 
 @Component({
-  selector: "app-login",
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-  ],
-  templateUrl: "./login.component.html",
-  styleUrl: "./login.component.css",
+    selector: "app-login",
+    imports: [
+        CommonModule,
+        RouterOutlet,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+    ],
+    templateUrl: "./login.component.html",
+    styleUrl: "./login.component.css"
 })
 export class LoginComponent {
   email = new FormControl("");

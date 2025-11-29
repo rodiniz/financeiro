@@ -12,18 +12,17 @@ import { message } from "@tauri-apps/plugin-dialog";
 import { ErrorMessageComponent } from "../main/error-message/error-message.component";
 
 @Component({
-  selector: "app-register",
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    ErrorMessageComponent,
-  ],
-  templateUrl: "./register.component.html",
-  styleUrl: "./register.component.css",
+    selector: "app-register",
+    imports: [
+        CommonModule,
+        RouterOutlet,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        ErrorMessageComponent,
+    ],
+    templateUrl: "./register.component.html",
+    styleUrl: "./register.component.css"
 })
 export class RegisterComponent {
   email = new FormControl("", Validators.required);

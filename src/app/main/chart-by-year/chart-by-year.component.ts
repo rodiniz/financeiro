@@ -5,11 +5,10 @@ import { ChartService } from "../../../services/chart.service";
 import { NgApexchartsModule } from "ng-apexcharts";
 
 @Component({
-  selector: "app-chart-by-year",
-  standalone: true,
-  imports: [ReactiveFormsModule, NgApexchartsModule],
-  templateUrl: "./chart-by-year.component.html",
-  styleUrl: "./chart-by-year.component.css",
+    selector: "app-chart-by-year",
+    imports: [ReactiveFormsModule, NgApexchartsModule],
+    templateUrl: "./chart-by-year.component.html",
+    styleUrl: "./chart-by-year.component.css"
 })
 export class ChartByYearComponent implements OnInit {
   chartService = inject(ChartService);
