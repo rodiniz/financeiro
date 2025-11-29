@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { CategoryService } from "../../../services/category.service";
 import { Router, RouterModule } from "@angular/router";
-import { CommonModule } from "@angular/common";
+
 import { ExpenseService } from "../../../services/expense.service";
 import { Category } from "../../../models/category";
 import { ErrorMessageComponent } from "../error-message/error-message.component";
@@ -16,12 +16,11 @@ import { UsersService } from "../../../services/users.service";
 @Component({
     selector: "app-expenses-edit",
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        ErrorMessageComponent,
-    ],
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ErrorMessageComponent
+],
     templateUrl: "./expenses-edit.component.html",
     styleUrl: "./expenses-edit.component.css"
 })

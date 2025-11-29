@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { UsersService } from "../../services/users.service";
-import { CommonModule } from "@angular/common";
+
 import { RouterOutlet, RouterModule, Router } from "@angular/router";
 import { message } from "@tauri-apps/plugin-dialog";
 import { ErrorMessageComponent } from "../main/error-message/error-message.component";
@@ -14,13 +14,12 @@ import { ErrorMessageComponent } from "../main/error-message/error-message.compo
 @Component({
     selector: "app-register",
     imports: [
-        CommonModule,
-        RouterOutlet,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        ErrorMessageComponent,
-    ],
+    RouterOutlet,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ErrorMessageComponent
+],
     templateUrl: "./register.component.html",
     styleUrl: "./register.component.css"
 })

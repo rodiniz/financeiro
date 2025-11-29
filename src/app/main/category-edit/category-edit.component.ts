@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+
 import { Component, inject, Input, OnInit } from "@angular/core";
 import {
   FormControl,
@@ -13,12 +13,11 @@ import { ErrorMessageComponent } from "../error-message/error-message.component"
 @Component({
     selector: "app-category-edit",
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        ErrorMessageComponent,
-    ],
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ErrorMessageComponent
+],
     templateUrl: "./category-edit.component.html",
     styleUrl: "./category-edit.component.css"
 })

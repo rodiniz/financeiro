@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+
 import { Component, inject, OnInit } from "@angular/core";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Router, RouterModule, RouterOutlet } from "@angular/router";
@@ -8,12 +8,11 @@ import { message } from "@tauri-apps/plugin-dialog";
 @Component({
     selector: "app-login",
     imports: [
-        CommonModule,
-        RouterOutlet,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-    ],
+    RouterOutlet,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule
+],
     templateUrl: "./login.component.html",
     styleUrl: "./login.component.css"
 })
