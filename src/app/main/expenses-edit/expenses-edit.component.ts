@@ -1,4 +1,4 @@
-import { Component, inject, Input } from "@angular/core";
+import { Component, inject, Input, signal } from "@angular/core";
 import {
   FormControl,
   FormsModule,
@@ -12,6 +12,13 @@ import { ExpenseService } from "../../../services/expense.service";
 import { Category } from "../../../models/category";
 import { ErrorMessageComponent } from "../error-message/error-message.component";
 import { UsersService } from "../../../services/users.service";
+import { ZardButtonComponent } from "@shared/components/button/button.component";
+import { ZardCardComponent } from "@shared/components/card/card.component";
+import { ZardFormModule } from "@shared/components/form/form.module";
+import { ZardInputDirective } from "@shared/components/input/input.directive";
+import { ZardDatePickerComponent } from "@shared/components/date-picker/date-picker.component";
+import { ZardSelectComponent } from "@shared/components/select/select.component";
+import { ZardSelectItemComponent } from "@shared/components/select/select-item.component";
 
 @Component({
     selector: "app-expenses-edit",
@@ -19,7 +26,13 @@ import { UsersService } from "../../../services/users.service";
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    ErrorMessageComponent
+    ZardCardComponent, 
+    ZardButtonComponent,
+    ZardFormModule,
+    ZardInputDirective,
+    ZardDatePickerComponent,
+    ZardSelectComponent,
+    ZardSelectItemComponent
 ],
     templateUrl: "./expenses-edit.component.html",
     styleUrl: "./expenses-edit.component.css"
@@ -35,10 +48,15 @@ export class ExpensesEditComponent {
   expenseService = inject(ExpenseService);
   categories: Category[] = [];
   userService = inject(UsersService);
-
+  isSubmiting=signal(false);
+  isEditing=signal(false);
+  selectedDate=signal<Date | null>(null);
+  selectedCategory=signal<string>('');
   async ngOnInit(): Promise<void> {
+
     this.categories = await this.categoryService.getAll('description  COLLATE NOCASE ASC');
     if (this.id && this.id.length > 0) {
+      this.isEditing.set(true);
       let expense = await this.expenseService.getById(this.id);
       this.description.setValue(expense.description);
       this.amount.setValue(expense.amount);
@@ -49,6 +67,10 @@ export class ExpensesEditComponent {
       }
     }
   }
+  onDateChange(date: Date | null) {
+    this.selectedDate.set(date);
+    this.date.setValue(date ? this.formatData(date) : "");
+  }
   gotoList() {
     this.router.navigate(["/menu/listExpenses"]);
   }
@@ -58,7 +80,7 @@ export class ExpensesEditComponent {
       amount: this.amount.value,
       description: this.description.value,
       userId: this.userService.getCurrentUser(),
-      categoryId: this.category.value,
+      categoryId: this.selectedCategory()
     };
 
     if (this.id && this.id.length > 0) {

@@ -14,6 +14,8 @@ import {readFile} from "@tauri-apps/plugin-fs";
 import {IncomeService} from "../../../services/income.service";
 import {Income} from "../../../models/income";
 import {Expense} from "../../../models/expense";
+import { ZardButtonComponent } from "@shared/components/button/button.component";
+import { ZardTableComponent, ZardTableBodyComponent, ZardTableRowComponent } from "@shared/components/table/table.component";
 
 @Component({
     selector: "app-expenses-list",
@@ -22,12 +24,17 @@ import {Expense} from "../../../models/expense";
         FormsModule,
         ReactiveFormsModule,
         CurrencyPipe,
+        LucideAngularModule,
+        ZardButtonComponent,
+        ZardTableComponent,
+        ZardTableBodyComponent,
+        ZardTableRowComponent
     ],
     templateUrl: "./expenses-list.component.html",
     styleUrl: "./expenses-list.component.css"
 })
 export class ExpensesListComponent {
-  expenses: ExpenseListModel[] = [];
+  expenses = signal<ExpenseListModel[]>([]);
   incomeService=inject(IncomeService);
   expenseService = inject(ExpenseService);
   userService = inject(UsersService);
@@ -35,7 +42,7 @@ export class ExpensesListComponent {
   categorieService= inject(CategoryService);
   router = inject(Router); 
   userId = this.userService.getCurrentUser();
-  importing = false;
+  importing = signal(false);
   activePage = 1;
   totalRecords = 0;
   percentageCompleted = 0;
@@ -58,9 +65,9 @@ export class ExpensesListComponent {
     if (this.monthYears.length > 0) {
       this.monthYear.setValue(this.monthYears[this.monthYears.length - 1].monthYear);
     }
-    this.importing = true;
+    this.importing.set(true);
     await this.loadData(1);
-    this.importing = false;
+    this.importing.set(false);
   }
 
   formatData(data: Date) {
@@ -85,7 +92,7 @@ export class ExpensesListComponent {
       " date desc"
     );
 
-    this.expenses = paged.data;
+    this.expenses.set(paged.data);
 
     this.totalRecords = paged.totalRecords;
   }
@@ -135,7 +142,7 @@ export class ExpensesListComponent {
       ],
     });
     if (selected != null) {
-      this.importing = true;
+      this.importing.set(true);
       const data = await readFile(selected as string);
       const workbook = XLSX.read(data, { type: "buffer" });
 
@@ -176,7 +183,7 @@ export class ExpensesListComponent {
             }
           } catch (e) {
             await message(`Erro ao importar ${e}`);
-            this.importing = false;
+            this.importing.set(false);
             return;
           }
         }
@@ -195,7 +202,7 @@ export class ExpensesListComponent {
       }
       this.percentageCompleted = 0;
       await message(` ${imported} Despesas importadas. ${repeated} despesas repetidas`);
-      this.importing = false;
+      this.importing.set(false);
       await this.loadData();
     }
   }
