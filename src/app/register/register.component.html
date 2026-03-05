@@ -1,40 +1,91 @@
-<div class="flex min-h-screen flex-col lg:flex-row">
-  <div class="flex flex-1 items-center justify-center bg-slate-500 p-4 sm:p-8">
-    <div class="w-full max-w-md space-y-6 sm:space-y-8">
-      <div class="text-center">
-        <h1 class="text-2xl font-bold sm:text-3xl">Financeiro</h1>
-        <p class="mt-2 text-sm text-muted-foreground sm:text-base">Sign in to your account to continue</p>
+<div class="relative flex min-h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
+  <!-- Decorative elements -->
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent opacity-40"></div>
+  <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent"></div>
+  
+  <div class="relative flex flex-1 items-center justify-center p-4 sm:p-8">
+    <div class="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <!-- Logo Section -->
+      <div class="text-center space-y-3">
+        <h1 class="text-5xl font-serif font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-emerald-200 via-emerald-400 to-emerald-600 drop-shadow-[0_0_25px_rgba(16,185,129,0.3)]">
+          Financeiro
+        </h1>
+        <p class="text-slate-400 text-sm tracking-wide font-light">Crie sua Conta</p>
+        <div class="flex items-center justify-center gap-2 pt-2">
+          <div class="h-px w-8 bg-gradient-to-r from-transparent to-emerald-500/50"></div>
+          <div class="h-1 w-1 rounded-full bg-emerald-500/70"></div>
+          <div class="h-px w-8 bg-gradient-to-l from-transparent to-emerald-500/50"></div>
+        </div>
       </div>
 
-      <z-card class="p-4 sm:p-6 lg:p-8 shadow-xl shadow-black">
-        <form [formGroup]="loginForm" class="space-y-4 sm:space-y-6" (ngSubmit)="onSubmit()">
-          <z-form-field>
-            <z-form-label [zRequired]="true">Email</z-form-label>
+      <!-- Register Card -->
+      <z-card class="relative p-8 sm:p-10 backdrop-blur-xl bg-slate-900/60 border-slate-700/50 shadow-2xl shadow-black/50 hover:shadow-emerald-900/20 transition-all duration-500 group">
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
+        
+        <form [formGroup]="loginForm" class="relative space-y-6" (ngSubmit)="onSubmit()">
+          <z-form-field class="space-y-2">
+            <z-form-label [zRequired]="true" class="text-slate-300 font-medium text-sm tracking-wide">Email</z-form-label>
             <z-form-control>
-              <input z-input type="email" formControlName="email" placeholder="name@zard.com" class="w-full" />
+              <input 
+                z-input 
+                type="email" 
+                formControlName="email" 
+                placeholder="seu@email.com" 
+                class="w-full bg-slate-950/50 border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300" 
+              />
             </z-form-control>
           </z-form-field>
 
-          <z-form-field>
+          <z-form-field class="space-y-2">
             <div class="flex items-center justify-between">
-              <z-form-label [zRequired]="true">Senha</z-form-label>
-           
+              <z-form-label [zRequired]="true" class="text-slate-300 font-medium text-sm tracking-wide">Senha</z-form-label>
             </div>
             <z-form-control>
-              <input z-input type="password" formControlName="password" placeholder="" class="w-full" />
+              <input 
+                z-input 
+                type="password" 
+                formControlName="password" 
+                placeholder="••••••••" 
+                class="w-full bg-slate-950/50 border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300" 
+              />
             </z-form-control>
           </z-form-field>
 
-       
-
-          <button type="submit" class="w-2/6 ml-12" z-button  [zLoading]="isLoading()" [disabled]="isLoading()">Criar Conta</button>
-          <button type="button" class="w-2/6 ml-3" z-button (click)="gotoLogin()" >Cancelar</button>
-          
+          <div class="flex gap-3 pt-4">
+            <button 
+              type="submit" 
+              z-button 
+              [zLoading]="isLoading()" 
+              [disabled]="isLoading()"
+              class="flex-1 relative overflow-hidden bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-slate-950 font-semibold tracking-wide shadow-lg shadow-emerald-900/30 hover:shadow-emerald-600/40 hover:scale-[1.02] transition-all duration-300"
+            >
+              Criar Conta
+            </button>
+            
+            <button 
+              type="button" 
+              z-button 
+              (click)="gotoLogin()" 
+              class="flex-1 bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700 hover:border-slate-600 font-medium tracking-wide transition-all duration-300"
+            >
+              Cancelar
+            </button>
+          </div>
         </form>
       </z-card>
 
-     
+      <!-- Login Link -->
+      <div class="text-center space-y-2">
+        <p class="text-slate-400 text-sm font-light">
+          Já tem uma conta?
+        </p>
+        <a 
+          href="/login" 
+          class="inline-block text-emerald-400 hover:text-emerald-300 font-medium text-sm tracking-wide underline decoration-emerald-500/30 underline-offset-4 hover:decoration-emerald-400/60 transition-all duration-300"
+        >
+          Faça login
+        </a>
+      </div>
     </div>
   </div>
-  
 </div>

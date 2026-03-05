@@ -1,3 +1,12 @@
-<div role="alert" class="alert alert-danger mt-1">
-  <span><ng-content></ng-content></span>
+<div role="alert" class="relative overflow-hidden rounded-xl bg-gradient-to-br from-rose-950/80 to-rose-900/60 backdrop-blur-sm border border-rose-800/50 p-4 shadow-lg shadow-rose-900/30 animate-in fade-in slide-in-from-top-2 duration-300">
+  <div class="absolute inset-0 bg-gradient-to-br from-rose-500/10 to-transparent"></div>
+  
+  <div class="relative z-10 flex items-start gap-3">
+    <div class="flex-shrink-0 mt-0.5">
+      <svg class="w-5 h-5 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+      </svg>
+    </div>
+    <span class="text-rose-200 text-sm font-medium flex-1"><ng-content></ng-content></span>
+  </div>
 </div>

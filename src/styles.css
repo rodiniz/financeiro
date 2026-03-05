@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
 
+/* Import Google Fonts for Modern Financial Luxury Aesthetic */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
 @custom-variant dark (&:is(.dark *));
 
 
@@ -119,7 +122,119 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
   body {
     @apply bg-background text-foreground;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+  
+  /* Typography Classes */
+  .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+  
+  .font-mono {
+    font-family: 'Space Mono', 'Courier New', monospace;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Custom scrollbar for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: rgb(15, 23, 42);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgb(51, 65, 85);
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(71, 85, 105);
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  /* Glass morphism effect */
+  .glass {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(to right, rgb(251, 191, 36), rgb(245, 158, 11));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* ApexCharts custom theme for dark financial aesthetic */
+.apexcharts-canvas {
+  background: transparent !important;
+}
+
+.apexcharts-tooltip {
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(71, 85, 105, 0.5) !important;
+  color: rgb(226, 232, 240) !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3) !important;
+}
+
+.apexcharts-tooltip-title {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.5) !important;
+  color: rgb(203, 213, 225) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.apexcharts-tooltip-series-group {
+  background: transparent !important;
+  color: rgb(226, 232, 240) !important;
+}
+
+.apexcharts-legend-text {
+  color: rgb(148, 163, 184) !important;
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+.apexcharts-xaxis-label, .apexcharts-yaxis-label {
+  fill: rgb(148, 163, 184) !important;
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+.apexcharts-title-text {
+  fill: rgb(226, 232, 240) !important;
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 700 !important;
 }

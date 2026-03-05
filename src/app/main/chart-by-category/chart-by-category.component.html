@@ -1,42 +1,84 @@
-<div class="flex justify-center items-center pb-10 pt-5">
-  <div class="max-w-md w-full p-8 rounded-lg shadow-md">
-    <div class="mb-4 col-4">
-      <label for="category" class="form-label">Mes/Ano</label>
+<div class="w-full max-w-5xl mx-auto space-y-8">
+  <!-- Filter Section -->
+  <div class="relative overflow-hidden rounded-2xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 p-8">
+    <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent"></div>
+    
+    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <h2 class="text-2xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-400">
+          Análise por Categoria
+        </h2>
+        <p class="text-slate-500 text-sm mt-1">Distribuição mensal de gastos</p>
+      </div>
+      
+      <div class="flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-950/50 border border-slate-700/50">
+        <label for="category" class="text-sm text-slate-400 font-medium tracking-wide">Período:</label>
+        <select
+          id="category"
+          [formControl]="monthYear"
+          (change)="getChart()"
+          class="bg-slate-950/50 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm font-medium focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 cursor-pointer hover:border-purple-500/30"
+        >
+          @for (reg of monthYears; track $index) {
+            <option value="{{ reg.monthYear }}" class="bg-slate-900">{{ reg.monthYear }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </div>
 
-      <select
-        id="category"
-        class="form-select"
-        [formControl]="monthYear"
-        (change)="getChart()"
-      >
-        @for (reg of monthYears; track $index) {
-        <option value="{{ reg.monthYear }}">{{ reg.monthYear }}</option>
-        }
-      </select>
+  <!-- Summary Cards -->
+  @if(totalExpenses > 0) {
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Income Summary -->
+      <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-950/50 to-emerald-900/30 border border-emerald-800/30 p-6 hover:border-emerald-700/50 transition-all duration-500 hover:shadow-xl hover:shadow-emerald-900/20">
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div class="relative z-10">
+          <p class="text-emerald-400 text-sm font-semibold tracking-wide uppercase mb-2">Total de Receitas</p>
+          <p class="text-3xl font-bold text-emerald-300 font-mono">{{ totalIncome | currency : "EUR" : "symbol" }}</p>
+        </div>
+      </div>
+      
+      <!-- Expenses Summary -->
+      <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-950/50 to-rose-900/30 border border-rose-800/30 p-6 hover:border-rose-700/50 transition-all duration-500 hover:shadow-xl hover:shadow-rose-900/20">
+        <div class="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div class="relative z-10">
+          <p class="text-rose-400 text-sm font-semibold tracking-wide uppercase mb-2">Total de Despesas</p>
+          <p class="text-3xl font-bold text-rose-300 font-mono">{{ totalExpenses | currency : "EUR" : "symbol" }}</p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-@if(totalExpenses > 0) {
- <div class="card mt-3 col-4 mx-auto shadow">
-    <div class="card-body text-center">
-      <p class="card-text">Total de receitas: {{ totalIncome | currency : "EUR" : "symbol" }}</p>
-    </div>
-  </div>
-  <div class="card mt-3 col-4 mx-auto shadow">
-    <div class="card-body text-center">
-      <p class="card-text">Total de despesas: {{ totalExpenses | currency : "EUR" : "symbol" }}</p>
-    </div>
-  </div>
-}
-<div style="text-align: center" class="row mt-10">
-  @if(chartOptions && chartOptions.series){
-  <apx-chart
-    [labels]="chartOptions.labels"
-    [series]="chartOptions.series"
-    [chart]="chartOptions.chart"
-    [title]="chartOptions.title"
-  >
-  </apx-chart>
-
   }
+
+  <!-- Chart Section -->
+  <div class="relative overflow-hidden rounded-2xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 p-8 hover:border-slate-700/50 transition-all duration-500 group">
+    <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+    
+    <div class="relative z-10">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-12 w-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+          <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-serif font-bold text-slate-200">Distribuição por Categoria</h3>
+          <p class="text-slate-500 text-sm">Gráfico de pizza interativo</p>
+        </div>
+      </div>
+      
+      <div class="bg-slate-950/30 rounded-xl p-6 border border-slate-800/30">
+        @if(chartOptions && chartOptions.series){
+          <apx-chart
+            [labels]="chartOptions.labels"
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [title]="chartOptions.title"
+          >
+          </apx-chart>
+        }
+      </div>
+    </div>
+  </div>
 </div>

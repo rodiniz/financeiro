@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {ExpenseService} from "../../../services/expense.service";
 import {LucideAngularModule} from "lucide-angular";
 import {ask, message, open} from "@tauri-apps/plugin-dialog";
-import * as XLSX from "xlsx";
+import * as Excel from "exceljs";
 import {ExpenseListModel} from "../../../models/expenseListModel";
 import {UsersService} from "../../../services/users.service";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -144,20 +144,27 @@ export class ExpensesListComponent {
     if (selected != null) {
       this.importing.set(true);
       const data = await readFile(selected as string);
-      const workbook = XLSX.read(data, { type: "buffer" });
+      
+      // Load workbook using ExcelJS
+      const workbook = new Excel.Workbook();
+      await workbook.xlsx.load(data.buffer);
 
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
+      const worksheet = workbook.worksheets[0];
 
-      // Convert the sheet data to JSON
-      const jsonData: unknown[] = XLSX.utils.sheet_to_json(worksheet, {
-        header: 1,
-        blankrows: false,
+      // Convert the sheet data to array format (similar to xlsx)
+      const jsonData: unknown[] = [];
+      worksheet.eachRow((row, rowNumber) => {
+        const rowData: any[] = [];
+        row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+          rowData.push(cell.value);
+        });
+        jsonData.push(rowData);
       });
+      
       let totalImport = jsonData.length; // percentage -- x-100
       let repeated=0;
       let imported = 0;
-      //ignpre header row
+      //ignore header row
       for (let i = 1; i < jsonData.length; i++) {
         this.percentageCompleted = Math.round((i * 100) / totalImport);        
         let row: any = jsonData[i];
