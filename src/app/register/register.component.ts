@@ -14,6 +14,7 @@ import { ZardButtonComponent } from "@shared/components/button/button.component"
 import { ZardCardComponent } from "@shared/components/card/card.component";
 import { ZardFormFieldComponent, ZardFormLabelComponent, ZardFormControlComponent } from "@shared/components/form/form.component";
 import { ZardInputDirective } from "@shared/components/input/input.directive";
+import { I18nService } from "../i18n/i18n.service";
 
 @Component({
     selector: "app-register",
@@ -40,7 +41,13 @@ export class RegisterComponent {
   });
   private router = inject(Router);
   userService = inject(UsersService);
+  i18n = inject(I18nService);
 
+  toggleLanguage() {
+    const newLang = this.i18n.language() === 'pt' ? 'en' : 'pt';
+    this.i18n.setLanguage(newLang);
+  }
+  
   async onSubmit() {
     
     this.isLoading.set(true);
@@ -49,7 +56,7 @@ export class RegisterComponent {
       email: this.loginForm.get("email")?.value || "",
       password: this.loginForm.get("password")?.value || "",
     });
-    await message("Usuário criado com sucesso", "Financeiro");
+    await message(this.i18n.t('common.success') + ": " + this.i18n.t('auth.userCreated'), this.i18n.t('app.title'));
     this.router.navigate([""]);
   }
   gotoLogin() {

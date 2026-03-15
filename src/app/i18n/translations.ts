@@ -113,12 +113,15 @@ export const translations = {
       login: 'Login',
       register: 'Register',
       email: 'Email',
+      emailPlaceholder: 'your@email.com',
       password: 'Password',
       confirmPassword: 'Confirm Password',
       loginButton: 'Login',
       registerButton: 'Register',
       noAccount: "Don't have an account?",
-      hasAccount: 'Already have an account?'
+      hasAccount: 'Already have an account?',
+      subtitle: 'Smart Financial Management',
+      invalidCredentials: 'Invalid email or password'
     },
     common: {
       save: 'Save',
@@ -253,12 +256,15 @@ export const translations = {
       login: 'Entrar',
       register: 'Cadastrar',
       email: 'Email',
+      emailPlaceholder: 'seu@email.com',
       password: 'Senha',
       confirmPassword: 'Confirmar Senha',
       loginButton: 'Entrar',
       registerButton: 'Cadastrar',
       noAccount: 'Não tem uma conta?',
-      hasAccount: 'Já tem uma conta?'
+      hasAccount: 'Já tem uma conta?',
+      subtitle: 'Gerenciamento Financeiro Inteligente',
+      invalidCredentials: 'Usuário ou senha inválidos'
     },
     common: {
       save: 'Salvar',
