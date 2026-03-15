@@ -18,6 +18,7 @@ import { ZardButtonComponent } from "@shared/components/button/button.component"
 import { ZardTableComponent, ZardTableBodyComponent, ZardTableRowComponent } from "@shared/components/table/table.component";
 import { ZardPaginationComponent } from "@shared/components/pagination/pagination.component";
 import { I18nService } from "../../i18n/i18n.service";
+import { FilterStorageService } from "../../services/filter-storage.service";
 
 @Component({
     selector: "app-expenses-list",
@@ -45,6 +46,7 @@ export class ExpensesListComponent {
   categorieService= inject(CategoryService);
   router = inject(Router); 
   i18n = inject(I18nService);
+  filterStorage = inject(FilterStorageService);
   userId = this.userService.getCurrentUser();
   importing = signal(false);
   activePage = signal(1);
@@ -54,11 +56,20 @@ export class ExpensesListComponent {
   onlyWithoutCategorySignal = signal(this.onlyWithoutCategory.value ?? false);
   monthYear = new FormControl("");
   monthYears: Array<any> = [];
-  category= new FormControl(null);
+  category= new FormControl<string | null>(null);
   categories: any = [];
 
   constructor() {
-    this.onlyWithoutCategory.valueChanges.subscribe(value => this.onlyWithoutCategorySignal.set(value??false));
+    this.onlyWithoutCategory.valueChanges.subscribe(value => {
+      this.onlyWithoutCategorySignal.set(value ?? false);
+      this.filterStorage.setFilters({ onlyWithoutCategory: value ?? false });
+    });
+    this.monthYear.valueChanges.subscribe(value => {
+      this.filterStorage.setFilters({ monthYear: value });
+    });
+    this.category.valueChanges.subscribe(value => {
+      this.filterStorage.setFilters({ category: value });
+    });
     effect(() => {
       this.onlyWithoutCategory.setValue(this.onlyWithoutCategorySignal(), { emitEvent: false });
     });
@@ -66,9 +77,23 @@ export class ExpensesListComponent {
   async ngOnInit(): Promise<void> {
     this.monthYears = await this.chartService.getChartMonthYears();
     this.categories = await this.categorieService.getAll("description  COLLATE NOCASE ASC");
-    if (this.monthYears.length > 0) {
+    
+    const savedFilters = this.filterStorage.getFilters();
+    
+    if (savedFilters.monthYear && savedFilters.monthYear !== '') {
+      this.monthYear.setValue(savedFilters.monthYear);
+    } else if (this.monthYears.length > 0) {
       this.monthYear.setValue(this.monthYears[this.monthYears.length - 1].monthYear);
     }
+    
+    if (savedFilters.category && savedFilters.category !== '') {
+      this.category.setValue(savedFilters.category);
+    }
+    
+    if (savedFilters.onlyWithoutCategory) {
+      this.onlyWithoutCategory.setValue(savedFilters.onlyWithoutCategory);
+    }
+    
     this.importing.set(true);
     await this.loadData(1);
     this.importing.set(false);
@@ -91,8 +116,8 @@ export class ExpensesListComponent {
       this.userId as string,
       pageIndex,
       this.onlyWithoutCategorySignal(),
-      this.monthYear.value,
-      this.category.value,
+      this.monthYear.value || undefined,
+      this.category.value as any,
       " date desc"
     );
 
