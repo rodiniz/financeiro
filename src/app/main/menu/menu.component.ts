@@ -9,6 +9,7 @@ import { UsersService } from "../../../services/users.service";
 import { LucideAngularModule } from "lucide-angular";
 import { message } from "@tauri-apps/plugin-dialog";
 import { Sidebar } from "../sidebar/sidebar";
+import { I18nService } from "../../i18n/i18n.service";
 
 @Component({
     selector: "app-men",
@@ -23,8 +24,15 @@ import { Sidebar } from "../sidebar/sidebar";
 })
 export class MenuComponent {
   userService = inject(UsersService);
+  i18n = inject(I18nService);
   constructor() {}
   router = inject(Router);
+  
+  toggleLanguage() {
+    const newLang = this.i18n.language() === 'pt' ? 'en' : 'pt';
+    this.i18n.setLanguage(newLang);
+  }
+  
   goToLogin() {
     this.userService.cleanUpUser();
     this.router.navigate([""]);
@@ -34,7 +42,7 @@ export class MenuComponent {
       await this.userService.backup();
       
     } catch (error) {        
-      await message(`Erro ao fazer backup do banco de dados ${error}`, { kind: "error" });
+      await message(`${this.i18n.t('common.error')} ${this.i18n.t('menu.backupError')} ${error}`, { kind: "error" });
     }
   }
   async restoreDatabase() {
@@ -42,7 +50,7 @@ export class MenuComponent {
       await this.userService.restore();
      
     } catch (error) {
-      await message(`Erro ao restaurar banco de dados ${error}`, { kind: "error" });
+      await message(`${this.i18n.t('common.error')} ${this.i18n.t('menu.restoreError')} ${error}`, { kind: "error" });
     }
   }
 }

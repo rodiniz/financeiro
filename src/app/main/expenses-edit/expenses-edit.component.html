@@ -3,9 +3,9 @@
         <!-- Card Header -->
         <div class="mb-6">
             <h2 class="text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-400">
-                {{isEditing() ? 'Editar Despesa' : 'Nova Despesa'}}
+                {{isEditing() ? i18n.t('expenses.edit.editExpense') : i18n.t('expenses.edit.newExpense')}}
             </h2>
-            <p class="text-slate-500 text-sm mt-1">{{isEditing() ? 'Atualize os dados da despesa' : 'Adicione uma nova despesa ao sistema'}}</p>
+            <p class="text-slate-500 text-sm mt-1">{{isEditing() ? i18n.t('expenses.edit.editDescription') : i18n.t('expenses.edit.newDescription')}}</p>
         </div>
         
         <z-card class="relative overflow-hidden backdrop-blur-xl bg-slate-900/60 border-slate-700/50 shadow-2xl shadow-black/50 hover:shadow-amber-900/20 transition-all duration-500 p-8">
@@ -15,21 +15,21 @@
                 <input type="hidden" [formControl]="idControl">
                 
                 <z-form-field class="space-y-2">
-                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">Descrição</label>
+                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">{{ i18n.t('expenses.edit.description') }}</label>
                     <z-form-control>
                         <input 
                             z-input 
                             [formControl]="description" 
                             type="text" 
                             name="name" 
-                            placeholder="Digite a descrição da despesa"
+                            [placeholder]="i18n.t('expenses.edit.description')"
                             class="w-full bg-slate-950/50 border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
                         />
                     </z-form-control>
                 </z-form-field>
                 
                 <z-form-field class="space-y-2">
-                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">Valor</label>
+                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">{{ i18n.t('expenses.edit.amount') }}</label>
                     <z-form-control>
                         <input 
                             z-input 
@@ -43,11 +43,11 @@
                 </z-form-field>
                 
                 <z-form-field class="space-y-2">
-                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">Data</label>
+                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">{{ i18n.t('expenses.edit.date') }}</label>
                     <z-form-control>
                         <z-date-picker 
                             [value]="selectedDate()" 
-                            placeholder="Selecione a data" 
+                            [placeholder]="i18n.t('expenses.edit.selectDate')" 
                             (dateChange)="onDateChange($event)" 
                             zFormat="dd/MM/yyyy"
                             zType="outline"
@@ -57,13 +57,13 @@
                 </z-form-field>
                 
                 <z-form-field class="space-y-2">
-                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">Categoria</label>
+                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">{{ i18n.t('expenses.edit.category') }}</label>
                     <z-form-control>
                         <select 
                             [formControl]="category"
                             class="w-full bg-slate-800 border border-slate-500 text-white rounded-md px-3 py-2 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none"
                         >
-                            <option value="" disabled>Selecione uma categoria</option>
+                            <option value="" disabled>{{ i18n.t('expenses.edit.selectCategory') }}</option>
                             @for (cat of categories; track cat._id) {
                                 <option [value]="cat._id">{{cat.description}}</option>
                             }

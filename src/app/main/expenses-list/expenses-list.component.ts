@@ -17,6 +17,7 @@ import {Expense} from "../../../models/expense";
 import { ZardButtonComponent } from "@shared/components/button/button.component";
 import { ZardTableComponent, ZardTableBodyComponent, ZardTableRowComponent } from "@shared/components/table/table.component";
 import { ZardPaginationComponent } from "@shared/components/pagination/pagination.component";
+import { I18nService } from "../../i18n/i18n.service";
 
 @Component({
     selector: "app-expenses-list",
@@ -43,6 +44,7 @@ export class ExpensesListComponent {
   chartService = inject(ChartService);
   categorieService= inject(CategoryService);
   router = inject(Router); 
+  i18n = inject(I18nService);
   userId = this.userService.getCurrentUser();
   importing = signal(false);
   activePage = signal(1);
@@ -105,14 +107,14 @@ export class ExpensesListComponent {
     this.router.navigate(["/menu/editExpense", id]);
   }
   async delete(id: string) {
-    const yes = await ask("Deseja mesmo excluir esse registro?", "Financeiro");
+    const yes = await ask(this.i18n.t('expenses.list.deleteConfirm'), this.i18n.t('app.title'));
     if (yes) {
       await this.expenseService.delete(id);
       await this.loadData(1);
     }
   }
   async removeAll() {
-    const yes = await ask("Deseja mesmo excluir todas despesas e receitas?", "Financeiro");
+    const yes = await ask("Deseja mesmo excluir todas despesas e receitas?", this.i18n.t('app.title'));
     if (yes) {
       await this.expenseService.DeleteAll();
       await this.incomeService.DeleteAll();
@@ -149,7 +151,7 @@ export class ExpensesListComponent {
         
         const data = await readFile(selected as string);
         if (!data || data.length === 0) {
-          await message('O arquivo está vazio ou não pôde ser lido.', { title: 'Erro', kind: 'error' });
+          await message(this.i18n.t('common.error') + ': O arquivo está vazio ou não pôde ser lido.', { title: this.i18n.t('common.error'), kind: 'error' });
           this.importing.set(false);
           return;
         }
@@ -200,7 +202,7 @@ export class ExpensesListComponent {
                 repeated++;
               }
             } catch (e) {
-              await message(`Erro ao importar ${e}`);
+              await message(`${this.i18n.t('common.error')}: ${e}`);
               this.importing.set(false);
               return;
             }
@@ -219,13 +221,13 @@ export class ExpensesListComponent {
           }
         }
         this.percentageCompleted = 0;
-        await message(` ${imported} Despesas importadas. ${repeated} despesas repetidas`);
+        await message(`${imported} ${this.i18n.t('expenses.list.imported')}. ${repeated} ${this.i18n.t('expenses.list.repeated')}`);
         this.importing.set(false);
         await this.loadData();
       } catch (error) {
         this.importing.set(false);
         console.error("Error importing file:", error);
-        await message(`Erro ao importar arquivo: ${error}`);
+        await message(`${this.i18n.t('common.error')}: ${error}`);
       }
     }
   }

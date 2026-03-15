@@ -1,17 +1,18 @@
-import { ChangeDetectionStrategy, Component, input, output, ViewEncapsulation } from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
+import { ChangeDetectionStrategy, Component, input, output, ViewEncapsulation, inject } from '@angular/core';
+import { I18nService } from '../../../i18n/i18n.service';
+import { ZardIconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'z-pagination',
   standalone: true,
-  imports: [LucideAngularModule],
+  imports: [ZardIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
     <div class="flex items-center justify-between px-4 py-3 bg-white border-t border-slate-200">
       <div class="flex items-center gap-2">
         <span class="text-sm text-slate-600">
-          Showing {{ startRecord() }} to {{ endRecord() }} of {{ total() }} results
+          {{ i18n.t('pagination.showing') }} {{ startRecord() }} {{ i18n.t('pagination.to') }} {{ endRecord() }} {{ i18n.t('pagination.of') }} {{ total() }} {{ i18n.t('pagination.results') }}
         </span>
       </div>
       <div class="flex items-center gap-1">
@@ -20,7 +21,7 @@ import { LucideAngularModule } from 'lucide-angular';
           [disabled]="currentPage() === 1"
           class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-600 transition-all duration-200"
         >
-          <lucide-angular name="ChevronLeftIcon" class="w-4 h-4"></lucide-angular>
+          <z-icon zType="chevron-left" class="w-4 h-4"></z-icon>
         </button>
         
         @for (page of visiblePages(); track page) {
@@ -49,13 +50,14 @@ import { LucideAngularModule } from 'lucide-angular';
           [disabled]="currentPage() === totalPages()"
           class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-600 transition-all duration-200"
         >
-          <lucide-angular name="ChevronRightIcon" class="w-4 h-4"></lucide-angular>
+          <z-icon zType="chevron-right" class="w-4 h-4"></z-icon>
         </button>
       </div>
     </div>
   `
 })
 export class ZardPaginationComponent {
+  i18n = inject(I18nService);
   readonly currentPage = input(1);
   readonly total = input(0);
   readonly pageSize = input(10);

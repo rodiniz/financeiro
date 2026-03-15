@@ -19,6 +19,7 @@ import { ZardInputDirective } from "@shared/components/input/input.directive";
 import { ZardDatePickerComponent } from "@shared/components/date-picker/date-picker.component";
 import { ZardSelectComponent } from "@shared/components/select/select.component";
 import { ZardSelectItemComponent } from "@shared/components/select/select-item.component";
+import { I18nService } from "../../i18n/i18n.service";
 
 @Component({
     selector: "app-expenses-edit",
@@ -49,6 +50,7 @@ export class ExpensesEditComponent {
   expenseService = inject(ExpenseService);
   categories: Category[] = [];
   userService = inject(UsersService);
+  i18n = inject(I18nService);
   isSubmiting=signal(false);
   isEditing=signal(false);
   selectedDate=signal<Date | null>(null);
