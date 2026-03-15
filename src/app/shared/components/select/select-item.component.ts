@@ -23,6 +23,7 @@ interface SelectHost {
     '[attr.data-selected]': 'isSelected() ? "" : null',
     '[attr.aria-selected]': 'isSelected()',
     '(click)': 'onClick()',
+    '(click.capture)': 'onClickCapture()',
   },
   template: `
     @if (isSelected()) {
@@ -55,7 +56,12 @@ export class ZardSelectItemComponent {
   }
 
   onClick() {
+    console.log('Select item clicked, value:', this.zValue(), 'label:', this.label());
     if (this.zDisabled()) return;
     this.select()?.selectItem(this.zValue(), this.label());
+  }
+  
+  onClickCapture() {
+    console.log('Select item capture click, value:', this.zValue());
   }
 }

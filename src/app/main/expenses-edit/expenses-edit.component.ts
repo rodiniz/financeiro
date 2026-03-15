@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal, ChangeDetectorRef } from "@angular/core";
+import { Component, inject, Input, signal } from "@angular/core";
 import {
   FormControl,
   FormsModule,
@@ -52,9 +52,7 @@ export class ExpensesEditComponent {
   isSubmiting=signal(false);
   isEditing=signal(false);
   selectedDate=signal<Date | null>(null);
-  selectedCategory=signal<string>('');
-  categoryIdValue = '';
-  private cdr = inject(ChangeDetectorRef);
+  
   async ngOnInit(): Promise<void> {
 
     this.categories = await this.categoryService.getAll('description  COLLATE NOCASE ASC');
@@ -67,13 +65,9 @@ export class ExpensesEditComponent {
       const formattedDate = this.formatData(expense.date);
       this.date.setValue(formattedDate);
       this.selectedDate.set(new Date(expense.date));
-      this.cdr.detectChanges();
 
       if (expense.categoryId) {
         this.category.setValue(expense.categoryId);
-        this.selectedCategory.set(expense.categoryId);
-        this.categoryIdValue = expense.categoryId;
-        this.cdr.detectChanges();
       }
     }
   }
@@ -90,7 +84,7 @@ export class ExpensesEditComponent {
       amount: this.amount.value,
       description: this.description.value,
       userId: this.userService.getCurrentUser(),
-      categoryId: this.categoryIdValue
+      categoryId: this.category.value
     };
 
     if (this.id && this.id.length > 0) {

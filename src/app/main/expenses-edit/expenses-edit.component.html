@@ -59,15 +59,15 @@
                 <z-form-field class="space-y-2">
                     <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">Categoria</label>
                     <z-form-control>
-                        <z-select 
-                            [class]="'w-full !bg-slate-800 !border-slate-500 !text-white'"
-                            zPlaceholder="Selecione uma categoria" 
-                            [(zValue)]="categoryIdValue"
+                        <select 
+                            [formControl]="category"
+                            class="w-full bg-slate-800 border border-slate-500 text-white rounded-md px-3 py-2 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none"
                         >
-                            @for (cat of categories; track $index) {
-                                <z-select-item [zValue]="cat._id" class="hover:bg-slate-700 text-white">{{cat.description}}</z-select-item>
+                            <option value="" disabled>Selecione uma categoria</option>
+                            @for (cat of categories; track cat._id) {
+                                <option [value]="cat._id">{{cat.description}}</option>
                             }
-                        </z-select>
+                        </select>
                     </z-form-control>
                 </z-form-field>
                
