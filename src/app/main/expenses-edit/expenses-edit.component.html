@@ -12,7 +12,7 @@
             <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-50"></div>
             
             <form (ngSubmit)="onsubmit()" class="relative z-10 space-y-6">
-                <input type="hidden" formControlName="id">
+                <input type="hidden" [formControl]="idControl">
                 
                 <z-form-field class="space-y-2">
                     <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">Descrição</label>
@@ -50,7 +50,8 @@
                             placeholder="Selecione a data" 
                             (dateChange)="onDateChange($event)" 
                             zFormat="dd/MM/yyyy"
-                            class="w-full bg-slate-950/50 border-slate-700 text-slate-100 focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
+                            zType="outline"
+                            [class]="'w-full !text-white !bg-slate-800 !border-slate-500'"
                         />
                     </z-form-control>
                 </z-form-field>
@@ -59,16 +60,17 @@
                     <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">Categoria</label>
                     <z-form-control>
                         <z-select 
-                            class="w-full bg-slate-950/50 border-slate-700 text-slate-100 focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all duration-300" 
+                            [class]="'w-full !bg-slate-800 !border-slate-500 !text-white'"
                             zPlaceholder="Selecione uma categoria" 
-                            [(zValue)]="selectedCategory"
+                            [(zValue)]="categoryIdValue"
                         >
                             @for (cat of categories; track $index) {
-                                <z-select-item [zValue]="cat.description" class="hover:bg-slate-800 text-slate-200">{{cat.description}}</z-select-item>
+                                <z-select-item [zValue]="cat._id" class="hover:bg-slate-700 text-white">{{cat.description}}</z-select-item>
                             }
                         </z-select>
                     </z-form-control>
                 </z-form-field>
+               
                 
                 <div class="flex gap-4 pt-6">
                     <button 

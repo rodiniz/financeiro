@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {ExpenseService} from "../../../services/expense.service";
 import {LucideAngularModule} from "lucide-angular";
 import {ask, message, open} from "@tauri-apps/plugin-dialog";
-import * as Excel from "exceljs";
+import * as Excel from "xlsx";
 import {ExpenseListModel} from "../../../models/expenseListModel";
 import {UsersService} from "../../../services/users.service";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -16,6 +16,7 @@ import {Income} from "../../../models/income";
 import {Expense} from "../../../models/expense";
 import { ZardButtonComponent } from "@shared/components/button/button.component";
 import { ZardTableComponent, ZardTableBodyComponent, ZardTableRowComponent } from "@shared/components/table/table.component";
+import { ZardPaginationComponent } from "@shared/components/pagination/pagination.component";
 
 @Component({
     selector: "app-expenses-list",
@@ -28,7 +29,8 @@ import { ZardTableComponent, ZardTableBodyComponent, ZardTableRowComponent } fro
         ZardButtonComponent,
         ZardTableComponent,
         ZardTableBodyComponent,
-        ZardTableRowComponent
+        ZardTableRowComponent,
+        ZardPaginationComponent
     ],
     templateUrl: "./expenses-list.component.html",
     styleUrl: "./expenses-list.component.css"
@@ -43,8 +45,8 @@ export class ExpensesListComponent {
   router = inject(Router); 
   userId = this.userService.getCurrentUser();
   importing = signal(false);
-  activePage = 1;
-  totalRecords = 0;
+  activePage = signal(1);
+  totalRecords = signal(0);
   percentageCompleted = 0;
   onlyWithoutCategory = new FormControl<boolean>(false);
   onlyWithoutCategorySignal = signal(this.onlyWithoutCategory.value ?? false);
@@ -82,7 +84,7 @@ export class ExpensesListComponent {
   }
 
   async loadData(pageIndex: number = 1) {
-    this.activePage = pageIndex;
+    this.activePage.set(pageIndex);
     let paged = await this.expenseService.getAllModel(
       this.userId as string,
       pageIndex,
@@ -94,7 +96,7 @@ export class ExpensesListComponent {
 
     this.expenses.set(paged.data);
 
-    this.totalRecords = paged.totalRecords;
+    this.totalRecords.set(paged.totalRecords);
   }
   redirectToCreate() {
     this.router.navigate(["/menu/createExpense"]);
@@ -143,74 +145,88 @@ export class ExpensesListComponent {
     });
     if (selected != null) {
       this.importing.set(true);
-      const data = await readFile(selected as string);
-      
-      // Load workbook using ExcelJS
-      const workbook = new Excel.Workbook();
-      await workbook.xlsx.load(data.buffer);
-
-      const worksheet = workbook.worksheets[0];
-
-      // Convert the sheet data to array format (similar to xlsx)
-      const jsonData: unknown[] = [];
-      worksheet.eachRow((row, rowNumber) => {
-        const rowData: any[] = [];
-        row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-          rowData.push(cell.value);
-        });
-        jsonData.push(rowData);
-      });
-      
-      let totalImport = jsonData.length; // percentage -- x-100
-      let repeated=0;
-      let imported = 0;
-      //ignore header row
-      for (let i = 1; i < jsonData.length; i++) {
-        this.percentageCompleted = Math.round((i * 100) / totalImport);        
-        let row: any = jsonData[i];
-        if(row.length ==0){
-          break;
+      try {
+        
+        const data = await readFile(selected as string);
+        if (!data || data.length === 0) {
+          await message('O arquivo está vazio ou não pôde ser lido.', { title: 'Erro', kind: 'error' });
+          this.importing.set(false);
+          return;
         }
-        if (row[3] < 0) {
-          try {
-            let expense = {
+        const arrayBuffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
+        
+        const workbook = Excel.read(arrayBuffer, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        
+        const jsonData: any[][] = Excel.utils.sheet_to_json(worksheet, { header: 1, defval: null });
+        
+        let totalImport = jsonData.length; // percentage -- x-100
+        let repeated=0;
+        let imported = 0;
+        
+        // Find first row with actual data values (non-empty date or amount)
+        let startIndex = 0;
+        for (let i = 0; i < jsonData.length; i++) {
+          const row = jsonData[i];
+          if (row && row.length > 0 && (row[0] != null || row[3] != null)) {
+            startIndex = i;
+            break;
+          }
+        }
+        
+        // Process rows starting from first data row
+        for (let i = startIndex; i < jsonData.length; i++) {
+          this.percentageCompleted = Math.round((i * 100) / totalImport);        
+          let row: any = jsonData[i];
+          if(!row || row.length == 0 || (row[0] == null && row[3] == null)){
+            continue;
+          }
+          if (row[3] < 0) {
+            try {
+              let expense = {
+                _id: crypto.randomUUID(),
+                date: this.excelSerialToDate(row[0]),
+                amount: row[3] * -1,
+                description: row[2],
+                userId: this.userId,
+              } as Expense;
+              const existsExpense = await this.expenseService.Exists(expense);
+              if (!existsExpense) {
+                imported++;
+                await this.expenseService.create(expense);
+              }
+              else {
+                repeated++;
+              }
+            } catch (e) {
+              await message(`Erro ao importar ${e}`);
+              this.importing.set(false);
+              return;
+            }
+          }
+          else{
+            let income = {
               _id: crypto.randomUUID(),
               date: this.excelSerialToDate(row[0]),
-              amount: row[3] * -1,
-              description: row[2],
+              amount: row[3],         
               userId: this.userId,
-            } as Expense;
-            const existsExpense = await this.expenseService.Exists(expense);
-            if (!existsExpense) {
-              imported++;
-              await this.expenseService.create(expense);
+            } as Income;
+            const exists = await this.incomeService.Exists(income);
+            if (!exists) {
+              await this.incomeService.create(income);
             }
-            else {
-              repeated++;
-            }
-          } catch (e) {
-            await message(`Erro ao importar ${e}`);
-            this.importing.set(false);
-            return;
           }
         }
-        else{
-          let income = {
-            _id: crypto.randomUUID(),
-            date: this.excelSerialToDate(row[0]),
-            amount: row[3],         
-            userId: this.userId,
-          } as Income;
-          const exists = await this.incomeService.Exists(income);
-          if (!exists) {
-            await this.incomeService.create(income);
-          }
-        }
+        this.percentageCompleted = 0;
+        await message(` ${imported} Despesas importadas. ${repeated} despesas repetidas`);
+        this.importing.set(false);
+        await this.loadData();
+      } catch (error) {
+        this.importing.set(false);
+        console.error("Error importing file:", error);
+        await message(`Erro ao importar arquivo: ${error}`);
       }
-      this.percentageCompleted = 0;
-      await message(` ${imported} Despesas importadas. ${repeated} despesas repetidas`);
-      this.importing.set(false);
-      await this.loadData();
     }
   }
 }

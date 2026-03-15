@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from "@angular/core";
+import { Component, inject, Input, signal, ChangeDetectorRef } from "@angular/core";
 import {
   FormControl,
   FormsModule,
@@ -44,6 +44,7 @@ export class ExpensesEditComponent {
   amount = new FormControl(0, Validators.required);
   date = new FormControl("", Validators.required);
   category = new FormControl("", Validators.required);
+  idControl = new FormControl("");
   router = inject(Router);
   expenseService = inject(ExpenseService);
   categories: Category[] = [];
@@ -52,18 +53,27 @@ export class ExpensesEditComponent {
   isEditing=signal(false);
   selectedDate=signal<Date | null>(null);
   selectedCategory=signal<string>('');
+  categoryIdValue = '';
+  private cdr = inject(ChangeDetectorRef);
   async ngOnInit(): Promise<void> {
 
     this.categories = await this.categoryService.getAll('description  COLLATE NOCASE ASC');
     if (this.id && this.id.length > 0) {
       this.isEditing.set(true);
       let expense = await this.expenseService.getById(this.id);
+      this.idControl.setValue(expense._id);
       this.description.setValue(expense.description);
       this.amount.setValue(expense.amount);
-      this.date.setValue(this.formatData(expense.date));
+      const formattedDate = this.formatData(expense.date);
+      this.date.setValue(formattedDate);
+      this.selectedDate.set(new Date(expense.date));
+      this.cdr.detectChanges();
 
       if (expense.categoryId) {
         this.category.setValue(expense.categoryId);
+        this.selectedCategory.set(expense.categoryId);
+        this.categoryIdValue = expense.categoryId;
+        this.cdr.detectChanges();
       }
     }
   }
@@ -80,7 +90,7 @@ export class ExpensesEditComponent {
       amount: this.amount.value,
       description: this.description.value,
       userId: this.userService.getCurrentUser(),
-      categoryId: this.selectedCategory()
+      categoryId: this.categoryIdValue
     };
 
     if (this.id && this.id.length > 0) {
