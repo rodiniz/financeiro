@@ -26,6 +26,7 @@ const HEIGHT_BY_SIZE: Record<NonNullable<ZardDatePickerVariants['zSize']>, strin
   host: {},
   template: `
     <button
+      type="button"
       z-button
       [zType]="zType()"
       [zSize]="zSize()"

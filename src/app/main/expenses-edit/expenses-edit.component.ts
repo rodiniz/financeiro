@@ -31,9 +31,7 @@ import { I18nService } from "../../i18n/i18n.service";
     ZardButtonComponent,
     ZardFormModule,
     ZardInputDirective,
-    ZardDatePickerComponent,
-    ZardSelectComponent,
-    ZardSelectItemComponent
+    ZardDatePickerComponent  
 ],
     templateUrl: "./expenses-edit.component.html",
     styleUrl: "./expenses-edit.component.css"
