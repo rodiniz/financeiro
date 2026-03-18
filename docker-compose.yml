@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  financeiro-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: financeiro-angular
+    environment:
+      - DISPLAY=host.docker.internal:0
+      - NODE_ENV=production
+    volumes:
+      # Mount source code for development
+      - .:/app
+      - node_modules:/app/node_modules
+      - /app/target
+    ports:
+      - "4200:4200"
+    # For GUI support on Windows with Docker Desktop
+    network_mode: bridge
+
+  # Development service - runs Angular dev server
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: financeiro-dev
+    command: sh -c "npm install && npm run start -- --host 0.0.0.0"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=development
+
+volumes:
+  node_modules:
