@@ -21,7 +21,12 @@
   "version": "1.0.1",
   "identifier": "com.financeiro",
   "plugins": {
-     
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEE4RjY2Qzk5NDU2RjlCMUMKUldRY20yOUZtV3oycUxyamFiNWlidHVqeHd5TXdGdU8xQytENFN2aEpod0FRWERlaW51VEp6TWwK",
+      "endpoints": [
+        "https://github.com/rodiniz/financeiro/releases/download/latest/financeiro-angular-{{target}}.{{arch}}"
+      ]
+    }
   },
   "app": {
     "security": {

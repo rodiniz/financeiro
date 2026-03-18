@@ -8,6 +8,7 @@ import { ZardButtonComponent } from "@shared/components/button/button.component"
 import { ZardCardComponent } from "@shared/components/card/card.component";
 import { ZardInputDirective } from "@shared/components/input/input.directive";
 import { ZardFormControlComponent, ZardFormFieldComponent, ZardFormLabelComponent } from "@shared/components/form/form.component";
+import { I18nService } from "../i18n/i18n.service";
 
 @Component({
     selector: "app-login",
@@ -29,7 +30,14 @@ export class LoginComponent {
 
   private router = inject(Router);
   userService = inject(UsersService);
+  i18n = inject(I18nService);
   protected readonly isLoading = signal(false);
+  
+  toggleLanguage() {
+    const newLang = this.i18n.language() === 'pt' ? 'en' : 'pt';
+    this.i18n.setLanguage(newLang);
+  }
+  
   protected readonly loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -40,13 +48,13 @@ export class LoginComponent {
    
     if (user && user.length > 0) {
       if (user[0].password != this.loginForm.get('password')?.value) {
-        await message("Usuário ou senha inválidos", { kind: "error" });
+        await message(this.i18n.t('auth.invalidCredentials'), { kind: "error" });
         return;
       }
       this.userService.setCurrentUser(user[0]._id);
       this.router.navigate(["menu"]);
     } else {
-      await message("Usuário ou senha inválidos", { kind: "error" });
+      await message(this.i18n.t('auth.invalidCredentials'), { kind: "error" });
     }
   }
 }

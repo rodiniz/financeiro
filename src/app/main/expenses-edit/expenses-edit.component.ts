@@ -19,6 +19,7 @@ import { ZardInputDirective } from "@shared/components/input/input.directive";
 import { ZardDatePickerComponent } from "@shared/components/date-picker/date-picker.component";
 import { ZardSelectComponent } from "@shared/components/select/select.component";
 import { ZardSelectItemComponent } from "@shared/components/select/select-item.component";
+import { I18nService } from "../../i18n/i18n.service";
 
 @Component({
     selector: "app-expenses-edit",
@@ -30,9 +31,7 @@ import { ZardSelectItemComponent } from "@shared/components/select/select-item.c
     ZardButtonComponent,
     ZardFormModule,
     ZardInputDirective,
-    ZardDatePickerComponent,
-    ZardSelectComponent,
-    ZardSelectItemComponent
+    ZardDatePickerComponent  
 ],
     templateUrl: "./expenses-edit.component.html",
     styleUrl: "./expenses-edit.component.css"
@@ -44,23 +43,28 @@ export class ExpensesEditComponent {
   amount = new FormControl(0, Validators.required);
   date = new FormControl("", Validators.required);
   category = new FormControl("", Validators.required);
+  idControl = new FormControl("");
   router = inject(Router);
   expenseService = inject(ExpenseService);
   categories: Category[] = [];
   userService = inject(UsersService);
+  i18n = inject(I18nService);
   isSubmiting=signal(false);
   isEditing=signal(false);
   selectedDate=signal<Date | null>(null);
-  selectedCategory=signal<string>('');
+  
   async ngOnInit(): Promise<void> {
 
     this.categories = await this.categoryService.getAll('description  COLLATE NOCASE ASC');
     if (this.id && this.id.length > 0) {
       this.isEditing.set(true);
       let expense = await this.expenseService.getById(this.id);
+      this.idControl.setValue(expense._id);
       this.description.setValue(expense.description);
       this.amount.setValue(expense.amount);
-      this.date.setValue(this.formatData(expense.date));
+      const formattedDate = this.formatData(expense.date);
+      this.date.setValue(formattedDate);
+      this.selectedDate.set(new Date(expense.date));
 
       if (expense.categoryId) {
         this.category.setValue(expense.categoryId);
@@ -80,7 +84,7 @@ export class ExpensesEditComponent {
       amount: this.amount.value,
       description: this.description.value,
       userId: this.userService.getCurrentUser(),
-      categoryId: this.selectedCategory()
+      categoryId: this.category.value
     };
 
     if (this.id && this.id.length > 0) {

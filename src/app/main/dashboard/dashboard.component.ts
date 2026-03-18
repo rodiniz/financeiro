@@ -4,6 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { ChartService } from '../../../services/chart.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { I18nService } from '../../i18n/i18n.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -13,6 +14,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 })
 export class DashboardComponent implements OnInit {
   dashboardService = inject(DashboardService);
+  i18n = inject(I18nService);
   totalExpenses = 0;
   totalIncome = 0;
   monthYears: Array<any> = [];

@@ -14,6 +14,8 @@ import {
   type ZardTableVariants,
 } from './table.variants';
 
+export type TableVariantType = ZardTableVariants['zType'];
+
 @Component({
   selector: 'table[z-table]',
   exportAs: 'zTable',
@@ -53,9 +55,10 @@ export class ZardTableComponent {
   },
 })
 export class ZardTableHeaderComponent {
+  readonly zType = input<TableVariantType>('default');
   readonly class = input<ClassValue>('');
 
-  protected readonly classes = computed(() => mergeClasses(tableHeaderVariants(), this.class()));
+  protected readonly classes = computed(() => mergeClasses(tableHeaderVariants({ zType: this.zType() }), this.class()));
 }
 
 @Component({
@@ -70,9 +73,10 @@ export class ZardTableHeaderComponent {
   },
 })
 export class ZardTableBodyComponent {
+  readonly zType = input<TableVariantType>('default');
   readonly class = input<ClassValue>('');
 
-  protected readonly classes = computed(() => mergeClasses(tableBodyVariants(), this.class()));
+  protected readonly classes = computed(() => mergeClasses(tableBodyVariants({ zType: this.zType() }), this.class()));
 }
 
 @Component({
@@ -87,9 +91,10 @@ export class ZardTableBodyComponent {
   },
 })
 export class ZardTableRowComponent {
+  readonly zType = input<TableVariantType>('default');
   readonly class = input<ClassValue>('');
 
-  protected readonly classes = computed(() => mergeClasses(tableRowVariants(), this.class()));
+  protected readonly classes = computed(() => mergeClasses(tableRowVariants({ zType: this.zType() }), this.class()));
 }
 
 @Component({
@@ -104,9 +109,10 @@ export class ZardTableRowComponent {
   },
 })
 export class ZardTableHeadComponent {
+  readonly zType = input<TableVariantType>('default');
   readonly class = input<ClassValue>('');
 
-  protected readonly classes = computed(() => mergeClasses(tableHeadVariants(), this.class()));
+  protected readonly classes = computed(() => mergeClasses(tableHeadVariants({ zType: this.zType() }), this.class()));
 }
 
 @Component({
@@ -121,9 +127,10 @@ export class ZardTableHeadComponent {
   },
 })
 export class ZardTableCellComponent {
+  readonly zType = input<TableVariantType>('default');
   readonly class = input<ClassValue>('');
 
-  protected readonly classes = computed(() => mergeClasses(tableCellVariants(), this.class()));
+  protected readonly classes = computed(() => mergeClasses(tableCellVariants({ zType: this.zType() }), this.class()));
 }
 
 @Component({
@@ -138,7 +145,8 @@ export class ZardTableCellComponent {
   },
 })
 export class ZardTableCaptionComponent {
+  readonly zType = input<TableVariantType>('default');
   readonly class = input<ClassValue>('');
 
-  protected readonly classes = computed(() => mergeClasses(tableCaptionVariants(), this.class()));
+  protected readonly classes = computed(() => mergeClasses(tableCaptionVariants({ zType: this.zType() }), this.class()));
 }
