@@ -43,6 +43,7 @@ export class ExpensesEditComponent {
   amount = new FormControl(0, Validators.required);
   date = new FormControl("", Validators.required);
   category = new FormControl("", Validators.required);
+  recurrent = new FormControl(false, { nonNullable: true });
   idControl = new FormControl("");
   router = inject(Router);
   expenseService = inject(ExpenseService);
@@ -69,6 +70,7 @@ export class ExpensesEditComponent {
       if (expense.categoryId) {
         this.category.setValue(expense.categoryId);
       }
+      this.recurrent.setValue(Boolean(expense.recurrent));
     }
   }
   onDateChange(date: Date | null) {
@@ -84,7 +86,8 @@ export class ExpensesEditComponent {
       amount: this.amount.value,
       description: this.description.value,
       userId: this.userService.getCurrentUser(),
-      categoryId: this.category.value
+      categoryId: this.category.value,
+      recurrent: this.recurrent.value
     };
 
     if (this.id && this.id.length > 0) {
@@ -119,6 +122,7 @@ export class ExpensesEditComponent {
         description: element.description,
         userId: this.userService.getCurrentUser(),
         categoryId: cat,
+        recurrent: Boolean(element.recurrent),
       };
       await this.expenseService.update(element._id, expenseEdit);
     });

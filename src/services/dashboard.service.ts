@@ -16,6 +16,27 @@ export class DashboardService {
   }
   constructor() { }
 
+  async getExpenseBreakdown(yearMonth: string | null): Promise<{ fixedCosts: number; variableCosts: number }> {
+    await this.loadDb();
+    const userId = this.userService.getCurrentUser();
+    let sql = `
+      SELECT
+        COALESCE(SUM(CASE WHEN recurrent = 1 THEN amount ELSE 0 END), 0) AS fixedCosts,
+        COALESCE(SUM(CASE WHEN recurrent = 0 OR recurrent IS NULL THEN amount ELSE 0 END), 0) AS variableCosts
+      FROM expense
+      WHERE userId = $1`;
+
+    if (yearMonth) {
+      sql += ` and strftime('%m', date) || '/' || strftime('%Y', date)=$2`;
+    }
+
+    const response = await this.db.select<any>(sql, [userId, yearMonth]);
+    return {
+      fixedCosts: response[0]?.fixedCosts ?? 0,
+      variableCosts: response[0]?.variableCosts ?? 0,
+    };
+  }
+
   async getTotalExpenses(yearMonth: string|null): Promise<number> {
     
     await this.loadDb();

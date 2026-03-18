@@ -5,4 +5,5 @@ export interface ExpenseListModel {
   date: Date;
   userId: string;
   category: string;
+  recurrent: boolean;
 }

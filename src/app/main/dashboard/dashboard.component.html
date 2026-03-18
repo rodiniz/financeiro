@@ -23,7 +23,7 @@
     </div>
 
     <!-- Income and Expenses Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
         <!-- Income Card -->
         <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-950/50 to-emerald-900/30 border border-emerald-800/30 p-8 hover:border-emerald-700/50 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-900/20">
             <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -67,6 +67,75 @@
                     </h2>
                 </div>
                 <div class="h-px bg-gradient-to-r from-rose-500/50 to-transparent"></div>
+            </div>
+        </div>
+
+        <!-- Fixed Costs Card -->
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-950/50 to-amber-900/30 border border-amber-800/30 p-8 hover:border-amber-700/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-900/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-amber-400 font-semibold tracking-wide uppercase text-xs">{{ i18n.t('dashboard.fixedCosts') }}</h3>
+                    <div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                        <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l2-2 4 4m6-4a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <h2 class="text-4xl font-bold text-amber-300 font-mono tracking-tight">
+                        {{fixedCosts | currency : "EUR" : "symbol"}}
+                    </h2>
+                </div>
+                <div class="h-px bg-gradient-to-r from-amber-500/50 to-transparent"></div>
+            </div>
+        </div>
+
+        <!-- Variable Costs Card -->
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-950/50 to-indigo-900/30 border border-indigo-800/30 p-8 hover:border-indigo-700/50 transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-900/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-indigo-400 font-semibold tracking-wide uppercase text-xs">{{ i18n.t('dashboard.variableCosts') }}</h3>
+                    <div class="p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+                        <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.567-3 3.5S10.343 15 12 15s3-1.567 3-3.5S13.657 8 12 8zm0 0V5m0 10v4m7-7h-3M8 12H5"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <h2 class="text-4xl font-bold text-indigo-300 font-mono tracking-tight">
+                        {{variableCosts | currency : "EUR" : "symbol"}}
+                    </h2>
+                </div>
+                <div class="h-px bg-gradient-to-r from-indigo-500/50 to-transparent"></div>
+            </div>
+        </div>
+
+        <!-- Savings Rate Card -->
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-sky-950/50 to-sky-900/30 border border-sky-800/30 p-8 hover:border-sky-700/50 transition-all duration-500 hover:shadow-2xl hover:shadow-sky-900/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sky-400 font-semibold tracking-wide uppercase text-xs">{{ i18n.t('dashboard.savingsRate') }}</h3>
+                    <div class="p-2 rounded-lg bg-sky-500/10 border border-sky-500/20">
+                        <svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <h2 class="text-4xl font-bold text-sky-300 font-mono tracking-tight">
+                        {{savingsRate | number:'1.0-2'}}%
+                    </h2>
+                </div>
+                <div class="h-px bg-gradient-to-r from-sky-500/50 to-transparent"></div>
             </div>
         </div>
     </div>

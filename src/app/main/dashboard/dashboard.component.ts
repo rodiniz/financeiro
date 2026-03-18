@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DashboardService } from '../../../services/dashboard.service';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { ChartService } from '../../../services/chart.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -8,7 +8,7 @@ import { I18nService } from '../../i18n/i18n.service';
 
 @Component({
     selector: 'app-dashboard',
-    imports: [ReactiveFormsModule, NgApexchartsModule, CurrencyPipe],
+    imports: [ReactiveFormsModule, NgApexchartsModule, CurrencyPipe, DecimalPipe],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css'
 })
@@ -17,6 +17,9 @@ export class DashboardComponent implements OnInit {
   i18n = inject(I18nService);
   totalExpenses = 0;
   totalIncome = 0;
+    fixedCosts = 0;
+    variableCosts = 0;
+    savingsRate = 0;
   monthYears: Array<any> = [];
   chartService = inject(ChartService);
   monthYear = new FormControl("");
@@ -50,10 +53,24 @@ export class DashboardComponent implements OnInit {
 
   }
    async loadData(){
-    let sqlReturn= await this.dashboardService.getTotalExpenses(this.monthYear.value ?? null);
+        this.monthYears = await this.chartService.getChartMonthYears();
+        if ((!this.monthYear.value || this.monthYear.value === "") && this.monthYears.length > 0) {
+            this.monthYear.setValue(this.monthYears[this.monthYears.length - 1].monthYear, {
+                emitEvent: false,
+            });
+        }
+
+        let sqlReturn= await this.dashboardService.getTotalExpenses(this.monthYear.value ?? null);
     this.totalExpenses = sqlReturn;
-    this.monthYears = await this.chartService.getChartMonthYears();
     this.totalIncome= await this.dashboardService.getTotalIncome(this.monthYear.value ?? null);
+        const expenseBreakdown = await this.dashboardService.getExpenseBreakdown(this.monthYear.value ?? null);
+        this.fixedCosts = expenseBreakdown.fixedCosts ?? 0;
+        this.variableCosts = expenseBreakdown.variableCosts ?? 0;
+        if (this.totalIncome > 0) {
+            this.savingsRate = ((this.totalIncome - this.totalExpenses) / this.totalIncome) * 100;
+        } else {
+            this.savingsRate = 0;
+        }
     let resp=await this.dashboardService.getTopExpenses(this.monthYear.value ?? null);
    this.chartOptions = {
        series: resp.series.data,

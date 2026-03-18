@@ -70,6 +70,19 @@
                         </select>
                     </z-form-control>
                 </z-form-field>
+
+                <z-form-field class="space-y-2">
+                    <z-form-control>
+                        <label class="flex items-center gap-3 text-slate-300 font-medium text-sm tracking-wide cursor-pointer">
+                            <input
+                                type="checkbox"
+                                [formControl]="recurrent"
+                                class="w-4 h-4 rounded border-slate-700 bg-slate-950 text-amber-500 focus:ring-amber-500/20 focus:ring-offset-slate-900 cursor-pointer"
+                            />
+                            {{ i18n.t('expenses.edit.recurrent') }}
+                        </label>
+                    </z-form-control>
+                </z-form-field>
                
                 
                 <div class="flex gap-4 pt-6">

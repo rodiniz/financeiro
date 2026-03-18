@@ -7,4 +7,5 @@ export interface Expense {
   date: Date;
   userId: string;
   categoryId: string;
+  recurrent: boolean;
 }

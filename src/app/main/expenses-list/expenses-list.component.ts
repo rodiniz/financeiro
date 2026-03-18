@@ -39,6 +39,8 @@ import { FilterStorageService } from "../../services/filter-storage.service";
 })
 export class ExpensesListComponent {
   expenses = signal<ExpenseListModel[]>([]);
+  recurrentToastMessage = signal<string | null>(null);
+  private toastTimeout: ReturnType<typeof setTimeout> | null = null;
   incomeService=inject(IncomeService);
   expenseService = inject(ExpenseService);
   userService = inject(UsersService);
@@ -57,6 +59,10 @@ export class ExpensesListComponent {
   monthYear = new FormControl("");
   monthYears: Array<any> = [];
   category= new FormControl<string | null>(null);
+  recurrent = new FormControl<string>('all');
+  search = new FormControl<string>('');
+  minAmount = new FormControl<number | null>(null);
+  maxAmount = new FormControl<number | null>(null);
   categories: any = [];
 
   constructor() {
@@ -69,6 +75,18 @@ export class ExpensesListComponent {
     });
     this.category.valueChanges.subscribe(value => {
       this.filterStorage.setFilters({ category: value });
+    });
+    this.recurrent.valueChanges.subscribe(value => {
+      this.filterStorage.setFilters({ recurrent: value });
+    });
+    this.search.valueChanges.subscribe(value => {
+      this.filterStorage.setFilters({ search: value });
+    });
+    this.minAmount.valueChanges.subscribe(value => {
+      this.filterStorage.setFilters({ minAmount: value });
+    });
+    this.maxAmount.valueChanges.subscribe(value => {
+      this.filterStorage.setFilters({ maxAmount: value });
     });
     effect(() => {
       this.onlyWithoutCategory.setValue(this.onlyWithoutCategorySignal(), { emitEvent: false });
@@ -88,6 +106,22 @@ export class ExpensesListComponent {
     
     if (savedFilters.category && savedFilters.category !== '') {
       this.category.setValue(savedFilters.category);
+    }
+
+    if (savedFilters.recurrent && savedFilters.recurrent !== '') {
+      this.recurrent.setValue(savedFilters.recurrent);
+    }
+
+    if (savedFilters.search && savedFilters.search !== '') {
+      this.search.setValue(savedFilters.search);
+    }
+
+    if (savedFilters.minAmount !== null && savedFilters.minAmount !== undefined) {
+      this.minAmount.setValue(savedFilters.minAmount);
+    }
+
+    if (savedFilters.maxAmount !== null && savedFilters.maxAmount !== undefined) {
+      this.maxAmount.setValue(savedFilters.maxAmount);
     }
     
     if (savedFilters.onlyWithoutCategory) {
@@ -112,12 +146,26 @@ export class ExpensesListComponent {
 
   async loadData(pageIndex: number = 1) {
     this.activePage.set(pageIndex);
+
+    const generated = await this.expenseService.ensureRecurrentExpensesForMonth(
+      this.userId as string,
+      this.monthYear.value || undefined
+    );
+
+    if (generated > 0) {
+      this.showRecurrentToast(generated);
+    }
+
     let paged = await this.expenseService.getAllModel(
       this.userId as string,
       pageIndex,
       this.onlyWithoutCategorySignal(),
       this.monthYear.value || undefined,
       this.category.value as any,
+      this.recurrent.value,
+      this.search.value,
+      this.minAmount.value,
+      this.maxAmount.value,
       " date desc"
     );
 
@@ -125,6 +173,63 @@ export class ExpensesListComponent {
 
     this.totalRecords.set(paged.totalRecords);
   }
+
+  showRecurrentToast(generated: number) {
+    this.recurrentToastMessage.set(`${this.i18n.t('expenses.list.recurrentGenerated')}: ${generated}`);
+
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+
+    this.toastTimeout = setTimeout(() => {
+      this.recurrentToastMessage.set(null);
+      this.toastTimeout = null;
+    }, 3000);
+  }
+
+  closeToast() {
+    this.recurrentToastMessage.set(null);
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+      this.toastTimeout = null;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+      this.toastTimeout = null;
+    }
+  }
+
+  async clearFilters() {
+    const defaultMonthYear =
+      this.monthYears.length > 0
+        ? this.monthYears[this.monthYears.length - 1].monthYear
+        : "";
+
+    this.monthYear.setValue(defaultMonthYear, { emitEvent: false });
+    this.category.setValue("", { emitEvent: false });
+    this.recurrent.setValue("all", { emitEvent: false });
+    this.search.setValue("", { emitEvent: false });
+    this.minAmount.setValue(null, { emitEvent: false });
+    this.maxAmount.setValue(null, { emitEvent: false });
+    this.onlyWithoutCategorySignal.set(false);
+    this.onlyWithoutCategory.setValue(false, { emitEvent: false });
+
+    this.filterStorage.setFilters({
+      monthYear: defaultMonthYear,
+      category: "",
+      recurrent: "all",
+      search: "",
+      minAmount: null,
+      maxAmount: null,
+      onlyWithoutCategory: false,
+    });
+
+    await this.loadData(1);
+  }
+
   redirectToCreate() {
     this.router.navigate(["/menu/createExpense"]);
   }
@@ -217,6 +322,7 @@ export class ExpensesListComponent {
                 amount: row[3] * -1,
                 description: row[2],
                 userId: this.userId,
+                recurrent: false,
               } as Expense;
               const existsExpense = await this.expenseService.Exists(expense);
               if (!existsExpense) {

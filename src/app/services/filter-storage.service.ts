@@ -4,6 +4,10 @@ export interface ExpenseFilters {
   monthYear: string | null;
   category: string | null;
   onlyWithoutCategory: boolean;
+  recurrent: string | null;
+  search: string | null;
+  minAmount: number | null;
+  maxAmount: number | null;
 }
 
 @Injectable({
@@ -13,7 +17,11 @@ export class FilterStorageService {
   private filters = signal<ExpenseFilters>({
     monthYear: '',
     category: '',
-    onlyWithoutCategory: false
+    onlyWithoutCategory: false,
+    recurrent: 'all',
+    search: '',
+    minAmount: null,
+    maxAmount: null
   });
   
   readonly currentFilters = this.filters.asReadonly();
@@ -30,7 +38,11 @@ export class FilterStorageService {
     this.filters.set({
       monthYear: '',
       category: '',
-      onlyWithoutCategory: false
+      onlyWithoutCategory: false,
+      recurrent: 'all',
+      search: '',
+      minAmount: null,
+      maxAmount: null
     });
   }
 }
