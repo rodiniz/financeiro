@@ -75,7 +75,7 @@
             >
                 <option value="" class="bg-slate-900">{{ i18n.t('expenses.list.all') }}</option>
                 @for (cat of categories; track cat._id) {
-                    <option value="{{ cat.description }}" class="bg-slate-900">{{ cat.description }}</option>
+                    <option value="{{ cat._id }}" class="bg-slate-900">{{ cat.description }}</option>
                 }
             </select>
         </div>
