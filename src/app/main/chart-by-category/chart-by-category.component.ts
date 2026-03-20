@@ -3,6 +3,7 @@ import { ChartService } from "../../../services/chart.service";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { CurrencyPipe } from "@angular/common";
+import { I18nService } from "../../i18n/i18n.service";
 
 @Component({
     selector: "app-chart-by-category",
@@ -12,6 +13,7 @@ import { CurrencyPipe } from "@angular/common";
 })
 export class ChartByCategoryComponent implements OnInit {
   chartService = inject(ChartService);
+  i18n = inject(I18nService);
   public chartOptions!: any;
   monthYear = new FormControl("");
   monthYears: Array<any> = [];
@@ -32,7 +34,7 @@ export class ChartByCategoryComponent implements OnInit {
             type: "pie",
           },
           title: {
-            text: "Gráfico de despesas por categoria",
+            text: this.i18n.t('chart.expensesByCategoryChartTitle'),
           },
           labels: resp.xaxis.categories,
         };

@@ -8,12 +8,15 @@ export const translations = {
       expenses: 'Expenses',
       income: 'Income',
       categories: 'Categories',
+      suiteSubtitle: 'Financial Suite',
       reports: 'Reports',
       byYear: 'By Year',
       byCategory: 'By Category',
       logout: 'Logout',
       login: 'Login',
       register: 'Register',
+      backupSuccess: 'Backup completed successfully',
+      restoreSuccess: 'Database restored successfully',
       backupError: 'Error backing up database',
       restoreError: 'Error restoring database'
     },
@@ -21,6 +24,7 @@ export const translations = {
       list: {
         title: 'Expenses',
         newExpense: 'New Expense',
+        deleteAllConfirm: 'Are you sure you want to delete all expenses and income?',
         import: 'Import',
         period: 'Period',
         category: 'Category',
@@ -43,6 +47,7 @@ export const translations = {
         deleteConfirm: 'Are you sure you want to delete this record?',
         imported: 'expenses imported',
         repeated: 'repeated expenses',
+        emptyFileError: 'The file is empty or could not be read.',
         clearFilters: 'Clear all filters',
         recurrentGenerated: 'Generated recurrent expenses',
         newDescription: 'Manage all your expenses'
@@ -90,16 +95,22 @@ export const translations = {
       list: {
         title: 'Categories',
         newCategory: 'New Category',
+        newDescription: 'Manage your expense categories',
         description: 'Description',
         actions: 'Actions',
         edit: 'Edit',
         delete: 'Delete',
-        noCategories: 'No categories found'
+        noCategories: 'No categories found',
+        deleteConfirm: 'Are you sure you want to delete this record?'
       },
       edit: {
         newCategory: 'New Category',
         editCategory: 'Edit Category',
+        newDescription: 'Create a new expense category',
+        editDescription: 'Update the category name',
         description: 'Description',
+        descriptionPlaceholder: 'Type the category name',
+        requiredField: 'Required field',
         save: 'Save',
         cancel: 'Cancel'
       }
@@ -116,11 +127,31 @@ export const translations = {
       byMonth: 'Monthly Evolution',
       overview: 'Overview of your finances',
       categoryDistribution: 'Distribution of main categories',
-      monthlyComparison: 'Comparison between expenses and income'
+      monthlyComparison: 'Comparison between expenses and income',
+      topByCategoryChartTitle: 'Expenses by category chart',
+      evolutionIncomeSeries: 'Income',
+      evolutionExpenseSeries: 'Expense',
+      evolutionXAxisTitle: 'Year/Month',
+      evolutionYAxisTitle: 'Amount',
+      evolutionChartTitle: 'Income and Expense Overview'
     },
     chart: {
       byYear: 'By Year',
-      byCategory: 'By Category'
+      byCategory: 'By Category',
+      categoryAnalysisTitle: 'Category Analysis',
+      categoryAnalysisSubtitle: 'Monthly expense distribution',
+      period: 'Period',
+      totalIncome: 'Total Income',
+      totalExpenses: 'Total Expenses',
+      categoryDistributionTitle: 'Distribution by Category',
+      interactivePieChart: 'Interactive pie chart',
+      expensesByCategoryChartTitle: 'Expenses by category chart',
+      yearlyAnalysisTitle: 'Yearly Analysis',
+      yearlyAnalysisSubtitle: 'Financial evolution throughout the year',
+      year: 'Year',
+      annualPerformanceTitle: 'Annual Performance',
+      monthlyComparativeView: 'Monthly comparative view',
+      expensesByYearChartTitle: 'Expenses by year chart'
     },
     auth: {
       login: 'Login',
@@ -131,6 +162,7 @@ export const translations = {
       confirmPassword: 'Confirm Password',
       loginButton: 'Login',
       registerButton: 'Register',
+      userCreated: 'User created successfully',
       noAccount: "Don't have an account?",
       hasAccount: 'Already have an account?',
       subtitle: 'Smart Financial Management',
@@ -164,12 +196,15 @@ export const translations = {
       expenses: 'Despesas',
       income: 'Receitas',
       categories: 'Categorias',
+      suiteSubtitle: 'Suíte Financeira',
       reports: 'Relatórios',
       byYear: 'Por Ano',
       byCategory: 'Por Categoria',
       logout: 'Sair',
       login: 'Entrar',
       register: 'Cadastrar',
+      backupSuccess: 'Backup realizado com sucesso',
+      restoreSuccess: 'Banco restaurado com sucesso',
       backupError: 'Erro ao fazer backup do banco de dados',
       restoreError: 'Erro ao restaurar banco de dados'
     },
@@ -177,6 +212,7 @@ export const translations = {
       list: {
         title: 'Despesas',
         newExpense: 'Nova Despesa',
+        deleteAllConfirm: 'Deseja mesmo excluir todas despesas e receitas?',
         import: 'Importar',
         period: 'Período',
         category: 'Categoria',
@@ -199,6 +235,7 @@ export const translations = {
         deleteConfirm: 'Deseja mesmo excluir esse registro?',
         imported: 'despesas importadas',
         repeated: 'despesas repetidas',
+        emptyFileError: 'O arquivo está vazio ou não pôde ser lido.',
         clearFilters: 'Limpar filtros',
         recurrentGenerated: 'Despesas recorrentes geradas',
         newDescription: 'Gerencie todas as suas despesas'
@@ -246,16 +283,22 @@ export const translations = {
       list: {
         title: 'Categorias',
         newCategory: 'Nova Categoria',
+        newDescription: 'Gerencie suas categorias de despesas',
         description: 'Descrição',
         actions: 'Ações',
         edit: 'Editar',
         delete: 'Deletar',
-        noCategories: 'Nenhuma categoria encontrada'
+        noCategories: 'Nenhuma categoria encontrada',
+        deleteConfirm: 'Deseja mesmo excluir esse registro?'
       },
       edit: {
         newCategory: 'Nova Categoria',
         editCategory: 'Editar Categoria',
+        newDescription: 'Crie uma nova categoria de despesas',
+        editDescription: 'Atualize o nome da categoria',
         description: 'Descrição',
+        descriptionPlaceholder: 'Digite o nome da categoria',
+        requiredField: 'Campo obrigatório',
         save: 'Salvar',
         cancel: 'Cancelar'
       }
@@ -272,11 +315,31 @@ export const translations = {
       byMonth: 'Evolução Mensal',
       overview: 'Visão geral das suas finanças',
       categoryDistribution: 'Distribuição das principais categorias',
-      monthlyComparison: 'Comparação entre despesas e receitas'
+      monthlyComparison: 'Comparação entre despesas e receitas',
+      topByCategoryChartTitle: 'Gráfico de despesas por categoria',
+      evolutionIncomeSeries: 'Receitas',
+      evolutionExpenseSeries: 'Despesas',
+      evolutionXAxisTitle: 'Ano/Mês',
+      evolutionYAxisTitle: 'Valor',
+      evolutionChartTitle: 'Visão geral de receitas e despesas'
     },
     chart: {
       byYear: 'Por Ano',
-      byCategory: 'Por Categoria'
+      byCategory: 'Por Categoria',
+      categoryAnalysisTitle: 'Análise por Categoria',
+      categoryAnalysisSubtitle: 'Distribuição mensal de gastos',
+      period: 'Período',
+      totalIncome: 'Total de Receitas',
+      totalExpenses: 'Total de Despesas',
+      categoryDistributionTitle: 'Distribuição por Categoria',
+      interactivePieChart: 'Gráfico de pizza interativo',
+      expensesByCategoryChartTitle: 'Gráfico de despesas por categoria',
+      yearlyAnalysisTitle: 'Análise Anual',
+      yearlyAnalysisSubtitle: 'Evolução financeira ao longo do ano',
+      year: 'Ano',
+      annualPerformanceTitle: 'Desempenho Anual',
+      monthlyComparativeView: 'Visão mensal comparativa',
+      expensesByYearChartTitle: 'Gráfico de despesas por ano'
     },
     auth: {
       login: 'Entrar',
@@ -287,6 +350,7 @@ export const translations = {
       confirmPassword: 'Confirmar Senha',
       loginButton: 'Entrar',
       registerButton: 'Cadastrar',
+      userCreated: 'Usuário criado com sucesso',
       noAccount: 'Não tem uma conta?',
       hasAccount: 'Já tem uma conta?',
       subtitle: 'Gerenciamento Financeiro Inteligente',

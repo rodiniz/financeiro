@@ -3,9 +3,9 @@
         <!-- Card Header -->
         <div class="mb-6">
             <h2 class="text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-400">
-                {{isEditing ? 'Editar Categoria' : 'Nova Categoria'}}
+                {{isEditing ? i18n.t('categories.edit.editCategory') : i18n.t('categories.edit.newCategory')}}
             </h2>
-            <p class="text-slate-500 text-sm mt-1">{{isEditing ? 'Atualize o nome da categoria' : 'Crie uma nova categoria de despesas'}}</p>
+            <p class="text-slate-500 text-sm mt-1">{{isEditing ? i18n.t('categories.edit.editDescription') : i18n.t('categories.edit.newDescription')}}</p>
         </div>
         
         <z-card class="relative overflow-hidden backdrop-blur-xl bg-slate-900/60 border-slate-700/50 shadow-2xl shadow-black/50 hover:shadow-amber-900/20 transition-all duration-500 p-8">
@@ -15,14 +15,14 @@
                 <input type="hidden" formControlName="id">
                 
                 <z-form-field class="space-y-2">
-                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">Nome da Categoria</label>
+                    <label z-form-label zRequired class="text-slate-300 font-medium text-sm tracking-wide">{{ i18n.t('categories.edit.description') }}</label>
                     <z-form-control>
                         <input 
                             z-input 
                             formControlName="name" 
                             type="text" 
                             name="name" 
-                            placeholder="Digite o nome da categoria"
+                            [placeholder]="i18n.t('categories.edit.descriptionPlaceholder')"
                             [zStatus]="nameControl.invalid && nameControl.touched ? 'error' : undefined"
                             class="w-full bg-slate-950/50 border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
                         />
@@ -32,7 +32,7 @@
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                             </svg>
-                            Campo obrigatório
+                            {{ i18n.t('categories.edit.requiredField') }}
                         </p>
                     }
                 </z-form-field>
@@ -45,7 +45,7 @@
                         [disabled]="categoryForm.invalid"
                         class="flex-1 relative overflow-hidden bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-semibold tracking-wide shadow-lg shadow-amber-900/30 hover:shadow-amber-600/40 hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                     >
-                        Salvar
+                        {{ i18n.t('categories.edit.save') }}
                     </button>
                     
                     <button 
@@ -55,7 +55,7 @@
                         (click)="gotoList()"
                         class="flex-1 bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700 hover:border-slate-600 font-medium tracking-wide transition-all duration-300"
                     >
-                        Cancelar
+                        {{ i18n.t('categories.edit.cancel') }}
                     </button>
                 </div>
             </form>

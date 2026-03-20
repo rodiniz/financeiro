@@ -92,7 +92,7 @@
                         [zLoading]="isSubmiting()"
                         class="flex-1 relative overflow-hidden bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-semibold tracking-wide shadow-lg shadow-amber-900/30 hover:shadow-amber-600/40 hover:scale-[1.02] transition-all duration-300"
                     >
-                        Salvar
+                        {{ i18n.t('expenses.edit.save') }}
                     </button>
                     
                     <button 
@@ -102,7 +102,7 @@
                         (click)="gotoList()"
                         class="flex-1 bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700 hover:border-slate-600 font-medium tracking-wide transition-all duration-300"
                     >
-                        Cancelar
+                        {{ i18n.t('expenses.edit.cancel') }}
                     </button>
                 </div>
             </form>

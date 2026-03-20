@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ChartOptions } from "../../../models/ChartOptions";
 import { ChartService } from "../../../services/chart.service";
 import { NgApexchartsModule } from "ng-apexcharts";
+import { I18nService } from "../../i18n/i18n.service";
 
 @Component({
     selector: "app-chart-by-year",
@@ -12,6 +13,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 })
 export class ChartByYearComponent implements OnInit {
   chartService = inject(ChartService);
+  i18n = inject(I18nService);
   public chartOptions!: any;
   year = new FormControl<number>(0);
   years: Array<any> = [];
@@ -36,7 +38,7 @@ export class ChartByYearComponent implements OnInit {
           type: "bar",
         },
         title: {
-          text: "Gráfico de despesas por ano",
+          text: this.i18n.t('chart.expensesByYearChartTitle'),
         },
         xaxis: {
           //labels do gráfico

@@ -244,7 +244,7 @@ export class ExpensesListComponent {
     }
   }
   async removeAll() {
-    const yes = await ask("Deseja mesmo excluir todas despesas e receitas?", this.i18n.t('app.title'));
+    const yes = await ask(this.i18n.t('expenses.list.deleteAllConfirm'), this.i18n.t('app.title'));
     if (yes) {
       await this.expenseService.DeleteAll();
       await this.incomeService.DeleteAll();
@@ -281,7 +281,7 @@ export class ExpensesListComponent {
         
         const data = await readFile(selected as string);
         if (!data || data.length === 0) {
-          await message(this.i18n.t('common.error') + ': O arquivo está vazio ou não pôde ser lido.', { title: this.i18n.t('common.error'), kind: 'error' });
+          await message(`${this.i18n.t('common.error')}: ${this.i18n.t('expenses.list.emptyFileError')}`, { title: this.i18n.t('common.error'), kind: 'error' });
           this.importing.set(false);
           return;
         }

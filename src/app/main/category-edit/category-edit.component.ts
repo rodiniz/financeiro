@@ -13,6 +13,7 @@ import { ZardButtonComponent } from "@shared/components/button/button.component"
 import { ZardCardComponent } from "@shared/components/card/card.component";
 import { ZardFormModule } from "@shared/components/form/form.module";
 import { ZardInputDirective } from "@shared/components/input/input.directive";
+import { I18nService } from "../../i18n/i18n.service";
 
 
 @Component({
@@ -33,6 +34,7 @@ import { ZardInputDirective } from "@shared/components/input/input.directive";
 export class CategoryEditComponent implements OnInit {
   @Input() id = "";
   categoryService = inject(CategoryService);
+  i18n = inject(I18nService);
   categoryForm= new FormGroup({    
     id: new FormControl<string>(this.id),
     name: new FormControl('', [Validators.required])

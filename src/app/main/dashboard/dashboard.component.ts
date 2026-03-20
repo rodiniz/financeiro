@@ -83,7 +83,7 @@ export class DashboardComponent implements OnInit {
            }
        },
        title: {
-           text: "Gráfico de despesas por categoria",
+           text: this.i18n.t('dashboard.topByCategoryChartTitle'),
        },
        labels: resp.xaxis.categories,
    };
@@ -114,28 +114,28 @@ export class DashboardComponent implements OnInit {
       }},
     series: [
         {
-            name: 'Income',
+            name: this.i18n.t('dashboard.evolutionIncomeSeries'),
             type: 'column',
             data: this.evolutionIncomes
         },
         {
-            name: 'Expense',
+            name: this.i18n.t('dashboard.evolutionExpenseSeries'),
             type: 'column',
             data: this.evolutionExpenses
         }
     ],
     xaxis: {
         categories: this.evolutionYearMonths,
-        title: { text: 'Year/Month' }
+        title: { text: this.i18n.t('dashboard.evolutionXAxisTitle') }
     },
     yaxis: {
-        title: { text: 'Amount ($)' },
+        title: { text: this.i18n.t('dashboard.evolutionYAxisTitle') },
         labels: {
-            formatter: function(value:number) { return '$' + value; }
+            formatter: function(value:number) { return value.toString(); }
          }
     },
     title: {
-        text: 'Income and Expense Overview',
+        text: this.i18n.t('dashboard.evolutionChartTitle'),
         align: 'left'
     }
   }
