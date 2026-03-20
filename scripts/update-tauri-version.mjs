@@ -1,6 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
+import { spawnSync } from "node:child_process";
 
 const version = process.argv[2]?.trim();
 
@@ -85,6 +86,37 @@ async function updatePackageMetadata() {
   }
 }
 
+function runGit(args) {
+  const result = spawnSync("git", args, {
+    cwd: root,
+    encoding: "utf8",
+  });
+
+  if (result.error) {
+    throw result.error;
+  }
+
+  if (result.status !== 0) {
+    const stderr = (result.stderr || "").trim();
+    throw new Error(stderr || `git ${args.join(" ")} failed`);
+  }
+
+  return (result.stdout || "").trim();
+}
+
+function createReleaseTag() {
+  runGit(["rev-parse", "--is-inside-work-tree"]);
+
+  const tagName = `v${version}`;
+  const existingTag = runGit(["tag", "--list", tagName]);
+  if (existingTag === tagName) {
+    throw new Error(`Tag ${tagName} already exists.`);
+  }
+
+  runGit(["tag", "-a", tagName, "-m", `Release ${tagName}`]);
+  return tagName;
+}
+
 async function run() {
   await updateCargoToml();
 
@@ -95,7 +127,10 @@ async function run() {
   await updateUpdaterJson();
   await updatePackageMetadata();
 
+  const createdTag = createReleaseTag();
+
   console.log(`Updated Tauri app version to ${version} in all tracked files.`);
+  console.log(`Created git tag ${createdTag}.`);
 }
 
 run().catch((error) => {
