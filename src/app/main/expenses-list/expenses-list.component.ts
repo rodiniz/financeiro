@@ -88,6 +88,7 @@ export class ExpensesListComponent {
     this.maxAmount.valueChanges.subscribe(value => {
       this.filterStorage.setFilters({ maxAmount: value });
     });
+
     effect(() => {
       this.onlyWithoutCategory.setValue(this.onlyWithoutCategorySignal(), { emitEvent: false });
     });

@@ -226,13 +226,13 @@ export class ExpenseService extends CrudSqlService<Expense> {
      where
       ${whereClauses.join(" and ")}      
    `;
-
+    
     if (orderby) {
       sql += ` order by ${orderby}`;
     }
 
     sql += `  LIMIT ${recordsPerPage} OFFSET ${offset}`;
-
+    
     const response: ExpenseListModel[] = await this.db.select<
       ExpenseListModel[]
     >(sql, queryParams);
