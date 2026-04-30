@@ -2,12 +2,12 @@ import { Component, inject, OnInit } from "@angular/core";
 import { ChartService } from "../../../services/chart.service";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { NgApexchartsModule } from "ng-apexcharts";
-import { CurrencyPipe } from "@angular/common";
 import { I18nService } from "../../i18n/i18n.service";
+import { MonetaryMaskPipe } from "../../shared/pipes/monetary-mask.pipe";
 
 @Component({
     selector: "app-chart-by-category",
-    imports: [ReactiveFormsModule, NgApexchartsModule, CurrencyPipe],
+    imports: [ReactiveFormsModule, NgApexchartsModule, MonetaryMaskPipe],
     templateUrl: "./chart-by-category.component.html",
     styleUrl: "./chart-by-category.component.css"
 })

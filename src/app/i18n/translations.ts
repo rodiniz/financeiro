@@ -166,7 +166,9 @@ export const translations = {
       noAccount: "Don't have an account?",
       hasAccount: 'Already have an account?',
       subtitle: 'Smart Financial Management',
-      invalidCredentials: 'Invalid email or password'
+      invalidCredentials: 'Invalid email or password',
+      hideMonetaryValues: 'Hide monetary values',
+      hideMonetaryValuesDescription: 'Show ***** instead of amounts for privacy'
     },
     common: {
       save: 'Save',
@@ -354,7 +356,9 @@ export const translations = {
       noAccount: 'Não tem uma conta?',
       hasAccount: 'Já tem uma conta?',
       subtitle: 'Gerenciamento Financeiro Inteligente',
-      invalidCredentials: 'Usuário ou senha inválidos'
+      invalidCredentials: 'Usuário ou senha inválidos',
+      hideMonetaryValues: 'Ocultar valores monetários',
+      hideMonetaryValuesDescription: 'Mostrar ***** no lugar dos valores para privacidade'
     },
     common: {
       save: 'Salvar',

@@ -170,7 +170,7 @@
                                 {{expense.description}}
                             </td>
                             <td z-table-cell zType="light" class="text-rose-500 py-4 px-6 font-mono font-semibold">
-                                {{expense.amount | currency:'EUR':'symbol':'1.2-2'}}
+                                {{expense.amount | monetaryMask}}
                             </td>
                             <td z-table-cell zType="light" class="text-slate-500 py-4 px-6">
                                 {{formatData(expense.date)}}

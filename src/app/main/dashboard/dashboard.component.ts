@@ -1,14 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DashboardService } from '../../../services/dashboard.service';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { ChartService } from '../../../services/chart.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { I18nService } from '../../i18n/i18n.service';
+import { MonetaryMaskPipe } from '../../shared/pipes/monetary-mask.pipe';
 
 @Component({
     selector: 'app-dashboard',
-    imports: [ReactiveFormsModule, NgApexchartsModule, CurrencyPipe, DecimalPipe],
+    imports: [ReactiveFormsModule, NgApexchartsModule, DecimalPipe, MonetaryMaskPipe],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css'
 })

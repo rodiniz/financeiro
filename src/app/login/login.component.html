@@ -64,6 +64,22 @@
             </z-form-control>
           </z-form-field>
 
+          <div class="flex items-center gap-3 p-4 rounded-lg bg-slate-950/50 border border-slate-700/50">
+            <input 
+              type="checkbox" 
+              formControlName="hideMonetaryValues"
+              (change)="onHideMonetaryValuesChange()"
+              id="hideMonetaryValues"
+              class="w-5 h-5 rounded border-slate-600 bg-slate-900 text-amber-500 focus:ring-amber-500/30 focus:ring-offset-slate-900 cursor-pointer transition-all duration-200"
+            />
+            <div class="flex-1">
+              <label for="hideMonetaryValues" class="text-slate-300 font-medium text-sm tracking-wide cursor-pointer block">
+                {{ i18n.t('auth.hideMonetaryValues') }}
+              </label>
+              <p class="text-slate-500 text-xs mt-1">{{ i18n.t('auth.hideMonetaryValuesDescription') }}</p>
+            </div>
+          </div>
+
           <button 
             type="submit" 
             z-button 

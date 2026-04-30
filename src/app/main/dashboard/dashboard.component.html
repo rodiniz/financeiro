@@ -40,7 +40,7 @@
                 </div>
                 <div class="flex items-baseline gap-2">
                     <h2 class="text-4xl font-bold text-emerald-300 font-mono tracking-tight">
-                        {{totalIncome | currency : "EUR" : "symbol"}}
+                        {{totalIncome | monetaryMask}}
                     </h2>
                 </div>
                 <div class="h-px bg-gradient-to-r from-emerald-500/50 to-transparent"></div>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="flex items-baseline gap-2">
                     <h2 class="text-4xl font-bold text-rose-300 font-mono tracking-tight">
-                        {{totalExpenses | currency : "EUR" : "symbol"}}
+                        {{totalExpenses | monetaryMask}}
                     </h2>
                 </div>
                 <div class="h-px bg-gradient-to-r from-rose-500/50 to-transparent"></div>
@@ -86,7 +86,7 @@
                 </div>
                 <div class="flex items-baseline gap-2">
                     <h2 class="text-4xl font-bold text-amber-300 font-mono tracking-tight">
-                        {{fixedCosts | currency : "EUR" : "symbol"}}
+                        {{fixedCosts | monetaryMask}}
                     </h2>
                 </div>
                 <div class="h-px bg-gradient-to-r from-amber-500/50 to-transparent"></div>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="flex items-baseline gap-2">
                     <h2 class="text-4xl font-bold text-indigo-300 font-mono tracking-tight">
-                        {{variableCosts | currency : "EUR" : "symbol"}}
+                        {{variableCosts | monetaryMask}}
                     </h2>
                 </div>
                 <div class="h-px bg-gradient-to-r from-indigo-500/50 to-transparent"></div>

@@ -19,6 +19,7 @@ import { ZardTableComponent, ZardTableBodyComponent, ZardTableRowComponent } fro
 import { ZardPaginationComponent } from "@shared/components/pagination/pagination.component";
 import { I18nService } from "../../i18n/i18n.service";
 import { FilterStorageService } from "../../services/filter-storage.service";
+import { MonetaryMaskPipe } from "../../shared/pipes/monetary-mask.pipe";
 
 @Component({
     selector: "app-expenses-list",
@@ -26,7 +27,7 @@ import { FilterStorageService } from "../../services/filter-storage.service";
         LucideAngularModule,        
         FormsModule,
         ReactiveFormsModule,
-        CurrencyPipe,
+        MonetaryMaskPipe,
         LucideAngularModule,
         ZardButtonComponent,
         ZardTableComponent,

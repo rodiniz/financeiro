@@ -35,7 +35,7 @@
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div class="relative z-10">
           <p class="text-emerald-400 text-sm font-semibold tracking-wide uppercase mb-2">{{ i18n.t('chart.totalIncome') }}</p>
-          <p class="text-3xl font-bold text-emerald-300 font-mono">{{ totalIncome | currency : "EUR" : "symbol" }}</p>
+          <p class="text-3xl font-bold text-emerald-300 font-mono">{{ totalIncome | monetaryMask }}</p>
         </div>
       </div>
       
@@ -44,7 +44,7 @@
         <div class="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div class="relative z-10">
           <p class="text-rose-400 text-sm font-semibold tracking-wide uppercase mb-2">{{ i18n.t('chart.totalExpenses') }}</p>
-          <p class="text-3xl font-bold text-rose-300 font-mono">{{ totalExpenses | currency : "EUR" : "symbol" }}</p>
+          <p class="text-3xl font-bold text-rose-300 font-mono">{{ totalExpenses | monetaryMask }}</p>
         </div>
       </div>
     </div>
