@@ -47,6 +47,17 @@
       <span class="relative z-10 font-medium tracking-wide">{{ i18n.t('menu.expenses') }}</span>
       <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-8 bg-gradient-to-b from-transparent via-amber-500 to-transparent transition-all duration-300 rounded-r"></div>
     </a>
+
+      <a 
+      routerLink="listIncomes" 
+      routerLinkActive="active-nav-link"
+      class="group flex items-center space-x-4 px-5 py-4 rounded-xl text-slate-400 hover:text-amber-400 hover:bg-slate-800/50 transition-all duration-300 border border-transparent hover:border-slate-800/50 hover:shadow-lg hover:shadow-amber-900/10 relative overflow-hidden"
+    >
+      <div class="absolute inset-0 bg-gradient-to-r from-amber-500/0 group-hover:from-amber-500/5 to-transparent transition-all duration-300"></div>
+      <z-icon zType="plus" class="relative z-10 w-5 h-5 group-hover:scale-110 transition-transform duration-300" />  
+      <span class="relative z-10 font-medium tracking-wide">{{ i18n.t('menu.incomes') }}</span>
+      <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-8 bg-gradient-to-b from-transparent via-amber-500 to-transparent transition-all duration-300 rounded-r"></div>
+    </a>
   </nav>
 
   <!-- Decorative bottom accent -->

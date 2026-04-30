@@ -55,7 +55,7 @@ export class LoginComponent {
   }
 
   async onSubmit() {
-    debugger;
+   
     const user = await this.userService.get({ email: this.loginForm.get('email')?.value });
    
     if (user && user.length > 0) {

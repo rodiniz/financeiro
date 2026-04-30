@@ -18,7 +18,8 @@ export const translations = {
       backupSuccess: 'Backup completed successfully',
       restoreSuccess: 'Database restored successfully',
       backupError: 'Error backing up database',
-      restoreError: 'Error restoring database'
+      restoreError: 'Error restoring database',
+      incomes: 'Incomes',
     },
     expenses: {
       list: {
@@ -79,7 +80,9 @@ export const translations = {
         actions: 'Actions',
         edit: 'Edit',
         delete: 'Delete',
-        noIncome: 'No income found'
+        noIncomes: 'No income found',
+        amount: 'Amount',
+        deleteConfirm: 'Are you sure you want to delete this record?'
       },
       edit: {
         newIncome: 'New Income',
@@ -208,7 +211,8 @@ export const translations = {
       backupSuccess: 'Backup realizado com sucesso',
       restoreSuccess: 'Banco restaurado com sucesso',
       backupError: 'Erro ao fazer backup do banco de dados',
-      restoreError: 'Erro ao restaurar banco de dados'
+      restoreError: 'Erro ao restaurar banco de dados',
+      incomes: 'Receitas',
     },
     expenses: {
       list: {
@@ -269,7 +273,9 @@ export const translations = {
         actions: 'Ações',
         edit: 'Editar',
         delete: 'Deletar',
-        noIncome: 'Nenhuma receita encontrada'
+        noIncomes: 'Nenhuma receita encontrada',
+        amount: 'Valor',
+        deleteConfirm: 'Deseja mesmo excluir esse registro?'
       },
       edit: {
         newIncome: 'Nova Receita',

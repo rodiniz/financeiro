@@ -76,6 +76,16 @@ export const FinanceiroRoutes: Routes = [
                 (m) => m.DashboardComponent
             ),
       },
+      {
+        path: "listIncomes", //login
+        loadComponent: () =>
+          import("../income-list/income-list").then(
+            (m) => m.IncomeList
+          ),
+      },
+      
+    
+      
     ],
   },
 ];

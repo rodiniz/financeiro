@@ -16,7 +16,7 @@ export class DashboardService {
   }
   constructor() { }
 
-  async getExpenseBreakdown(yearMonth: string | null): Promise<{ fixedCosts: number; variableCosts: number }> {
+  async getExpenseBreakdown(startDate: string | null, endDate: string | null): Promise<{ fixedCosts: number; variableCosts: number }> {
     await this.loadDb();
     const userId = this.userService.getCurrentUser();
     let sql = `
@@ -26,73 +26,97 @@ export class DashboardService {
       FROM expense
       WHERE userId = $1`;
 
-    if (yearMonth) {
-      sql += ` and strftime('%m', date) || '/' || strftime('%Y', date)=$2`;
+    const params: any[] = [userId];
+    if (startDate) {
+      sql += ` AND date >= $${params.length + 1}`;
+      params.push(startDate);
+    }
+    if (endDate) {
+      sql += ` AND date <= $${params.length + 1}`;
+      params.push(endDate);
     }
 
-    const response = await this.db.select<any>(sql, [userId, yearMonth]);
+    const response = await this.db.select<any>(sql, params);
     return {
       fixedCosts: response[0]?.fixedCosts ?? 0,
       variableCosts: response[0]?.variableCosts ?? 0,
     };
   }
 
-  async getTotalExpenses(yearMonth: string|null): Promise<number> {
+  async getTotalExpenses(startDate: string | null, endDate: string | null): Promise<number> {
     
     await this.loadDb();
     const userId = this.userService.getCurrentUser();
-    let sql = ` select sum(amount) as amount from expense where userId=$1`;
+    let sql = `SELECT SUM(amount) as amount FROM expense WHERE userId=$1`;
 
-    if(yearMonth) {
-      sql += ` and strftime('%m', date) || '/' || strftime('%Y', date)=$2`;
+    const params: any[] = [userId];
+    if (startDate) {
+      sql += ` AND date >= $${params.length + 1}`;
+      params.push(startDate);
+    }
+    if (endDate) {
+      sql += ` AND date <= $${params.length + 1}`;
+      params.push(endDate);
     }
 
-    const response = await this.db.select<any>(sql, [userId, yearMonth]);
+    const response = await this.db.select<any>(sql, params);
     
     return response[0].amount;
   }
 
-  async getTotalIncome(yearMonth: string|null): Promise<number> {
+  async getTotalIncome(startDate: string | null, endDate: string | null): Promise<number> {
     await this.loadDb();
     const userId = this.userService.getCurrentUser();
-    let sql = ` select sum(amount) as amount from income where userId=$1`;
+    let sql = `SELECT SUM(amount) as amount FROM income WHERE userId=$1`;
 
-    if(yearMonth) {
-      sql += ` and strftime('%m', date) || '/' || strftime('%Y', date)=$2`;
+    const params: any[] = [userId];
+    if (startDate) {
+      sql += ` AND date >= $${params.length + 1}`;
+      params.push(startDate);
+    }
+    if (endDate) {
+      sql += ` AND date <= $${params.length + 1}`;
+      params.push(endDate);
     }
 
-    const response = await this.db.select<any>(sql, [userId, yearMonth]);
+    const response = await this.db.select<any>(sql, params);
     
     return response[0].amount;
   }
 
-    async getTopExpenses(monthYear: string|null): Promise<BarChartModel> {
-      await this.loadDb();
-      let sql = ` select sum(amount) as amount, cat.description from expense
-                  join category cat on cat._id = expense.categoryId where  userId=$1 `;
+  async getTopExpenses(startDate: string | null, endDate: string | null): Promise<BarChartModel> {
+    await this.loadDb();
+    let sql = `SELECT SUM(amount) as amount, cat.description FROM expense
+                JOIN category cat ON cat._id = expense.categoryId WHERE userId=$1`;
                 
-      if(monthYear) {
-        sql += ` and strftime( '%m', date )|| '/'||  strftime('%Y', date)=$2`;
-      }
-       sql += " group by expense.categoryId order by amount desc limit 5 ";
-      const userId = this.userService.getCurrentUser();
-      const response = await this.db.select<any>(sql, [userId,monthYear]);
-      let series: Array<number> = [];
-      let xaxis: Array<number | string> = [];
-  
-      response.forEach((c: any) => {
-        series.push(c.amount), xaxis.push(c.description);
-      });
-      return {
-        series: {
-          name: "",
-          data: series,
-        },
-        xaxis: {
-          categories: xaxis,
-        },
-      } as BarChartModel;
+    const params: any[] = [this.userService.getCurrentUser()];
+    if (startDate) {
+      sql += ` AND date >= $${params.length + 1}`;
+      params.push(startDate);
     }
+    if (endDate) {
+      sql += ` AND date <= $${params.length + 1}`;
+      params.push(endDate);
+    }
+    sql += " GROUP BY expense.categoryId ORDER BY amount DESC LIMIT 5";
+    
+    const response = await this.db.select<any>(sql, params);
+    let series: Array<number> = [];
+    let xaxis: Array<number | string> = [];
+
+    response.forEach((c: any) => {
+      series.push(c.amount), xaxis.push(c.description);
+    });
+    return {
+      series: {
+        name: "",
+        data: series,
+      },
+      xaxis: {
+        categories: xaxis,
+      },
+    } as BarChartModel;
+  }
     
     async getEvolutionIncome():Promise<Array<EvolutionModel>> {
       await this.loadDb();

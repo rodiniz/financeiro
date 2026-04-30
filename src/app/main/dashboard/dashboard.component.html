@@ -1,24 +1,33 @@
 <div class="w-full max-w-7xl mx-auto space-y-8">
-    <!-- Header Section with Month/Year Filter -->
-    <div class="flex items-center justify-between">
+    <!-- Header Section with Date Range Filter -->
+    <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
         <div>
             <h2 class="text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-400">
                 {{ i18n.t('dashboard.title') }}
             </h2>
             <p class="text-slate-500 text-sm mt-1 tracking-wide">{{ i18n.t('dashboard.overview') }}</p>
         </div>
-        
-        <div class="flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50">
-            <label class="text-sm text-slate-400 font-medium tracking-wide">{{ i18n.t('expenses.list.period') }}:</label>
-            <select 
-                [formControl]="monthYear" 
-                (change)="loadData()" 
-                class="min-w-9 bg-slate-950/50 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 text-sm font-medium focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all duration-300 cursor-pointer hover:border-amber-500/30"
-            >
-                @for (reg of monthYears; track $index) {
-                    <option value="{{ reg.monthYear }}" class="bg-slate-900">{{ reg.monthYear }}</option>
-                }
-            </select>
+
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 px-4 py-3 rounded-xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 w-full xl:w-auto">
+            <div class="flex items-center gap-2">
+                <label class="text-sm text-slate-400 font-medium tracking-wide">Start:</label>
+                <input
+                    type="date"
+                    [formControl]="startDate"
+                    (change)="loadData()"
+                    class="w-full sm:w-auto bg-slate-950/50 border border-slate-700 text-slate-200 rounded-lg px-3 py-2 text-sm font-medium focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all duration-300 cursor-pointer hover:border-amber-500/30"
+                />
+            </div>
+            <span class="hidden sm:inline text-slate-400">-</span>
+            <div class="flex items-center gap-2">
+                <label class="text-sm text-slate-400 font-medium tracking-wide">End:</label>
+                <input
+                    type="date"
+                    [formControl]="endDate"
+                    (change)="loadData()"
+                    class="w-full sm:w-auto bg-slate-950/50 border border-slate-700 text-slate-200 rounded-lg px-3 py-2 text-sm font-medium focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20 transition-all duration-300 cursor-pointer hover:border-amber-500/30"
+                />
+            </div>
         </div>
     </div>
 
