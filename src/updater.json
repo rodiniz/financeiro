@@ -1,11 +1,11 @@
 {
-  "version": "v1.1.0",
+  "version": "v1.1.1",
   "notes": "",
   "pub_date": "2023-09-18T09:29:00Z",
   "platforms": {
     "windows-x86_64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk2MTgzMUUwMjYwRTkzMzQKUldRMGt3NG00REVZbGwvL1FaVmF2bnRBc0ppdWdvTlpYZmdxUzJJc1VuWVhFK2J6RVh4ZE5VTkYK=",
-      "url": "https://github.com/rodiniz/financeiro/releases/download/v1.1.0/financeiro-angular_1.1.0_x64_en-US.msi"
+      "url": "https://github.com/rodiniz/financeiro/releases/download/v1.1.1/financeiro-angular_1.1.1_x64_en-US.msi"
     }
   }
 }
